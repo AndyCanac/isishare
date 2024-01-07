@@ -15,26 +15,43 @@ Une nouvelle façon d'apprendre ensemble
 
 ---
 
+# 0. Context
+
+## Qui nous recrute
+
+L'école Isitech est notre employer lors de cette demande de logiciel. Elle se situe au 26 Av. Tony Garnier 3ème étage, 69007 Lyon. C'est une école d'informatique qui permet de continuer ses études après le BAC. C'est a dire du BAC +1 au BAC +5.
+<br/>
+<br/>
+Elle souhaiterais mettre en place une application qui profiterais aux élèves comme aux professeurs pour créer des liens et développers les réseaux entres élèves ainsi que leurs compétences.
+
+---
+
 # 1. Préparation Initiale
 
 ## Comprendre le besoin
-Le besoin du projet est la mise en place de relation au sein d'un établissement. Il peut être difficile de savoir qui fait quoi, qui sait faire quoi, qui est la personne que tout le monde connais sauf moi qui est fort en C++. 
+
+Le besoin du projet est la mise en place de relation au sein d'un établissement. Il peut être difficile de savoir qui fait quoi, qui sait faire quoi, qui est la personne que tout le monde connais sauf moi qui est fort en C++.
 
 ## Définir l'objectif
+
 L'objectif du projet est de mettre en relation les élèves entre eux selon leurs connaissances et selon leurs envie d'apprendre. Il permeterra de "briser la glace", que ce soit dans la classe ou dans l'enceinte même de l'établissement. Même les profésseurs pourront s'inscrire.
 
 ## Établir une équipe
+
 - CASTELLIER Florian (Chef de projet)
 - BRON Adrien
 - CANAC Andy
+
 ---
 
 # 2. Recherche et Collecte d'Informations
 
 ## Analyse de marché
+
 Notre solution se démarquera par son automatisme, ses fonctionnalités et sa simplicité. En effet, les relations sont importantes dans une entreprise/une école. C'est d'ici d'ou vient l'importance d'avoir un support pour regrouper chaques personnes, leurs connaissances et leurs attentes.
 
 ## Consultation des parties prenantes
+
 On a fait plusieurs réunions interne pour savoir ce qu'il serait bien d'intégré comme fonctionnalité.
 De plus, la mise en place d'un sondage pour receuillir des informations sur des attentes externes sont très importantes.
 ---
@@ -42,72 +59,77 @@ De plus, la mise en place d'un sondage pour receuillir des informations sur des 
 # 3. Définition du Périmètre du Projet
 
 ## Objectifs spécifiques
-- Décomposez l'objectif principal en objectifs secondaires spécifiques.
+
+<div style="font-size:12px">
+    <ul>
+        <li>=> Page d'acceuil</li>
+        <li>==> Page de connexion (login et creation de compte)</li>
+        <li>=> Page du site</li>
+        <li>==> Page de tous les utilisateurs</li>
+        <li>===> Recherche par connaissances</li>
+        <li>===> Recherche par envie d'apprendre</li>
+        <li>==> Page de l'utilisateurs</li>
+        <li>===> Modification connaissances</li>
+        <li> ====> Liens vers le projet</li>
+        <li> ====> Formulaire pour confirmer ses connaissances (futur)</li>
+        <li> ====> Systeme de notation invisible pour les utilisateurs</li>
+        <li> ====> Systeme de points pour ceux qui sont actifs sur l'applications (futur)</li>
+        <li> ===> Modification envie d'apprendre</li>
+        <li> ====> Liens vers un entrainement pour les bases (futur)</li>
+        <li> ===> Modification contact</li>
+        <li> ===> Modification nom et prenom</li>
+        <li> ===> Voir les points de la personnes</li>
+        <li> ==> Page de groupe</li>
+        <li> ==> Page de recommendations</li>
+        <li> ==> Page de forum pour une entraide (futur)</li>
+    </ul>
+</div>
+
+---
+
+# 3.5 Définition du Périmètre du Projet
 
 ## Livraisons attendues
-- Détaillez les livrables, y compris les produits, services, ou résultats attendus.
 
-## Critères d'acceptation
-- Spécifiez les critères qui seront utilisés pour évaluer si les livrables répondent aux exigences.
+Les attendus sont :
+
+- => Un systeme de connexion sécurisé
+- => Une interface simple d'utilisation, claire et précise
+- => Un site responsive
+- => Un site rapide et optimisé pour un grand nombre d'utilisateur
+- => Un systeme de chat (futur) et de groupe pour les utilisateurs ayant les mêmes intérets
+- => Un compte administrateur sera aussi présent pour pouvoir void les notes cacher des comptes ainsi que d'ajouter ou modifier des éléments de l'applications
 
 ---
 
 # 4. Identification des Exigences
 
 ## Exigences fonctionnelles
-- Décrivez ce que le produit ou service doit faire, ses fonctionnalités et ses comportements.
+
+Les fonctions du projets sont de mettre en relations des personnes entres elles pour qu'elles puissent décrouvrir de nouvelle chose en étant accompagné et en cas de soucis, savoir à qui s'adressé. Que ce soit sur téléphone ou pc, il doit être accéssible partout et à tout moment
 
 ## Exigences non fonctionnelles
-- Incluez des critères tels que la performance, la sécurité, la réglementation, et l'accessibilité.
+
+L'application doit garder les informations de connexion sécurisé et chiffré, une performance rapide, une interface simple et efficace
 
 ## Contraintes
-- Notez toute limitation comme le budget, les délais, ou les ressources.
+
+- Budgets : 40 000€ (Ressources de l'école ISITECH)
+- Delais : Début Janvier => Début Juillet (7 Mois)
+- Disponibilité : Le soir et de temps en temps les week ends
 
 ---
 
 # 5. Planification Stratégique
 
-## Planification temporelle
-- Établissez un calendrier avec des étapes clés et des dates de livraison.
-
 ## Budget
-- Estimez le coût total du projet et planifiez la répartition des ressources financières.
+
+- Aucun besoin de pub commercial ni de logiciel
+- 37 695€ pour tous les employées (1795/Mois(brut) => 1400/Mois(Net) pendant 7 mois)
+- 2 305€ pour des logiciels d'analyse en fin de production, nom de dommaine customiser si besoin et enfin les imprévus
 
 ## Ressources
-- Identifiez les besoins en personnel, en matériel, en technologie, etc.
 
----
-
-# 6. Rédaction du Cahier des Charges
-
-## Structure
-- Commencez par une introduction, suivez avec le corps du document détaillant les exigences, et terminez par une conclusion ou un résumé.
-
-## Clarté et précision
-- Utilisez un langage clair, évitez le jargon, et soyez aussi précis que possible.
-
-## Validation
-- Faites relire le document par les parties prenantes pour s'assurer de l'exactitude et de la complétude.
-
----
-
-# 7. Révisions et Approbations
-
-## Collecte de feedback
-- Recueillez des commentaires sur le cahier des charges de toutes les parties prenantes concernées.
-
-## Mise à jour du document
-- Apportez les modifications nécessaires en fonction des retours reçus.
-
-## Finalisation
-- Obtenez les approbations finales de toutes les parties prenantes clés.
-
----
-
-# 8. Maintenance et Mise à Jour
-
-## Document vivant
-- Traitez le cahier des charges comme un document vivant qui peut être mis à jour au fur et à mesure que le projet évolue.
-
-## Révisions régulières
-- Revoyez et mettez à jour le document régulièrement pour refléter les changements dans les besoins, les objectifs, ou les conditions du marché.
+- Utilisation du framework Next.js pour le développement du site => C'est une technologie qui évolue souvent et qui est au gout du jour. Sa conception le rend particulièrement efficace pour gérer des sites web à fort trafic et ultra performant
+- Utilisation de Vercel pour l'hébergement du site en ligne de façon gratuite. C'est un logiciel puissant qui communique directement avec GitHub pour, à chaque actualisation du Git, il puisse se mettre a jour automatiquement
+- Utilisation de Webhost pout l'hébergeur payant du site en ligne avec un nom de domaine payer
