@@ -50,6 +50,8 @@ L'objectif du projet est de mettre en relation les élèves entre eux selon leur
 
 Notre solution se démarquera par son automatisme, ses fonctionnalités et sa simplicité. En effet, les relations sont importantes dans une entreprise/une école. C'est d'ici d'ou vient l'importance d'avoir un support pour regrouper chaques personnes, leurs connaissances et leurs attentes.
 
+<img src="/Screen1.PNG" class="h-40 rounded shadow" />
+
 ## Consultation des parties prenantes
 
 On a fait plusieurs réunions interne pour savoir ce qu'il serait bien d'intégré comme fonctionnalité.
@@ -133,3 +135,11 @@ L'application doit garder les informations de connexion sécurisé et chiffré, 
 - Utilisation du framework Next.js pour le développement du site => C'est une technologie qui évolue souvent et qui est au gout du jour. Sa conception le rend particulièrement efficace pour gérer des sites web à fort trafic et ultra performant
 - Utilisation de Vercel pour l'hébergement du site en ligne de façon gratuite. C'est un logiciel puissant qui communique directement avec GitHub pour, à chaque actualisation du Git, il puisse se mettre a jour automatiquement
 - Utilisation de Webhost pout l'hébergeur payant du site en ligne avec un nom de domaine payer
+
+# 6. Mise en place du projet
+
+## Tarification
+
+- Abonnement Annuel de 1200€
+- Possibilité de passé à 1600€ pour avoir une application plus personnalisé
+- Possibilité de mettre des emplacements publicitaire pour les différentes écoles ou site ou entreprise
