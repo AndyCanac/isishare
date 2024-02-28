@@ -16,8 +16,9 @@ export default function About() {
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur alias corrupti, accusamus quasi voluptatum totam eum possimus iusto reprehenderit nisi dolor architecto veritatis et adipisci at natus impedit nostrum! Hic!</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4 mt-8">
-                    <img className="w-full rounded-lg" src="/" alt="office content 1"/>
-                    <img className="mt-4 w-full lg:mt-10 rounded-lg" src="/" alt="office content 2"/>
+                    <img className="w-full rounded-lg" src="/test.jpg" alt="office content 1"/>
+                    <img className="mt-4 w-full lg:mt-10 rounded-lg" src="/test.jpg" alt="office content 2"/>
+                    
                 </div>
             </div>
         </section>
