@@ -12,14 +12,14 @@ const connection = mysql.createConnection({
 const app = express();
 
 app.listen(3001, () => {
-  console.log('Serveur en Ã©coute sur le port 3001');
+  console.log('Serveur en écoute sur le port 3001');
 });
 
 app.get("/contacts", (req, res) => {
     const i = req.query.id;
     if (i == null) //voir si on met un parametre avec blablabla ?id=1
     {
-        connection.query(`SELECT idContact, informationContact, libelleSource, iconSource
+        connection.query(`SELECT idContact, informationContact, iconSource
                         FROM contacts
                         LEFT JOIN sources ON sources.idSource = contacts.source`, (err, rows) => {
             if (!err)
@@ -49,7 +49,7 @@ app.get("/skills", (req, res) => {
         // })
     }
     else {
-        connection.query(`SELECT idConnaissance, descriptionConnaissance, lienConnaissance, iconInteret
+        connection.query(`SELECT idConnaissance, descriptionConnaissance, niveauConnaissance, lienConnaissance, iconInteret
                         FROM connaissances
                         LEFT JOIN interets ON interets.idInteret = connaissances.interet
                         WHERE user = ${i}`, (err, rows) => {
@@ -58,6 +58,29 @@ app.get("/skills", (req, res) => {
         })
     }
 });
+
+app.get("/wtl", (req, res) => {
+    const i = req.query.id;
+    if (i == null) //voir si on met un parametre avec blablabla ?id=1
+    {
+        // connection.query(`SELECT idContact, informationContact, libelleSource, iconSource
+        //                 FROM contacts
+        //                 LEFT JOIN sources ON sources.idSource = contacts.source`, (err, rows) => {
+        //     if (!err)
+        //         res.send(rows);
+        // })
+    }
+    else {
+        connection.query(`SELECT idObjectif, descriptionObjectif, iconInteret
+                        FROM objectifs
+                        LEFT JOIN interets ON interets.idInteret = objectifs.interet
+                        WHERE user = ${i}`, (err, rows) => {
+            if (!err)
+                res.send(rows);
+        })
+    }
+});
+
 app.get("/users",(req,res) => {
   const i=req.query.id;
   if(i == null) //voir si on met un parametre avec blablabla ?id=1
