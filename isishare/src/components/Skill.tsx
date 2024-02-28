@@ -1,4 +1,26 @@
+'use client'
+import React, { useState, useEffect } from 'react';
+
 export default function Skill() {
+    const [skills, setSkills] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:3001/skills?id=1')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setSkills(data);
+                console.log("sqds");
+            })
+            .catch(error => {
+                console.error('Error fetching users:', error);
+            });
+    }, []);
+    
     return (
     <section className="container px-4 mx-auto">
         <div className="flex flex-col">
@@ -27,61 +49,24 @@ export default function Skill() {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                <tr>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">C#</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">1/5</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Une superbe description par rapport à mon projet</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">https://LienVerMonProjet.com</td>
-                                    <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                        <div className="flex items-center gap-x-6">
-                                            <button className="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
-                                                Remove
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
 
-                                <tr>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">C#</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">1/5</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Une superbe description par rapport à mon projet</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">https://LienVerMonProjet.com</td>
-                                    <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                        <div className="flex items-center gap-x-6">
-                                            <button className="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
-                                                Remove
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">C#</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">1/5</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Une superbe description par rapport à mon projet</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">https://LienVerMonProjet.com</td>
-                                    <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                        <div className="flex items-center gap-x-6">
-                                            <button className="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
-                                                Remove
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">C#</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">1/5</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Une superbe description par rapport à mon projet</td>
-                                    <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">https://LienVerMonProjet.com</td>
-                                    <td className="px-4 py-4 text-sm whitespace-nowrap ">
-                                        <div className="flex items-center gap-x-6">
-                                            <button className="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
-                                                Remove
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {skills.map(skill => (
+                                        <tr key={skill}>
+                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                            <img className="object-cover w-10 h-10" src={skill.iconInteret} alt="discord-logo" /> 
+                                        </td>
+                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">?/5</td>
+                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{skill.descriptionConnaissance}</td>
+                                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{skill.lienConnaissance}</td>
+                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                            <div className="flex items-center gap-x-6">
+                                                <button className="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
 
                                 <tr>
                                     <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Nom du programme</td>

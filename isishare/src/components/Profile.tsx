@@ -1,4 +1,26 @@
+'use client'
+import React, { useState, useEffect } from 'react';
+
 export default function Profile() {
+
+    const [contacts, setContacts] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:3001/contacts?id=1')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setContacts(data);
+            })
+            .catch(error => {
+                console.error('Error fetching users:', error);
+            });
+    }, []);
+
     return (
     <div className="ml-12 w-1/5 max-w-sm overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 float-right">
         <img
@@ -10,7 +32,20 @@ export default function Profile() {
             <h1 className="mx-3 text-lg font-semibold text-white">Nom / Prenom</h1>
         </div>
 
-        <div className="px-6 py-4">
+            <div className="px-6 py-4">
+
+
+                {contacts.map(contact => (
+                    <div key={contact}>
+                        <div className="flex items-center mt-4 text-gray-700 dark:text-gray-200">
+                            <img className="object-cover w-10 h-10" src="Logo/DiscordLogo.png" alt="discord-logo" /> 
+                            <h1 className="px-2 text-sm">Discord BIS</h1>
+                        </div>
+                    </div>
+                ))}
+
+
+
             <div className="flex items-center mt-4 text-gray-700 dark:text-gray-200">
                     <img className="object-cover w-10 h-10" src="Logo/DiscordLogo.png"></img>
                 <h1 className="px-2 text-sm">Discord</h1>
