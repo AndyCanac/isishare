@@ -1,6 +1,6 @@
 export default function Sidebar() {
     return (
-        <div className="flex h-screen w-16 flex-col justify-between border-e bg-white">
+        <div className="flex h-screen w-16 flex-col justify-between border-e bg-white fixed">
   <div>
     <div className="inline-flex h-16 w-16 items-center justify-center">
       <span
