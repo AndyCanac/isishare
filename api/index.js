@@ -12,9 +12,52 @@ const connection = mysql.createConnection({
 const app = express();
 
 app.listen(3001, () => {
-  console.log('Serveur en écoute sur le port 3001');
+  console.log('Serveur en Ã©coute sur le port 3001');
 });
 
+app.get("/contacts", (req, res) => {
+    const i = req.query.id;
+    if (i == null) //voir si on met un parametre avec blablabla ?id=1
+    {
+        connection.query(`SELECT idContact, informationContact, libelleSource, iconSource
+                        FROM contacts
+                        LEFT JOIN sources ON sources.idSource = contacts.source`, (err, rows) => {
+            if (!err)
+                res.send(rows);
+        })
+    }
+    else {
+        connection.query(`SELECT idContact, informationContact, libelleSource, iconSource
+                        FROM contacts
+                        LEFT JOIN sources ON sources.idSource = contacts.source
+                        WHERE user = ${i}`, (err, rows) => {
+            if (!err)
+                res.send(rows);
+        })
+    }
+});
+
+app.get("/skills", (req, res) => {
+    const i = req.query.id;
+    if (i == null) //voir si on met un parametre avec blablabla ?id=1
+    {
+        // connection.query(`SELECT idContact, informationContact, libelleSource, iconSource
+        //                 FROM contacts
+        //                 LEFT JOIN sources ON sources.idSource = contacts.source`, (err, rows) => {
+        //     if (!err)
+        //         res.send(rows);
+        // })
+    }
+    else {
+        connection.query(`SELECT idConnaissance, descriptionConnaissance, lienConnaissance, iconInteret
+                        FROM connaissances
+                        LEFT JOIN interets ON interets.idInteret = connaissances.interet
+                        WHERE user = ${i}`, (err, rows) => {
+            if (!err)
+                res.send(rows);
+        })
+    }
+});
 app.get("/users",(req,res) => {
   const i=req.query.id;
   if(i == null) //voir si on met un parametre avec blablabla ?id=1

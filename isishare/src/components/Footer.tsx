@@ -11,10 +11,10 @@ export default function Footer(){
 
             <div className="flex mt-4 md:m-0">
                 <div className="-mx-4">
-                    <a href="#" className="px-4 text-sm text-gray-600 transition-colors duration-300 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 hover:underline">About</a>
-                    <a href="#" className="px-4 text-sm text-gray-600 transition-colors duration-300 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 hover:underline">Blog</a>
-                    <a href="#" className="px-4 text-sm text-gray-600 transition-colors duration-300 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 hover:underline">News</a>
-                    <a href="#" className="px-4 text-sm text-gray-600 transition-colors duration-300 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 hover:underline">Contact</a>
+                    <a href="#" className="px-4 text-sm text-gray-600 transition-colors duration-300 dark:text-gray-500 hover:text-black hover:underline">About</a>
+                    <a href="#" className="px-4 text-sm text-gray-600 transition-colors duration-300 dark:text-gray-500 hover:text-black hover:underline">Blog</a>
+                    <a href="#" className="px-4 text-sm text-gray-600 transition-colors duration-300 dark:text-gray-500 hover:text-black hover:underline">News</a>
+                    <a href="#" className="px-4 text-sm text-gray-600 transition-colors duration-300 dark:text-gray-500 hover:text-black hover:underline">Contact</a>
                 </div>
             </div>
         </div>
