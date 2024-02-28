@@ -19,8 +19,26 @@ app.get("/users",(req,res) => {
   const i=req.query.id;
   if(i == null) //voir si on met un parametre avec blablabla ?id=1
   {
-      connection.query(`SELECT * FROM users`, (err,rows) => 
-      {
+      connection.query(`SELECT 
+                            users.nameUser,
+                            GROUP_CONCAT(DISTINCT objectifs.descriptionObjectif SEPARATOR ', ') AS descriptionObjectif,
+                            GROUP_CONCAT(DISTINCT connaissances.descriptionConnaissance SEPARATOR ', ') AS descriptionConnaissance,
+                            GROUP_CONCAT(DISTINCT groupes.libelleGroupe SEPARATOR ', ') AS libelleGroupe,
+                            users.pointsUser,
+                            users.notationUser
+                        FROM 
+                            users
+                        LEFT JOIN 
+                            connaissances ON users.idUser = connaissances.user
+                        LEFT JOIN 
+                            objectifs ON users.idUser = objectifs.user
+                        LEFT JOIN 
+                            useringroupe ON users.idUser = useringroupe.user
+                        LEFT JOIN 
+                            groupes ON useringroupe.groupe = groupes.idGroupe
+                        GROUP BY 
+                            users.idUser;`,
+      (err,rows) => {
           if(!err)
               res.send(rows);
           else res.send(err);
