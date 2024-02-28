@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
 const app = express();
 
 app.listen(3001, () => {
-  console.log('Serveur en écoute sur le port 3001');
+  console.log('Serveur en Ã©coute sur le port 3001');
 });
 
 app.get("/contacts", (req, res) => {
