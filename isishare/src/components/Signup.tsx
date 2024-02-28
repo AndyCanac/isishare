@@ -1,8 +1,10 @@
 export default function SignUp() {
     return (
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-  <div className="mx-auto max-w-lg">
-    <img src="/isishare.png"/>
+        <div className="mx-auto max-w-lg">
+            <a href="/">
+                <img src="/isishare.png"/>
+            </a>
 
     <form action="" className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8">
       <p className="text-center text-xl font-medium">Inscrivez-vous !</p>
