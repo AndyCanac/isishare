@@ -3,22 +3,26 @@
 @tailwind utilities;
 
 .td-width td {
-    max-width: 18vw;
-    overflow: hidden;
-    text-overflow: ellipsis;/* Si le contenu dépasse la largeur maximale, il sera tronqué avec des points de suspension */
-    white-space: nowrap;/* Empêche le contenu de se répartir sur plusieurs lignes */
+  max-width: 18vw;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Si le contenu dépasse la largeur maximale, il sera tronqué avec des points de suspension */
+  white-space: nowrap; /* Empêche le contenu de se répartir sur plusieurs lignes */
 }
 
 .table-width table {
-    min-width: 88vw;
-    max-width: 88vw;
+  min-width: 88vw;
+  max-width: 88vw;
 }
 
 :root {
-    --light-blue: #609cf3;
-    --dark-blue: #2a429e;
-    --light-gray: #bbbbbc;
-    --dark-gray: #79797a;
-    --white: #ffffff;
-    --black: #000000;
+  --light-blue: #609cf3;
+  --dark-blue: #2a429e;
+  --light-gray: #bbbbbc;
+  --dark-gray: #79797a;
+  --white: #ffffff;
+  --black: #000000;
+}
+
+* {
+  scroll-behavior: smooth;
 }
