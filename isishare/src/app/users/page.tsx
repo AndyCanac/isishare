@@ -1,11 +1,13 @@
-import Head from "@/components/Head"
-import Footer from "@/components/Footer"
+import Sidebar from "@/components/Sidebar"
+import Users from "@/components/Users"
 
 export default function Home() {
-  return (
-    <>
-      <Head />
-      <Footer />
-    </>
-  )
+    return (
+        <>
+        <div className="flex">
+            <Sidebar />
+            <Users />
+        </div>
+        </>
+    )
 }
