@@ -14,6 +14,18 @@
     max-width: 88vw;
 }
 
+.search-input {
+    padding: 0.5rem;
+    border: 1px solid #bbbbbc;
+    border-radius: 4px;
+    width: 300px;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: #609cf3;
+}
+
 :root {
     --light-blue: #609cf3;
     --dark-blue: #2a429e;

@@ -64,8 +64,8 @@ app.get("/users",(req,res) => {
   {
       connection.query(`SELECT 
                             users.nameUser,
-                            GROUP_CONCAT(DISTINCT objectifs.descriptionObjectif SEPARATOR ', ') AS descriptionObjectif,
-                            GROUP_CONCAT(DISTINCT connaissances.descriptionConnaissance SEPARATOR ', ') AS descriptionConnaissance,
+                            GROUP_CONCAT(DISTINCT objectifs.descriptionObjectif SEPARATOR ', ') AS interetObjectif,
+                            GROUP_CONCAT(DISTINCT connaissances.descriptionConnaissance SEPARATOR ', ') AS interetConnaissance,
                             GROUP_CONCAT(DISTINCT groupes.libelleGroupe SEPARATOR ', ') AS libelleGroupe,
                             users.pointsUser,
                             users.notationUser
@@ -96,4 +96,11 @@ app.get("/users",(req,res) => {
               res.send(rows);
       })
   }
+});
+
+app.get("/iconInteret", (req, res) => {
+        connection.query(`SELECT idInteret, iconInteret FROM interets`, (err, rows) => {
+            if (!err)
+                res.send(rows);
+        })
 });
