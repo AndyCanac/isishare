@@ -2,11 +2,13 @@
 import React, { useState, useEffect } from 'react';
 
 export default function WTL() {
+    const [idUser, setIdUser] = useState([1]);
+
     const [showModal, setShowModal] = React.useState(false);
     const [wantToLearn, setWantToLearn] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3001/wtl?id=1')
+        fetch(`http://localhost:3001/wtl?id=${idUser}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

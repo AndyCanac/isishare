@@ -15,6 +15,7 @@ app.listen(3001, () => {
   console.log('Serveur en écoute sur le port 3001');
 });
 
+//==============================================DEBUT SELECT==============================================
 app.get("/contacts", (req, res) => {
     const i = req.query.id;
     if (i == null) //voir si on met un parametre avec blablabla ?id=1
@@ -35,6 +36,13 @@ app.get("/contacts", (req, res) => {
                 res.send(rows);
         })
     }
+});
+
+app.get("/sources", (req, res) => {
+    connection.query(`SELECT idSource, libelleSource FROM sources`, (err, rows) => {
+        if (!err)
+        res.send(rows);
+    })
 });
 
 app.get("/skills", (req, res) => {
@@ -120,3 +128,29 @@ app.get("/users",(req,res) => {
       })
   }
 });
+//==============================================FIN SELECT==============================================
+
+//==============================================DEBUT DELETE==============================================
+app.get("/delete/contact", (req, res) => {
+    const i = req.query.id;
+    connection.query(`  DELETE
+                        FROM contacts
+                        WHERE idContact = ${i}`, (err, rows) => {
+if (!err)
+res.send(rows);
+})
+});
+//==============================================FIN DELETE==============================================
+
+//==============================================DEBUT ADD==============================================
+app.get("/add/contact", (req, res) => {
+    const u = req.query.user;
+    const i = req.query.info;
+    const s = req.query.source;
+    connection.query(`  INSERT INTO contacts (user, informationContact, source)
+                        VALUES (${u}, '${i}', ${s})`, (err, rows) => {
+if (!err)
+res.send(rows);
+})
+});
+//==============================================FIN ADD==============================================

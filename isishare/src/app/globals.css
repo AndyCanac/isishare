@@ -14,6 +14,11 @@
     max-width: 88vw;
 }
 
+.icon-container {
+    display: inline-block; /* Assurez-vous que l'icône est affichée en ligne avec le texte */
+    vertical-align: middle; /* Ajuste l'alignement vertical si nécessaire */
+  }
+
 :root {
     --light-blue: #609cf3;
     --dark-blue: #2a429e;
