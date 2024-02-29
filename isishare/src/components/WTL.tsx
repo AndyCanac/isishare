@@ -39,13 +39,13 @@ export default function WTL() {
                         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead className="bg-gray-50 dark:bg-gray-800">
                                 <tr>
-                                    <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400 w-1/8">
+                                    <th scope="col" className="bg-dark-blue px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-white dark:text-gray-400 w-1/8">
                                         Connaissance
                                     </th>
-                                    <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400 w-4/5">
+                                    <th scope="col" className="bg-dark-blue px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-white dark:text-gray-400 w-4/5">
                                         Description
                                     </th>
-                                    <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400 w-1/5">
+                                    <th scope="col" className="bg-dark-blue px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-white dark:text-gray-400 w-1/5">
                                         Action
                                     </th>
                                 </tr>

@@ -45,6 +45,13 @@ app.get("/sources", (req, res) => {
     })
 });
 
+app.get("/interets", (req, res) => {
+    connection.query(`SELECT idInteret, libelleInteret FROM interets`, (err, rows) => {
+        if (!err)
+        res.send(rows);
+    })
+});
+
 app.get("/skills", (req, res) => {
     const i = req.query.id;
     if (i == null) //voir si on met un parametre avec blablabla ?id=1
@@ -140,6 +147,16 @@ if (!err)
 res.send(rows);
 })
 });
+
+app.get("/delete/connaissance", (req, res) => {
+    const i = req.query.id;
+    connection.query(`  DELETE
+                        FROM connaissances
+                        WHERE idConnaissance = ${i}`, (err, rows) => {
+if (!err)
+res.send(rows);
+})
+});
 //==============================================FIN DELETE==============================================
 
 //==============================================DEBUT ADD==============================================
@@ -149,6 +166,19 @@ app.get("/add/contact", (req, res) => {
     const s = req.query.source;
     connection.query(`  INSERT INTO contacts (user, informationContact, source)
                         VALUES (${u}, '${i}', ${s})`, (err, rows) => {
+if (!err)
+res.send(rows);
+})
+});
+
+app.get("/add/connaissance", (req, res) => {
+    const u = req.query.user;
+    const i = req.query.interet;
+    const d = req.query.description;
+    const l = req.query.link;
+    const lvl = req.query.lvl;
+    connection.query(`  INSERT INTO connaissances (user, interet, descriptionConnaissance, lienConnaissance, niveauConnaissance)
+                        VALUES (${u}, ${i}, '${d})', '${l})', ${lvl})`, (err, rows) => {
 if (!err)
 res.send(rows);
 })
