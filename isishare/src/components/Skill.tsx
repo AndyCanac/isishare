@@ -1,15 +1,11 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { MdDeleteForever } from "react-icons/md";
+import { GoTrash } from 'react-icons/go';
 
 export default function Skill() {
     const [idUser, setIdUser] = useState([1]);
 
-    const [showAdd, setShowAdd] = React.useState(false);
     const [skills, setSkills] = useState([]);
-
-    const [interets, setInterets] = useState([]);
-
     useEffect(() => {
         fetch(`http://localhost:3001/skills?id=${idUser}`)
             .then(response => {
@@ -26,6 +22,7 @@ export default function Skill() {
             });
     }, []);
 
+    const [interets, setInterets] = useState([]);
     useEffect(() => {
         fetch(`http://localhost:3001/interets`)
             .then(response => {
@@ -66,9 +63,10 @@ export default function Skill() {
                 console.error('Error fetching users:', error);
             });
     }
-    //#endregions
+    //#endregion
 
     //#region ADD
+    const [showAdd, setShowAdd] = React.useState(false);
     const [interet, setInteret] = useState([]);
     const [lvl, setLvl] = useState([]);
     const [description, setDescription] = useState([]);
@@ -149,8 +147,8 @@ export default function Skill() {
                                                     <div className="flex items-center gap-x-6">
                                                     <button
                                                         onClick={() => deleteConnaissanceTrigger(skill.idConnaissance)} 
-                                                        className="flex items-center px-6 py-2 ml-4 tracking-wide text-black capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                                                        <MdDeleteForever size={30} style={{ color: "black"}} />
+                                                        className="flex items-center px-6 py-2 ml-4 tracking-wide text-red capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                                                        <GoTrash size={30} style={{ color: "red"}} />
                                                     </button>
                                                     </div>
                                                 </td>
@@ -221,7 +219,7 @@ export default function Skill() {
                 </div>
                 </>
             ) : null}
-                {showDelete ? (
+            {showDelete ? (
     <>
     <div
         className="fixed inset-0 z-10 overflow-y-auto" 
@@ -253,7 +251,7 @@ export default function Skill() {
         </div>
     </div>
     </>
-    ) : null}
+            ) : null}
         </div>
     )
 }

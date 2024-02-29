@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
+import { GoTrash } from 'react-icons/go';
 import { MdDeleteForever } from "react-icons/md";
 import { RxValue } from 'react-icons/rx';
 
@@ -141,7 +142,7 @@ export default function Profile() {
                             onClick={() => deleteContactTrigger(contact.idContact)} 
                             className="flex items-center px-6 py-2 ml-4 tracking-wide text-black capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none"
                         >
-                            <MdDeleteForever size={30} style={{ color: "black"}} />
+                            <GoTrash size={30} style={{ color: "red"}} />
                         </button>
                     </div>
                 ))}

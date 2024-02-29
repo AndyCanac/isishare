@@ -157,6 +157,16 @@ if (!err)
 res.send(rows);
 })
 });
+
+app.get("/delete/objectif", (req, res) => {
+    const i = req.query.id;
+    connection.query(`  DELETE
+                        FROM objectifs
+                        WHERE idObjectif = ${i}`, (err, rows) => {
+if (!err)
+res.send(rows);
+})
+});
 //==============================================FIN DELETE==============================================
 
 //==============================================DEBUT ADD==============================================
@@ -178,7 +188,18 @@ app.get("/add/connaissance", (req, res) => {
     const l = req.query.link;
     const lvl = req.query.lvl;
     connection.query(`  INSERT INTO connaissances (user, interet, descriptionConnaissance, lienConnaissance, niveauConnaissance)
-                        VALUES (${u}, ${i}, '${d})', '${l})', ${lvl})`, (err, rows) => {
+                        VALUES (${u}, ${i}, '${d}', '${l}', ${lvl})`, (err, rows) => {
+if (!err)
+res.send(rows);
+})
+});
+
+app.get("/add/objectif", (req, res) => {
+    const u = req.query.user;
+    const i = req.query.interet;
+    const d = req.query.description;
+    connection.query(`  INSERT INTO objectifs (user, interet, descriptionObjectif)
+                        VALUES (${u}, ${i}, '${d}')`, (err, rows) => {
 if (!err)
 res.send(rows);
 })
