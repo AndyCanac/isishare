@@ -28,12 +28,12 @@ export default function Login() {``
   const handleSubmit = (e) => {
     e.preventDefault();
     for (let i = 0; i < infoLogin.length; i++) {
-      if (infoLogin[i].email === email && infoLogin[i].password === password) {
+      if (infoLogin[i].emailUser === email && infoLogin[i].passwordUser === password) {
         document.location.href = "/profile";
         setIdUser(infoLogin[i].idUser);
         break;
       } else {
-        const error = ("Email ou mot de passe incorrect");
+        alert("Email ou mot de passe incorrect");
       }
     }
   };
@@ -118,12 +118,11 @@ export default function Login() {``
 
       <button
         type="submit"
-        className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
-      >
+        className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white bg-dark-blue">
         Connexion
       </button>
 
-      <p className="text-center text-sm text-gray-500">
+      <p className="text-center text-sm text-dark-gray">
         Pas de compte ?{" "}
         <a className="underline" href="/signup">Inscription</a>
       </p>

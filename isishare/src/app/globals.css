@@ -33,6 +33,13 @@
     --ring: 0 0% 3.9%;
  
     --radius: 0.5rem;
+
+    --light-blue: #609cf3;
+    --dark-blue: #2a429e;
+    --light-gray: #bbbbbc;
+    --dark-gray: #79797a;
+    --white: #ffffff;
+    --black: #000000;
   }
  
   .dark {
@@ -64,11 +71,30 @@
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
   }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
+.td-width td {
+  max-width: 18vw;
+  overflow: hidden;
+  text-overflow: ellipsis;/* Si le contenu dépasse la largeur maximale, il sera tronqué avec des points de suspension */
+  white-space: nowrap;/* Empêche le contenu de se répartir sur plusieurs lignes */
+}
+
+.table-width table {
+  min-width: 88vw;
+  max-width: 88vw;
+} 
+
 .icon-container {
-    display: inline-block; /* Assurez-vous que l'icône est affichée en ligne avec le texte */
-    vertical-align: middle; /* Ajuste l'alignement vertical si nécessaire */
+    display: inline-block;
+    vertical-align: middle;
   }
 
 .search-input {
@@ -81,13 +107,4 @@
 
 .search-input:focus {
     border-color: #609cf3;
-}
-
-:root {
-    --light-blue: #609cf3;
-    --dark-blue: #2a429e;
-    --light-gray: #bbbbbc;
-    --dark-gray: #79797a;
-    --white: #ffffff;
-    --black: #000000;
 }

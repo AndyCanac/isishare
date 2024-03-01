@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "mysql",
+  password: "",
   database: "isishare_bdd",
   connectionLimit: 100,
 });
@@ -143,3 +143,92 @@ app.get("/iconInteret", (req, res) => {
                 res.send(rows);
         })
 });
+
+app.get("/login", (req, res) => {
+    const i = req.query.id;
+    if (i == null) //voir si on met un parametre avec blablabla ?id=1
+    {
+        connection.query(`SELECT idUser, emailUser, passwordUser
+                        FROM users
+                        `, (err, rows) => {
+            if (!err)
+                res.send(rows);
+        })
+    }
+    else {
+        connection.query(`SELECT *
+        FROM users `, (err, rows) => {
+            if (!err)
+                res.send(rows);
+        })
+    }
+});
+
+//==============================================FIN SELECT==============================================
+
+//==============================================DEBUT DELETE==============================================
+app.get("/delete/contact", (req, res) => {
+    const i = req.query.id;
+    connection.query(`  DELETE
+                        FROM contacts
+                        WHERE idContact = ${i}`, (err, rows) => {
+if (!err)
+res.send(rows);
+})
+});
+app.get("/delete/connaissance", (req, res) => {
+    const i = req.query.id;
+    connection.query(`  DELETE
+                        FROM connaissances
+                        WHERE idConnaissance = ${i}`, (err, rows) => {
+if (!err)
+res.send(rows);
+})
+});
+
+app.get("/delete/objectif", (req, res) => {
+    const i = req.query.id;
+    connection.query(`  DELETE
+                        FROM objectifs
+                        WHERE idObjectif = ${i}`, (err, rows) => {
+if (!err)
+res.send(rows);
+})
+});
+//==============================================FIN DELETE==============================================
+
+//==============================================DEBUT ADD==============================================
+app.get("/add/contact", (req, res) => {
+    const u = req.query.user;
+    const i = req.query.info;
+    const s = req.query.source;
+    connection.query(`  INSERT INTO contacts (user, informationContact, source)
+                        VALUES (${u}, '${i}', ${s})`, (err, rows) => {
+if (!err)
+res.send(rows);
+})
+});
+app.get("/add/connaissance", (req, res) => {
+    const u = req.query.user;
+    const i = req.query.interet;
+    const d = req.query.description;
+    const l = req.query.link;
+    const lvl = req.query.lvl;
+    connection.query(`  INSERT INTO connaissances (user, interet, descriptionConnaissance, lienConnaissance, niveauConnaissance)
+                        VALUES (${u}, ${i}, '${d}', '${l}', ${lvl})`, (err, rows) => {
+        if (!err)
+        res.send(rows);
+    })
+});
+
+app.get("/add/objectif", (req, res) => {
+    const u = req.query.user;
+    const i = req.query.interet;
+    const d = req.query.description;
+    connection.query(`  INSERT INTO objectifs (user, interet, descriptionObjectif)
+                        VALUES (${u}, ${i}, '${d}')`, (err, rows) => {
+        if (!err)
+        res.send(rows);
+    })
+});
+//==============================================FIN ADD==============================================
