@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
 const app = express();
 
 app.listen(3001, () => {
-  console.log('Serveur en Ã©coute sur le port 3001');
+  console.log('Serveur en écoute sur le port 3001');
 });
 
 app.get("/contacts", (req, res) => {
@@ -64,8 +64,10 @@ app.get("/users",(req,res) => {
   {
       connection.query(`SELECT 
                             users.nameUser,
-                            GROUP_CONCAT(DISTINCT objectifs.descriptionObjectif SEPARATOR ', ') AS interetObjectif,
-                            GROUP_CONCAT(DISTINCT connaissances.descriptionConnaissance SEPARATOR ', ') AS interetConnaissance,
+                            GROUP_CONCAT(DISTINCT objectifs.descriptionObjectif SEPARATOR ', ') AS descriptionObjectif,
+                            GROUP_CONCAT(DISTINCT connaissances.descriptionConnaissance SEPARATOR ', ') AS descriptionConnaissance,
+                            GROUP_CONCAT(DISTINCT objectifs.interet SEPARATOR ', ') AS interetObjectif,
+                            GROUP_CONCAT(DISTINCT connaissances.interet SEPARATOR ', ') AS interetConnaissance,
                             GROUP_CONCAT(DISTINCT groupes.libelleGroupe SEPARATOR ', ') AS libelleGroupe,
                             users.pointsUser,
                             users.notationUser

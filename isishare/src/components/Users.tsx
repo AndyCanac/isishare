@@ -1,10 +1,11 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { BsSortNumericDown, BsSortNumericUpAlt } from "react-icons/bs";
+import { LuFilter } from "react-icons/lu";
 
 export default function Users() {
     const [users, setUsers] = useState([]);
-    const [iconInteret, seticonInteret] = useState([]);
+    const [iconInteret, setIconInteret] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const filteredUsers = users.filter(user =>
         user.nameUser.toLowerCase().includes(searchTerm.toLowerCase())
@@ -12,6 +13,9 @@ export default function Users() {
 
     const [sortDirectionPoints, setSortDirectionPoints] = useState('asc'); // 'asc' pour trier par ordre croissant, 'desc' pour trier par ordre décroissant
     const [sortDirectionNotation, setSortDirectionNotation] = useState('asc');
+
+    const [popupOpen, setPopupOpen] = useState(false);
+    const [selectedFilters, setSelectedFilters] = useState([]);
 
     // Fonction pour trier la liste des utilisateurs en fonction du score des points
     const sortUsersByPoints = () => {
@@ -40,38 +44,55 @@ export default function Users() {
 
     useEffect(() => {
         fetch('http://localhost:3001/users')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setUsers(data);
-            })
-            .catch(error => {
-                console.error('Error fetching users:', error);
-            });
+            .then(response => response.json())
+            .then(data => setUsers(data))
+            .catch(error => console.error('Error fetching users:', error));
+        
+        fetch('http://localhost:3001/iconInteret')
+            .then(response => response.json())
+            .then(data => setIconInteret(data))
+            .catch(error => console.error('Error fetching iconInteret:', error));
     }, []);
 
-    useEffect(() => {
-        fetch('http://localhost:3001/iconInteret')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                seticonInteret(data);
-            })
-            .catch(error => {
-                console.error('Error fetching iconInteret:', error);
-            });
-    }, []);
+    const togglePopup = () => {
+        setPopupOpen(!popupOpen);
+    };
+
+    const handleFilterSelection = (filter) => {
+        // Logique pour ajouter ou supprimer un filtre de la liste des filtres sélectionnés
+        if (selectedFilters.includes(filter)) {
+            setSelectedFilters(selectedFilters.filter(item => item !== filter));
+        } else {
+            setSelectedFilters([...selectedFilters, filter]);
+        }
+    };
+
+    const closePopup = () => {
+        setPopupOpen(false);
+        // Logique supplémentaire à exécuter après la fermeture de la popup, par exemple, appliquer les filtres sélectionnés
+    };
 
     return (
         <section className="container px-4 mx-auto ml-14">
+            {/* #region blue spots */}
+            <div
+                className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+                aria-hidden="true"
+            >
+                <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-dark-blue to-light-blue opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" />
+            </div>
+            <div
+                className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+                aria-hidden="true"
+            >
+                <div
+                    className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-dark-blue to-light-blue opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+                    style={{
+                        clipPath:
+                            'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
+                    }} />
+            </div>
+            {/* #endregion */}
             <div className="flex flex-col mt-6">
                 <div className="-mx-4 -my-2 overflow-x-auto">
                     <input
@@ -92,7 +113,7 @@ export default function Users() {
                                             </div>
                                         </th>
 
-                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white" title="Cette colonne vise à mettre en lumière les objectifs individuels de chaque utilisateur. Si vous partagez un objectif similaire, je vous encourage à vous entraider. Si vous possédez les compétences nécessaires, n'hésitez pas à contacter la personne pour l'assister dans la réalisation de son objectif.">
+                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white" title="Cette colonne vise à mettre en lumière les connaissances individuelles de chaque utilisateur. Si les connaissances de certains utilisateurs peuvent, vous aidez dans vos objectifs, n'hésitez pas à le contacter.">
                                             <button className="flex items-center gap-x-2">
                                                 <span>Connaissances</span>
 
@@ -102,7 +123,7 @@ export default function Users() {
                                             </button>
                                         </th>
 
-                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white">
+                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white" title="Cette colonne vise à mettre en lumière les objectifs individuels de chaque utilisateur. Si vous partagez un objectif similaire, je vous encourage à vous entraider. Si vous possédez les compétences nécessaires, n'hésitez pas à contacter la personne pour l'assister dans la réalisation de son objectif.">
                                             <button className="flex items-center gap-x-2">
                                                 <span>Objectifs</span>
 
@@ -122,7 +143,7 @@ export default function Users() {
                                             </button>
                                         </th>
 
-                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white">
+                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white" title="Elle correspond à la valeur moyenne de notes sur 5 fournis pas les autres utilisateurs.">
                                             <button className="flex items-center gap-x-2" onClick={sortUsersByNotation}>
                                                 <span>Notation</span>
 
@@ -133,7 +154,7 @@ export default function Users() {
                                             </button>
                                         </th>
 
-                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white">
+                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white" title="Voici les groupes auxquels l'utilisateur appartient.">
                                             <button className="flex items-center gap-x-2">
                                                 <span>Groups</span>
 
@@ -143,6 +164,35 @@ export default function Users() {
                                             </button>
                                         </th>
 
+                                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white">
+                                            <button className="flex items-center gap-x-2" onClick={togglePopup}>
+                                                <LuFilter />
+                                            </button>
+                                            {popupOpen && (
+                                                <div className="absolute top-0 left-0 w-full h-full bg-gray-300 bg-opacity-75 flex justify-center items-center z-10">
+                                                    <div className="bg-white text-black p-4 rounded shadow-lg">
+                                                        {/* Structure de la popup avec les options de filtre */}
+                                                        <h2>Sélectionnez vos filtres</h2>
+                                                        <ul>
+                                                            <li>
+                                                                <label>
+                                                                    <input type="checkbox" value="Filtre1" onChange={() => handleFilterSelection('Filtre1')} />
+                                                                    Filtre 1
+                                                                </label>
+                                                            </li>
+                                                            <li>
+                                                                <label>
+                                                                    <input type="checkbox" value="Filtre2" onChange={() => handleFilterSelection('Filtre2')} />
+                                                                    Filtre 2
+                                                                </label>
+                                                            </li>
+                                                            {/* Ajoutez d'autres options de filtre selon vos besoins */}
+                                                        </ul>
+                                                        <button onClick={closePopup}>Fermer</button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-light-gray bg-white text-black">
@@ -166,8 +216,8 @@ export default function Users() {
                                                 ))}
                                             </td> */}
 
-                                            <td className="px-4 py-4 text-sm   whitespace-nowrap">{user.interetObjectif}</td>
-                                            <td className="px-4 py-4 text-sm   whitespace-nowrap">{user.interetObjectif}</td>
+                                            <td className="px-4 py-4 text-sm   whitespace-nowrap">{user.descriptionConnaissance}</td>
+                                            <td className="px-4 py-4 text-sm   whitespace-nowrap">{user.descriptionObjectif}</td>
                                             <td className="px-4 py-4 text-sm   whitespace-nowrap">{user.pointsUser}</td>
                                             <td className="px-4 py-4 text-sm   whitespace-nowrap">{user.notationUser}</td>
                                             <td className="px-4 py-4 text-sm   whitespace-nowrap">{user.libelleGroupe}</td>
