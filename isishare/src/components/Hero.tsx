@@ -28,26 +28,6 @@ export default function Hero() {
               En savoir plus <span aria-hidden="true">→</span>
             </a>
           </div>
-          <br /><br /><br /><br /><br />
-          <h2 id="qui-sommes-nous" className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Qui sommes-nous ?</h2>
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            <br />Nous sommes une équipe passionnée de trois développeurs dévoués à révolutionner l'apprentissage des langages informatiques. Ensemble, nous formons le cœur et l'esprit derrière Isishare.
-            <br /><strong>CASTELLIER Florian :</strong> Il notre expert en bases de données et développement backend, Florian Castellier, est le pilier sur lequel repose la robustesse de notre système. Avec une solide expérience dans la conception et l'optimisation de bases de données, Florian veille à ce que notre plateforme soit à la fois efficace et évolutive.
-            <br /><strong>BRON Adrien :</strong> Il est le cerveau polyvalent de notre équipe. Son expertise s'étend à divers aspects du développement logiciel, de la conception à l'implémentation. Touche-à-tout talentueux, Adrien est le moteur de l'innovation chez Isishare, apportant des idées fraîches et des solutions créatives à chaque étape du processus de développement.
-            <br /><strong>CANAC Andy :</strong> Il est notre spécialiste du style et du design. Sa passion pour l'esthétique et l'expérience utilisateur se traduit par une interface utilisateur intuitive et attrayante pour notre plateforme. Andy s'efforce de rendre l'apprentissage sur Isishare non seulement enrichissant sur le plan éducatif, mais aussi agréable visuellement.
-            <br />Ensemble, nous croyons fermement que l'apprentissage collaboratif est la clé du succès dans le monde de la programmation. Notre mission est de fournir une plateforme innovante où les étudiants peuvent se connecter, échanger des connaissances et progresser ensemble vers l'excellence dans les langages informatiques.
-          </p>
-          <div className="mt-10 flex items-center justify-center gap-x-6">
-            <a
-              href="#"
-              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Essayer
-            </a>
-            <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-              En savoir plus <span aria-hidden="true">→</span>
-            </a>
-          </div>
         </div>
       </div>
       <div

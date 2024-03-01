@@ -110,12 +110,12 @@ export default function SignUp() {
 
       <button
         type="submit"
-        className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white"
+        className="block w-full rounded-lg bg-indigo-600 px-5 py-3 text-sm font-medium text-white bg-dark-blue"
       >
         Inscription
       </button>
 
-      <p className="text-center text-sm text-gray-500">
+      <p className="text-center text-sm text-dark-gray">
         Déjà un compte ?{" "}
         <a className="underline" href="/login">Connexion</a>
       </p>

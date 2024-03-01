@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState, useEffect } from 'react';
 import { BsSortNumericDown, BsSortNumericUpAlt } from "react-icons/bs";
 import { LuFilter } from "react-icons/lu";
