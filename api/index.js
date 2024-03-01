@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "",
+  password: "mysql",
   database: "isishare_bdd",
   connectionLimit: 100,
 });
@@ -125,7 +125,6 @@ app.get("/users",(req,res) => {
           else res.send(err);
       })
   }
-
   else
   {
       connection.query(`SELECT * FROM users WHERE idUser = ${i}`, (err,rows) =>
@@ -205,3 +204,23 @@ res.send(rows);
 })
 });
 //==============================================FIN ADD==============================================
+
+app.get("/login", (req, res) => {
+    const i = req.query.id;
+    if (i == null) //voir si on met un parametre avec blablabla ?id=1
+    {
+        connection.query(`SELECT idUser, email, password
+                        FROM users
+                        `, (err, rows) => {
+            if (!err)
+                res.send(rows);
+        })
+    }
+    else {
+        connection.query(`SELECT *
+        FROM users `, (err, rows) => {
+            if (!err)
+                res.send(rows);
+        })
+    }
+});
