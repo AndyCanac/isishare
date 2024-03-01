@@ -1,4 +1,43 @@
-export default function Login(){
+'use client';
+
+import { error } from "console";
+import React, { useState, useEffect } from "react";
+
+export default function Login() {``
+  const [idUser, setIdUser] = useState([0]);
+  const [email, setEmail] = useState([]);
+  const [password, setPassword] = useState([]);
+  const [infoLogin, setInfoLogin] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/login")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setInfoLogin(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching login:", error);
+      });
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    for (let i = 0; i < infoLogin.length; i++) {
+      if (infoLogin[i].email === email && infoLogin[i].password === password) {
+        document.location.href = "/profile";
+        setIdUser(infoLogin[i].idUser);
+        break;
+      } else {
+        const error = ("Email ou mot de passe incorrect");
+      }
+    }
+  };
+
     return (
 <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
   <div className="mx-auto max-w-lg">
@@ -6,7 +45,7 @@ export default function Login(){
         <img src="/isishare.png"/>
     </a>
 
-    <form action="" className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8">
+    <form onSubmit={handleSubmit} className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8">
       <p className="text-center text-xl font-medium">Connectez-vous !</p>
 
       <div>
@@ -17,6 +56,8 @@ export default function Login(){
             type="email"
             className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
             placeholder="Adresse mail"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
 
           <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
@@ -46,6 +87,8 @@ export default function Login(){
             type="password"
             className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
             placeholder="Mot de passe"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
 
           <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
@@ -85,6 +128,7 @@ export default function Login(){
         <a className="underline" href="/signup">Inscription</a>
       </p>
     </form>
+    <h2 className="color-red">{error}</h2>
   </div>
 </div>
     )
