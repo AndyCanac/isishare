@@ -108,7 +108,8 @@ app.get("/users",(req,res) => {
                             GROUP_CONCAT(DISTINCT connaissances.interet SEPARATOR ', ') AS interetConnaissance,
                             GROUP_CONCAT(DISTINCT groupes.libelleGroupe SEPARATOR ', ') AS libelleGroupe,
                             users.pointsUser,
-                            users.notationUser
+                            users.notationUser,
+                            users.idUser
                         FROM 
                             users
                         LEFT JOIN 
