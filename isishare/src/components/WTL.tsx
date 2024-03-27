@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { GoTrash } from 'react-icons/go';
 
 export default function WTL() {
-    const [idUser, setIdUser] = useState([1]);
+    const [idUser, setIdUser] = useState([localStorage.getItem("idTargetUser")]);
 
     const [wantToLearns, setWantToLearn] = useState([]);
     useEffect(() => {

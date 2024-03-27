@@ -1,7 +1,7 @@
 export default function Fonctionnalite() {
     return (
         <> 
-        <span id="qui-sommes-nous" className="flex items-center">
+        <span id="fonctionnalite" className="flex items-center">
             <span className="h-px flex-1 bg-black ml-28"></span>
             <span className="shrink-0 px-6 text-2xl font-bold">Fonctionnalité(e)s</span>
             <span className="h-px flex-1 bg-black mr-28"></span>
