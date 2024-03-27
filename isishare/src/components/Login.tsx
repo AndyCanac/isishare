@@ -34,6 +34,7 @@ export default function Login() {``
         break;
       } else {
         alert("Email ou mot de passe incorrect");
+        break;
       }
     }
   };

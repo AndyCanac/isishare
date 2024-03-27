@@ -7,7 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -85,6 +85,8 @@ const config = {
       'dark-gray': 'var(--dark-gray)',
       'white': 'var(--white)',
       'black': 'var(--black)',
+      'light-gray-transparent': 'var(--light-gray-transparent)',
+      'light-blue-transparent': 'var(--light-blue-transparent)',
     },
   },
   plugins: [require("tailwindcss-animate")],
