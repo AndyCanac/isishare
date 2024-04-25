@@ -17,7 +17,9 @@ export default function WTL() {
       setOwnUser(true);
 
     fetch(
-      `http://localhost:3001/wtl?id=${localStorage.getItem("idTargetUser")}`
+      `http://localhost:3001/api/objectifs/user/${localStorage.getItem(
+        "idTargetUser"
+      )}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -32,7 +34,7 @@ export default function WTL() {
         console.error("Error fetching users:", error);
       });
 
-    fetch(`http://localhost:3001/interets`)
+    fetch(`http://localhost:3001/api/interests`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -40,6 +42,7 @@ export default function WTL() {
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         setInterets(data);
       })
       .catch((error) => {
@@ -173,21 +176,27 @@ export default function WTL() {
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                     {wantToLearns.map((wtl) => (
                       <tr key={wtl}>
+                        {interets.map((interest) => (
+                          <div>
+                            {interest.id == wtl.interest_id ? (
+                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">
+                                <img
+                                  className="object-cover w-10 h-10 "
+                                  src={interest.icon}
+                                  alt="logo"
+                                />
+                              </td>
+                            ) : null}
+                          </div>
+                        ))}
                         <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">
-                          <img
-                            className="object-cover w-10 h-10 "
-                            src={wtl.iconInteret}
-                            alt="logo"
-                          />
-                        </td>
-                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">
-                          {wtl.descriptionObjectif}
+                          {wtl.description}
                         </td>
                         <td className="px-4 py-4 text-sm">
                           <div className="flex items-center gap-x-6">
                             {ownUser ? (
                               <button
-                                onClick={() => deleteWTLTrigger(wtl.idObjectif)}
+                                onClick={() => deleteWTLTrigger(wtl.id)}
                                 className="flex items-center px-6 py-2 ml-4 tracking-wide text-red capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none"
                               >
                                 <GoTrash size={30} style={{ color: "red" }} />
@@ -241,11 +250,8 @@ export default function WTL() {
                     >
                       <option value="">Sélectionner un interet</option>
                       {interets.map((interet) => (
-                        <option
-                          key={interet.idInteret}
-                          value={interet.idInteret}
-                        >
-                          {interet.libelleInteret}
+                        <option key={interet.id} value={interet.id}>
+                          {interet.name}
                         </option>
                       ))}
                     </select>
@@ -274,7 +280,7 @@ export default function WTL() {
                     <button
                       type="button"
                       onClick={addWTL}
-                      className="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                      className="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
                     >
                       Ajouter
                     </button>
@@ -325,7 +331,7 @@ export default function WTL() {
                     <button
                       type="button"
                       onClick={deleteWTL}
-                      className="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                      className="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
                     >
                       Oui
                     </button>

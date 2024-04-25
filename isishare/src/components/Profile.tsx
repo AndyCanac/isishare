@@ -20,7 +20,7 @@ export default function Profile() {
       setOwnUser(true);
 
     fetch(
-      `http://localhost:3001/contacts?id=${localStorage.getItem(
+      `http://localhost:3001/api/contacts/user/${localStorage.getItem(
         "idTargetUser"
       )}`
     )
@@ -38,7 +38,7 @@ export default function Profile() {
       });
 
     fetch(
-      `http://localhost:3001/users?id=${localStorage.getItem("idTargetUser")}`
+      `http://localhost:3001/api/users/${localStorage.getItem("idTargetUser")}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -47,14 +47,13 @@ export default function Profile() {
         return response.json();
       })
       .then((data) => {
-        setName(data[0].nameUser);
-        setPoints(data[0].pointsUser);
+        setName(data[0].name);
+        setPoints(data[0].points);
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
-
-    fetch("http://localhost:3001/sources")
+    fetch("http://localhost:3001/api/sources")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -161,18 +160,24 @@ export default function Profile() {
               className="flex items-center justify-between my-4"
             >
               <div className="flex items-center">
-                <img
-                  className="object-cover w-10 h-10"
-                  src={contact.iconSource}
-                  alt="discord-logo"
-                />
+                {sources.map((source) => (
+                  <div>
+                    {source.id == contact.source_id ? (
+                      <img
+                        className="object-cover w-10 h-10"
+                        src={source.icon}
+                        alt="discord-logo"
+                      />
+                    ) : null}
+                  </div>
+                ))}
                 <h1 className="px-2 text-sm text-black dark:text-white">
-                  {contact.informationContact}
+                  {contact.information}
                 </h1>
               </div>
               {ownUser ? (
                 <button
-                  onClick={() => deleteContactTrigger(contact.idContact)}
+                  onClick={() => deleteContactTrigger(contact.id)}
                   className="flex items-center px-6 py-2 ml-4 tracking-wide text-black capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none"
                 >
                   <GoTrash size={30} style={{ color: "red" }} />
@@ -229,8 +234,8 @@ export default function Profile() {
                     >
                       <option value="">Sélectionner une source</option>
                       {sources.map((source) => (
-                        <option key={source.idSource} value={source.idSource}>
-                          {source.libelleSource}
+                        <option key={source.id} value={source.id}>
+                          {source.name}
                         </option>
                       ))}
                     </select>
@@ -260,8 +265,10 @@ export default function Profile() {
 
                     <button
                       type="button"
-                      onClick={addContact}
-                      className="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                      onClick={() => {
+                        addContact();
+                      }}
+                      className="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
                     >
                       Ajouter
                     </button>
@@ -313,7 +320,7 @@ export default function Profile() {
                     <button
                       type="button"
                       onClick={deleteContact}
-                      className="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                      className="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
                     >
                       Oui
                     </button>
