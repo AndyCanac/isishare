@@ -60,6 +60,7 @@ app.get("/interests", (req, res) => {
 });
 
 app.get("/skills", (req, res) => {
+<<<<<<< HEAD
   const i = req.query.id;
   if (i == null) {
     //voir si on met un parametre avec blablabla ?id=1
@@ -80,6 +81,51 @@ app.get("/skills", (req, res) => {
       }
     );
   }
+=======
+    connection.query(`SELECT * FROM connaissances`, (err, rows) => {
+        if (!err)
+            res.send({
+                time: new Date,
+                data: rows
+            });
+    })
+});
+
+app.get("/skills/:id", (req, res) => {
+    const id = Number(req.params.id)
+
+    if (!id) //voir si on met un parametre avec blablabla ?id=1
+    {
+        res.send([]);
+        return
+    }
+
+    connection.query(`SELECT idConnaissance, descriptionConnaissance, niveauConnaissance, lienConnaissance, iconInteret
+                    FROM connaissances
+                    LEFT JOIN interets ON interets.idInteret = connaissances.interet
+                    WHERE user = ${id}`, (err, rows) => {
+        if (!err)
+          res.send(rows);
+    })
+});
+
+app.get("/users/:id/skills", (req, res) => {
+    const id = Number(req.params.id)
+
+    if (!id) //voir si on met un parametre avec blablabla ?id=1
+    {
+        res.send([]);
+        return
+    }
+
+    connection.query(`SELECT idConnaissance, descriptionConnaissance, niveauConnaissance, lienConnaissance, iconInteret
+                    FROM connaissances
+                    LEFT JOIN interets ON interets.idInteret = connaissances.interet
+                    WHERE user = ${id}`, (err, rows) => {
+        if (!err)
+          res.send(rows);
+    })
+>>>>>>> origin/Adrien
 });
 
 app.get("/wtl", (req, res) => {
