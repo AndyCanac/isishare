@@ -53,25 +53,49 @@ app.get("/interets", (req, res) => {
 });
 
 app.get("/skills", (req, res) => {
-    const i = req.query.id;
-    if (i == null) //voir si on met un parametre avec blablabla ?id=1
+    connection.query(`SELECT * FROM connaissances`, (err, rows) => {
+        if (!err)
+            res.send({
+                time: new Date,
+                data: rows
+            });
+    })
+});
+
+app.get("/skills/:id", (req, res) => {
+    const id = Number(req.params.id)
+
+    if (!id) //voir si on met un parametre avec blablabla ?id=1
     {
-        // connection.query(`SELECT idContact, informationContact, libelleSource, iconSource
-        //                 FROM contacts
-        //                 LEFT JOIN sources ON sources.idSource = contacts.source`, (err, rows) => {
-        //     if (!err)
-        //         res.send(rows);
-        // })
+        res.send([]);
+        return
     }
-    else {
-        connection.query(`SELECT idConnaissance, descriptionConnaissance, niveauConnaissance, lienConnaissance, iconInteret
-                        FROM connaissances
-                        LEFT JOIN interets ON interets.idInteret = connaissances.interet
-                        WHERE user = ${i}`, (err, rows) => {
-            if (!err)
-                res.send(rows);
-        })
+
+    connection.query(`SELECT idConnaissance, descriptionConnaissance, niveauConnaissance, lienConnaissance, iconInteret
+                    FROM connaissances
+                    LEFT JOIN interets ON interets.idInteret = connaissances.interet
+                    WHERE user = ${id}`, (err, rows) => {
+        if (!err)
+          res.send(rows);
+    })
+});
+
+app.get("/users/:id/skills", (req, res) => {
+    const id = Number(req.params.id)
+
+    if (!id) //voir si on met un parametre avec blablabla ?id=1
+    {
+        res.send([]);
+        return
     }
+
+    connection.query(`SELECT idConnaissance, descriptionConnaissance, niveauConnaissance, lienConnaissance, iconInteret
+                    FROM connaissances
+                    LEFT JOIN interets ON interets.idInteret = connaissances.interet
+                    WHERE user = ${id}`, (err, rows) => {
+        if (!err)
+          res.send(rows);
+    })
 });
 
 app.get("/wtl", (req, res) => {

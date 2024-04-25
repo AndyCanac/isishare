@@ -6,6 +6,7 @@ import { TbListTree } from "react-icons/tb";
 
 export default function Users() {
     const [users, setUsers] = useState([]);
+    const [skills, setSkills] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const filteredUsers = users.filter(user =>
         user.nameUser.toLowerCase().includes(searchTerm.toLowerCase())
@@ -13,9 +14,25 @@ export default function Users() {
     const [view, setView] = useState('kanban'); // Par défaut, afficher la vue Tree
     const [sortDirectionPoints, setSortDirectionPoints] = useState('asc'); // 'asc' pour trier par ordre croissant, 'desc' pour trier par ordre décroissant
     const [sortDirectionNotation, setSortDirectionNotation] = useState('asc');
+    const [sortDirectionNom, setSortDirectionNom] = useState('desc');
 
     const [popupOpen, setPopupOpen] = useState(false);
     const [selectedFilters, setSelectedFilters] = useState([]);
+
+    // Fonction pour trier les utilisateurs par nom
+    const sortUsersByName = () => {
+        const sortedUsers = [...users].sort((a, b) => {
+            if (sortDirectionNom === 'asc') {
+                return a.nameUser.localeCompare(b.nameUser);
+            } else {
+                return b.nameUser.localeCompare(a.nameUser);
+            }
+        });
+        setUsers(sortedUsers);
+        // Inverser la direction du tri
+        setSortDirectionNom(sortDirectionNom === 'asc' ? 'desc' : 'asc');
+    };
+
 
     // Fonction pour trier la liste des utilisateurs en fonction du score des points
     const sortUsersByPoints = () => {
@@ -45,16 +62,21 @@ export default function Users() {
 
     // Recupere les datas via l'api
     useEffect(() => {
-        fetch('http://localhost:3001/users')
+        fetch(`${localStorage.getItem('api')}users`)
             .then(response => response.json())
-            .then(data => setUsers(data))
+            .then(data => {
+                // Tri des utilisateurs par ordre alphabétique du nom
+                const sortedUsers = data.sort((a, b) => a.nameUser.localeCompare(b.nameUser));
+                setUsers(sortedUsers);
+            })
             .catch(error => console.error('Error fetching users:', error));
 
-        fetch('http://localhost:3001/iconInteret')
+        fetch(`${localStorage.getItem('api')}skills`)
             .then(response => response.json())
-            .then(data => setIconInteret(data))
-            .catch(error => console.error('Error fetching iconInteret:', error));
+            .then(data => { setSkills(data); console.log(data); })
+            .catch(error => console.error('Error fetching users:', error));
     }, []);
+
 
     // Division des utilisateurs en trois groupes
     const usersGroup1 = filteredUsers.filter((user, index) => index % 3 === 0);
@@ -85,7 +107,6 @@ export default function Users() {
     // Fonction pour rediriger vers une page spécifique lorsqu'une ligne est cliquée
     const setIdUser = (userId: string) => {
         localStorage.setItem('idTargetUser', userId);
-        console.log(localStorage.getItem('idTargetUser'));
         window.location.href = "/profile";
     };
 
@@ -111,6 +132,7 @@ export default function Users() {
             </div>
             {/* #endregion */}
             <div className="flex justify-between items-center mt-2 ml-[-1rem] mb-4">
+                {/* Barre de recherche */}
                 <input
                     type="text"
                     placeholder="Rechercher par nom..."
@@ -120,12 +142,12 @@ export default function Users() {
                 />
                 <div className="mt-2 ml-[-1rem]">
                     {/* Bouton pour afficher la vue Kanban */}
-                    <button onClick={() => setView('kanban')} className="px-4 py-2 bg-dark-blue text-white rounded-md mr-8">
+                    <button onClick={() => setView('kanban')} className="px-4 py-2 bg-dark-blue text-white rounded-md mr-4">
                         <LuKanbanSquare />
                     </button>
 
                     {/* Bouton pour afficher la vue Tree */}
-                    <button onClick={() => setView('tree')} className="px-4 py-2 bg-dark-blue text-white rounded-md mr-4">
+                    <button onClick={() => setView('tree')} className="px-4 py-2 bg-dark-blue text-white rounded-md mr-8">
                         <TbListTree />
                     </button>
                 </div>
@@ -133,8 +155,6 @@ export default function Users() {
             {view === 'tree' ? (
                 <div className="flex flex-col mt-6">
                     <div className="-mx-4 -my-2 overflow-x-auto">
-
-
                         <div className="inline-block py-2 align-middle md:px-6 lg:px-8">
                             <div className="overflow-hidden border border-dark-gray md:rounded-lg table-width">
                                 <table className="max-w-1xl divide-y divide-dark-gray td-width">
@@ -142,7 +162,7 @@ export default function Users() {
                                         <tr>
                                             <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white">
                                                 <div className="flex items-center gap-x-3">
-                                                    <span>Nom</span>
+                                                    <span className="cursor-pointer" onClick={sortUsersByName}>Nom</span>
                                                 </div>
                                             </th>
 
@@ -228,9 +248,14 @@ export default function Users() {
                                     </thead>
                                     <tbody className="divide-y divide-light-gray bg-white text-black ">
                                         {filteredUsers.map(user => (
-                                            <tr className="hover:bg-light-blue-transparent cursor-pointer transition duration-300" onClick={() => setIdUser(user.idUser)} >
+                                            <tr className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300" onClick={() => setIdUser(user.idUser)} >
                                                 <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">{user.nameUser}</td>
-                                                <td className="px-4 py-4 text-sm   whitespace-nowrap">{user.descriptionConnaissance}</td>
+                                                <td className="px-4 py-4 text-sm   whitespace-nowrap">
+                                                    {skills.map(skill => (
+                                                        <>
+                                                            <img className="object-cover w-10 h-10 " src={skill.iconInteret} alt="logo" />
+                                                        </>))}
+                                                </td>
                                                 <td className="px-4 py-4 text-sm   whitespace-nowrap">{user.descriptionObjectif}</td>
                                                 <td className="px-4 py-4 text-sm   whitespace-nowrap">{user.pointsUser}</td>
                                                 <td className="px-4 py-4 text-sm   whitespace-nowrap">{user.notationUser}</td>
