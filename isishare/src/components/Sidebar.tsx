@@ -11,7 +11,7 @@ export default function Sidebar() {
       <div>
         <div className="inline-flex h-16 w-16 items-center justify-center">
           <a
-            href="http://localhost:3000/profile"
+            href="/profile"
             className="t group relative flex justify-center rounded px-2 py-1.5  text-white hover:bg-white hover:text-light-blue"
           >
             <span
@@ -31,7 +31,7 @@ export default function Sidebar() {
           <div className="px-2">
             <div className="py-4">
               <a
-                href=""
+                href="/home"
                 className="t group relative flex justify-center rounded px-2 py-1.5  text-white hover:bg-white hover:text-light-blue"
               >
                 <AiOutlineHome />
@@ -48,7 +48,7 @@ export default function Sidebar() {
             <ul className="space-y-1 border-t border-white pt-4">
               <li>
                 <a
-                  href="http://localhost:3000/users"
+                  href="/users"
                   className="group relative flex justify-center rounded px-2 py-1.5 text-white hover:bg-white hover:text-light-blue"
                 >
                   <TbUserSearch />
@@ -115,7 +115,7 @@ export default function Sidebar() {
         <form action="/logout">
           <a
               className="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-white hover:bg-white hover:text-light-blue"
-              href = 'http://localhost:3000/'
+              href = '/'
             >
             <HiOutlineLogout />
 

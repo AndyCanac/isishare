@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <div className="relative isolate px-6 pt-14 lg:px-8">
+    <div id="hero" className="relative isolate px-6 pt-14 lg:px-8">
       <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         aria-hidden="true"
@@ -20,7 +20,7 @@ export default function Hero() {
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <a
               href="#"
-              className="rounded-md bg-dark-blue duration-200 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-light-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md bg-dark-blue px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-light-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 transition duration-200" 
             >
               Essayer
             </a>

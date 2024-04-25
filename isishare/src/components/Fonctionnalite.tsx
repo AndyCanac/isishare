@@ -1,9 +1,9 @@
 export default function Fonctionnalite() {
     return (
         <> 
-        <span id="fonctionnalite" className="flex items-center">
+        <span id="fonctionnalité" className="flex items-center">
             <span className="h-px flex-1 bg-black ml-28"></span>
-            <span className="shrink-0 px-6 text-2xl font-bold">Fonctionnalité(e)s</span>
+            <span className="shrink-0 px-6 text-2xl font-bold">Fonctionnalitées</span>
             <span className="h-px flex-1 bg-black mr-28"></span>
         </span>
         <section className="bg-white">
@@ -13,7 +13,7 @@ export default function Fonctionnalite() {
                         Fonctionalité Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam eius accusantium alias accusamus quasi molestias, dolorem ut a eveniet omnis?
                     </p>
                 </div>
-                <div className="grid grid-cols-2 gap-4 mt-8">
+                <div className="grid grid-cols gap-4 mt-8">
                     <img className="w-full rounded-lg" src="/fonct.svg" alt="" />
                 </div>
             </div>
