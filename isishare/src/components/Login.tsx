@@ -31,6 +31,7 @@ export default function Login() {``
       if (infoLogin[i].emailUser === email && infoLogin[i].passwordUser === password) {
         document.location.href = "/profile";
         setIdUser(infoLogin[i].idUser);
+        localStorage.setItem("idActualUser", infoLogin[i].idUser);
         break;
       } else {
         alert("Email ou mot de passe incorrect");
