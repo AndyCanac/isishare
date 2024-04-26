@@ -17,7 +17,7 @@ export default function WTL() {
       setOwnUser(true);
 
     fetch(
-      `http://localhost:3001/api/objectifs/user/${localStorage.getItem(
+      `${localStorage.getItem("api")}objectifs/user/${localStorage.getItem(
         "idTargetUser"
       )}`
     )
@@ -34,7 +34,7 @@ export default function WTL() {
         console.error("Error fetching users:", error);
       });
 
-    fetch(`http://localhost:3001/api/interests`)
+    fetch(`${localStorage.getItem("api")}interests`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -59,9 +59,7 @@ export default function WTL() {
     setIdWTL(idWTL);
   };
   const deleteWTL = () => {
-    console.log(`http://localhost:3001/delete/objectif?id=${idWTL}`);
-
-    fetch(`http://localhost:3001/delete/objectif?id=${idWTL}`)
+    fetch(`${localStorage.getItem("api")}objectifs/delete/${idWTL}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -94,16 +92,12 @@ export default function WTL() {
   };
 
   const addWTL = () => {
-    console.log(
-      `http://localhost:3001/add/objectif?user=${localStorage.getItem(
-        "idTargetUser"
-      )}&interet=${interet}&description=${description}`
-    );
-
     fetch(
-      `http://localhost:3001/add/objectif?user=${localStorage.getItem(
+      `${localStorage.getItem(
+        "api"
+      )}objectifs/insert/user_id,interest_id,description/"${localStorage.getItem(
         "idTargetUser"
-      )}&interet=${interet}&description=${description}`
+      )}","${interet}","${description}"`
     )
       .then((response) => {
         if (!response.ok) {

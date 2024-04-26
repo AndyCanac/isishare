@@ -20,7 +20,7 @@ export default function Profile() {
       setOwnUser(true);
 
     fetch(
-      `http://localhost:3001/api/contacts/user/${localStorage.getItem(
+      `${localStorage.getItem("api")}contacts/user/${localStorage.getItem(
         "idTargetUser"
       )}`
     )
@@ -38,7 +38,9 @@ export default function Profile() {
       });
 
     fetch(
-      `http://localhost:3001/api/users/${localStorage.getItem("idTargetUser")}`
+      `${localStorage.getItem("api")}users/id/${localStorage.getItem(
+        "idTargetUser"
+      )}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -53,7 +55,7 @@ export default function Profile() {
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
-    fetch("http://localhost:3001/api/sources")
+    fetch(`${localStorage.getItem("api")}sources`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -77,7 +79,7 @@ export default function Profile() {
     setIdContact(idContact);
   };
   const deleteContact = () => {
-    fetch(`http://localhost:3001/delete/contact?id=${idContact}`)
+    fetch(`${localStorage.getItem("api")}contacts/delete/${idContact}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -108,16 +110,12 @@ export default function Profile() {
   };
 
   const addContact = () => {
-    console.log(
-      `http://localhost:3001/add/contact?user=${localStorage.getItem(
-        "idTargetUser"
-      )}&info=${info}&source=${source}`
-    );
-
     fetch(
-      `http://localhost:3001/add/contact?user=${localStorage.getItem(
+      `${localStorage.getItem(
+        "api"
+      )}contacts/insert/user_id,information,source_id/"${localStorage.getItem(
         "idTargetUser"
-      )}&info=${info}&source=${source}`
+      )}","${info}","${source}"`
     )
       .then((response) => {
         if (!response.ok) {

@@ -11,7 +11,9 @@ export default function Login() {
   const [infoLogin, setInfoLogin] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/users")
+    localStorage.setItem("api", "http://localhost:3001/api/");
+
+    fetch(`${localStorage.getItem("api")}users`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
