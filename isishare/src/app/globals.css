@@ -103,15 +103,15 @@
 }
 
 .search-input {
-    padding: 0.5rem;
-    border: 1px solid #bbbbbc;
-    border-radius: 4px;
-    width: 300px;
-    outline: none;
+  padding: 0.5rem;
+  border: 1px solid #bbbbbc;
+  border-radius: 4px;
+  width: 300px;
+  outline: none;
 }
 
 .search-input:focus {
-    border-color: #609cf3;
+  border-color: #609cf3;
 }
 
 .opacity-10 {
@@ -130,3 +130,7 @@
 .div1 { grid-area: 1 / 2 / 2 / 3; }
 .div2 { grid-area: 1 / 3 / 2 / 4; }
 .div3 { grid-area: 1 / 4 / 2 / 5; }
+
+*{
+  scroll-behavior: smooth;
+}
