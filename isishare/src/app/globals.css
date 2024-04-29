@@ -91,12 +91,7 @@
     white-space: nowrap;
     /* Empêche le contenu de se répartir sur plusieurs lignes */
 }
-
-.table-width table {
-    min-width: 88vw;
-    max-width: 88vw;
-}
-
+  
 .icon-container {
     display: inline-block;
     vertical-align: middle;
