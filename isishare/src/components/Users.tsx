@@ -3,17 +3,36 @@ import React, { useState, useEffect } from "react";
 import { BsSortNumericDown, BsSortNumericUpAlt } from "react-icons/bs";
 import { LuFilter, LuKanbanSquare } from "react-icons/lu";
 import { TbListTree } from "react-icons/tb";
+import Image from "next/image";
 
 export default function Users() {
-  const [users, setUsers] = useState([]);
-  const [knowledges, setknowledges] = useState([]);
-  const [interests, setInterests] = useState([]);
+  interface UserInfo {
+    id: string;
+    name: string;
+    description: string;
+    points: string;
+    notation: string;
+  }
+
+  interface KnowledgInfo {
+    user_id: string;
+    interest_id: string;
+  }
+
+  interface InterestInfo {
+    id: string;
+    icon: string;
+  }
+
+  const [users, setUsers] = useState<UserInfo[]>([]);
+  const [knowledges, setknowledges] = useState<KnowledgInfo[]>([]);
+  const [interests, setInterests] = useState<InterestInfo[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const [view, setView] = useState("kanban"); // Par défaut, afficher la vue Tree
-  const [sortDirectionPoints, setSortDirectionPoints] = useState("asc"); // 'asc' pour trier par ordre croissant, 'desc' pour trier par ordre décroissant
+  const [sortDirectionPoints, setSortDirectionPoints] = useState("asc"); // &apos;asc&apos; pour trier par ordre croissant, &apos;desc&apos; pour trier par ordre décroissant
   const [sortDirectionNotation, setSortDirectionNotation] = useState("asc");
   const [sortDirectionNom, setSortDirectionNom] = useState("desc");
 
@@ -36,7 +55,7 @@ export default function Users() {
 
   // Fonction pour trier la liste des utilisateurs en fonction du score des points
   const sortUsersByPoints = () => {
-    const sortedUsers = [...users].sort((a, b) => {
+    const sortedUsers = [...users].sort((a: any, b: any) => {
       if (sortDirectionPoints === "asc") {
         return a.points - b.points;
       } else {
@@ -49,7 +68,7 @@ export default function Users() {
 
   // Fonction pour trier la liste des utilisateurs en fonction du score de note
   const sortUsersByNotation = () => {
-    const sortedUsers = [...users].sort((a, b) => {
+    const sortedUsers = [...users].sort((a: any, b: any) => {
       if (sortDirectionNotation === "asc") {
         return a.notation - b.notation;
       } else {
@@ -60,13 +79,15 @@ export default function Users() {
     setSortDirectionNotation(sortDirectionNotation === "asc" ? "desc" : "asc"); // Inverse la direction du tri
   };
 
-  // Recupere les datas via l'api
+  // Recupere les datas via l&apos;api
   useEffect(() => {
     fetch(`${localStorage.getItem("api")}users`)
       .then((response) => response.json())
       .then((data) => {
         // Tri des utilisateurs par ordre alphabétique du nom
-        const sortedUsers = data.sort((a, b) => a.name.localeCompare(b.name));
+        const sortedUsers = data.sort((a: any, b: any) =>
+          a.name.localeCompare(b.name)
+        );
         setUsers(sortedUsers);
       })
       .catch((error) => console.error("Error fetching users:", error));
@@ -97,12 +118,12 @@ export default function Users() {
   };
 
   // Selection des filtres
-  const handleFilterSelection = (filter) => {
+  const handleFilterSelection = (filter: any) => {
     // Logique pour ajouter ou supprimer un filtre de la liste des filtres sélectionnés
-    if (selectedFilters.includes(filter)) {
+    if (selectedFilters.includes(filter as never)) {
       setSelectedFilters(selectedFilters.filter((item) => item !== filter));
     } else {
-      setSelectedFilters([...selectedFilters, filter]);
+      setSelectedFilters([...selectedFilters, filter as never]);
     }
   };
 
@@ -112,7 +133,7 @@ export default function Users() {
     // Logique supplémentaire à exécuter après la fermeture de la popup, par exemple, appliquer les filtres sélectionnés
   };
 
-  // Fonction pour rediriger vers une page spécifique lorsqu'une ligne est cliquée
+  // Fonction pour rediriger vers une page spécifique lorsqu&apos;une ligne est cliquée
   const setIdUser = (userId: string) => {
     localStorage.setItem("idTargetUser", userId);
     window.location.href = "/profile";
@@ -377,8 +398,9 @@ export default function Users() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-light-gray bg-white text-black ">
-                    {filteredUsers.map((user) => (
+                    {filteredUsers.map((user, index) => (
                       <tr
+                        key={index}
                         className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300"
                         onClick={() => setIdUser(user.id)}
                       >
@@ -386,17 +408,19 @@ export default function Users() {
                           {user.name}
                         </td>
                         <td className="px-4 py-4 text-sm   whitespace-nowrap">
-                          {knowledges.map((knowledge) => (
-                            <div>
+                          {knowledges.map((knowledge, indexbis) => (
+                            <div key={indexbis}>
                               {knowledge.user_id == user.id ? (
                                 <div>
-                                  {interests.map((interest) => (
-                                    <div>
+                                  {interests.map((interest, indexbisbis) => (
+                                    <div key={indexbisbis}>
                                       {knowledge.interest_id == interest.id ? (
-                                        <img
+                                        <Image
                                           className="object-cover w-10 h-10 "
-                                          src={interest.icon}
+                                          src={"/" + interest.icon}
                                           alt="logo"
+                                          width={100}
+                                          height={100}
                                         />
                                       ) : null}
                                     </div>
@@ -430,17 +454,20 @@ export default function Users() {
       ) : (
         <div className="parent">
           <div className="div1">
-            {usersGroup1.map((user) => (
-              <div>
+            {usersGroup1.map((user, index) => (
+              <div key={index}>
                 <div
                   className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
                   onClick={() => setIdUser(user.id)}
                 >
                   <div className="flex justify-center -mt-16 md:justify-end">
-                    <img
+                    <Image
                       className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
                       alt="Testimonial avatar"
-                      src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=76&q=80"
+                      // src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=76&q=80"
+                      src=""
+                      width={100}
+                      height={100}
                     />
                   </div>
 
@@ -463,17 +490,20 @@ export default function Users() {
             ))}
           </div>
           <div className="div2">
-            {usersGroup2.map((user) => (
-              <div>
+            {usersGroup2.map((user, index) => (
+              <div key={index}>
                 <div
                   className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
                   onClick={() => setIdUser(user.id)}
                 >
                   <div className="flex justify-center -mt-16 md:justify-end">
-                    <img
+                    <Image
                       className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
                       alt="Testimonial avatar"
-                      src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=76&q=80"
+                      // src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=76&q=80"
+                      src=""
+                      width={100}
+                      height={100}
                     />
                   </div>
 
@@ -483,17 +513,19 @@ export default function Users() {
 
                   <p className="mt-2 text-sm text-gray-600">
                     Connaissances :
-                    {knowledges.map((knowledge) => (
-                      <div>
+                    {knowledges.map((knowledge, indexbis) => (
+                      <div key={indexbis}>
                         {knowledge.user_id == user.id ? (
                           <div>
-                            {interests.map((interest) => (
-                              <div>
+                            {interests.map((interest, indexbisbis) => (
+                              <div key={indexbisbis}>
                                 {knowledge.interest_id == interest.id ? (
-                                  <img
+                                  <Image
                                     className="object-cover w-10 h-10 "
-                                    src={interest.icon}
+                                    src={"/" + interest.icon}
                                     alt="logo"
+                                    width={100}
+                                    height={100}
                                   />
                                 ) : null}
                               </div>
@@ -514,17 +546,20 @@ export default function Users() {
             ))}
           </div>
           <div className="div3">
-            {usersGroup3.map((user) => (
-              <div>
+            {usersGroup3.map((user, indexbis) => (
+              <div key={indexbis}>
                 <div
                   className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
                   onClick={() => setIdUser(user.id)}
                 >
                   <div className="flex justify-center -mt-16 md:justify-end">
-                    <img
+                    <Image
                       className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
                       alt="Testimonial avatar"
-                      src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=76&q=80"
+                      // src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=76&q=80"
+                      src=""
+                      width={100}
+                      height={100}
                     />
                   </div>
 
