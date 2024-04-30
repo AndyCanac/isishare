@@ -140,7 +140,7 @@ export default function Users() {
   };
 
   return (
-    <section className="container px-4 mx-auto ml-14">
+    <section className="container px-4 mx-auto ml-14 w-auto">
       {/* #region blue spots */}
       <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -188,11 +188,11 @@ export default function Users() {
           </button>
         </div>
       </div>
-      {view === "tree" ? (
+      {view === "tree" ? ( // view tree
         <div className="flex flex-col mt-6">
           <div className="-mx-4 -my-2 overflow-x-auto">
             <div className="inline-block py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden border border-dark-gray md:rounded-lg table-width">
+              <div className="overflow-hidden border border-dark-gray md:rounded-lg">
                 <table className="max-w-1xl divide-y divide-dark-gray td-width">
                   <thead className="bg-black">
                     <tr>
@@ -407,31 +407,73 @@ export default function Users() {
                         <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
                           {user.name}
                         </td>
-                        <td className="px-4 py-4 text-sm   whitespace-nowrap">
-                          {knowledges.map((knowledge, indexbis) => (
-                            <div key={indexbis}>
-                              {knowledge.user_id == user.id ? (
-                                <div>
-                                  {interests.map((interest, indexbisbis) => (
-                                    <div key={indexbisbis}>
-                                      {knowledge.interest_id == interest.id ? (
-                                        <Image
-                                          className="object-cover w-10 h-10 "
-                                          src={"/" + interest.icon}
-                                          alt="logo"
-                                          width={100}
-                                          height={100}
-                                        />
-                                      ) : null}
-                                    </div>
-                                  ))}
-                                </div>
-                              ) : null}
+                        <td className="px-4 py-4 text-sm   whitespace-nowrap flex justify-center">
+                            {knowledges
+                            .filter((knowledge) => knowledge.user_id === user.id)
+                            .reduce((uniqueInterests, knowledge) => {
+                            interests.forEach((interest) => {
+                                if (
+                                knowledge.interest_id === interest.id &&
+                                !uniqueInterests.includes(interest.id)
+                                ) {
+                                uniqueInterests.push(interest.id);
+                                }
+                            });
+                            return uniqueInterests;
+                            }, [])
+                            .map((uniqueInterestId) => (
+                            <div key={uniqueInterestId} className="mx-2">
+                                <img
+                                className="object-cover w-10 h-10"
+                                src={interests.find((interest) => interest.id === uniqueInterestId).icon}
+                                alt="logo"
+                                />
                             </div>
-                          ))}
+                            ))}
+                        {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
+                        {knowledges.filter((knowledge) => knowledge.user_id === user.id).length === 0 && (
+                            <div className="mx-2">
+                            <img
+                                className="object-cover w-10 h-10"
+                                src={interests.find((interest) => interest.id === 4).icon}
+                                alt="logo"
+                            />
+                            </div>
+                        )}
                         </td>
-                        <td className="px-4 py-4 text-sm   whitespace-nowrap">
-                          {user.description}
+                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                        {knowledges
+                            .filter((knowledge) => knowledge.user_id === user.id)
+                            .reduce((uniqueInterests, knowledge) => {
+                            interests.forEach((interest) => {
+                                if (
+                                knowledge.interest_id === interest.id &&
+                                !uniqueInterests.includes(interest.id)
+                                ) {
+                                uniqueInterests.push(interest.id);
+                                }
+                            });
+                            return uniqueInterests;
+                            }, [])
+                            .map((uniqueInterestId) => (
+                            <div key={uniqueInterestId} className="mx-2">
+                                <img
+                                className="object-cover w-10 h-10"
+                                src={interests.find((interest) => interest.id === uniqueInterestId).icon}
+                                alt="logo"
+                                />
+                            </div>
+                            ))}
+                        {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
+                        {knowledges.filter((knowledge) => knowledge.user_id === user.id).length === 0 && (
+                            <div className="mx-2">
+                            <img
+                                className="object-cover w-10 h-10"
+                                src={interests.find((interest) => interest.id === 4).icon}
+                                alt="logo"
+                            />
+                            </div>
+                        )}
                         </td>
                         <td className="px-4 py-4 text-sm   whitespace-nowrap">
                           {user.points}
@@ -451,7 +493,7 @@ export default function Users() {
             </div>
           </div>
         </div>
-      ) : (
+      ) : ( // view kanban
         <div className="parent">
           <div className="div1">
             {usersGroup1.map((user, index) => (
@@ -476,9 +518,44 @@ export default function Users() {
                   </h2>
 
                   <p className="mt-2 text-sm text-gray-600">
-                    {" "}
-                    Connaissances : {user.description}
-                  </p>
+                    Connaissances :
+                    <div className="flex flex-wrap justify-center mt-2">
+                    {knowledges
+                        .filter((knowledge) => knowledge.user_id === user.id)
+                        .reduce((uniqueInterests, knowledge) => {
+                        interests.forEach((interest) => {
+                            if (
+                            knowledge.interest_id === interest.id &&
+                            !uniqueInterests.includes(interest.id)
+                            ) {
+                            uniqueInterests.push(interest.id);
+                            }
+                        });
+                        return uniqueInterests;
+                        }, [])
+                        .map((uniqueInterestId) => (
+                        <div key={uniqueInterestId} className="mx-2">
+                            <img
+                            className="object-cover w-10 h-10"
+                            src={interests.find((interest) => interest.id === uniqueInterestId).icon}
+                            alt="logo"
+                            />
+                        </div>
+                        ))}
+                    {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
+                    {knowledges.filter((knowledge) => knowledge.user_id === user.id).length === 0 && (
+                        <div className="mx-2">
+                        <img
+                            className="object-cover w-10 h-10"
+                            src={interests.find((interest) => interest.id === 4).icon}
+                            alt="logo"
+                        />
+                        </div>
+                    )}
+                    </div>
+
+                    </p>
+
 
                   <div className="flex justify-end mt-4">
                     <a href="#" className="text-lg font-medium" role="link">
@@ -510,22 +587,19 @@ export default function Users() {
                   <h2 className="mt-2 text-xl font-semibold md:mt-0">
                     {user.name}
                   </h2>
-
                   <p className="mt-2 text-sm text-gray-600">
                     Connaissances :
-                    {knowledges.map((knowledge, indexbis) => (
-                      <div key={indexbis}>
+                    {knowledges.map((knowledge) => (
+                      <div>
                         {knowledge.user_id == user.id ? (
                           <div>
-                            {interests.map((interest, indexbisbis) => (
-                              <div key={indexbisbis}>
+                            {interests.map((interest) => (
+                              <div>
                                 {knowledge.interest_id == interest.id ? (
-                                  <Image
+                                  <img
                                     className="object-cover w-10 h-10 "
-                                    src={"/" + interest.icon}
+                                    src={interest.icon}
                                     alt="logo"
-                                    width={100}
-                                    height={100}
                                   />
                                 ) : null}
                               </div>
@@ -535,6 +609,10 @@ export default function Users() {
                       </div>
                     ))}
                   </p>
+
+                    </p>
+
+
 
                   <div className="flex justify-end mt-4">
                     <a href="#" className="text-lg font-medium" role="link">
@@ -568,9 +646,43 @@ export default function Users() {
                   </h2>
 
                   <p className="mt-2 text-sm text-gray-600">
-                    {" "}
-                    Connaissances : {user.description}
-                  </p>
+                    Connaissances :
+                    <div className="flex flex-wrap justify-center mt-2">
+                    {knowledges
+                        .filter((knowledge) => knowledge.user_id === user.id)
+                        .reduce((uniqueInterests, knowledge) => {
+                        interests.forEach((interest) => {
+                            if (
+                            knowledge.interest_id === interest.id &&
+                            !uniqueInterests.includes(interest.id)
+                            ) {
+                            uniqueInterests.push(interest.id);
+                            }
+                        });
+                        return uniqueInterests;
+                        }, [])
+                        .map((uniqueInterestId) => (
+                        <div key={uniqueInterestId} className="mx-2">
+                            <img
+                            className="object-cover w-10 h-10"
+                            src={interests.find((interest) => interest.id === uniqueInterestId).icon}
+                            alt="logo"
+                            />
+                        </div>
+                        ))}
+                    {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
+                    {knowledges.filter((knowledge) => knowledge.user_id === user.id).length === 0 && (
+                        <div className="mx-2">
+                        <img
+                            className="object-cover w-10 h-10"
+                            src={interests.find((interest) => interest.id === 4).icon}
+                            alt="logo"
+                        />
+                        </div>
+                    )}
+                    </div>
+
+                    </p>
 
                   <div className="flex justify-end mt-4">
                     <a href="#" className="text-lg font-medium" role="link">
