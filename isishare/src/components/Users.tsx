@@ -408,72 +408,110 @@ export default function Users() {
                           {user.name}
                         </td>
                         <td className="px-4 py-4 text-sm   whitespace-nowrap flex justify-center">
-                            {knowledges
-                            .filter((knowledge) => knowledge.user_id === user.id)
+                          {knowledges
+                            .filter(
+                              (knowledge) => knowledge.user_id === user.id
+                            )
                             .reduce((uniqueInterests, knowledge) => {
-                            interests.forEach((interest) => {
+                              interests.forEach((interest) => {
                                 if (
-                                knowledge.interest_id === interest.id &&
-                                !uniqueInterests.includes(interest.id)
+                                  knowledge.interest_id === interest.id &&
+                                  !uniqueInterests.includes(
+                                    interest.id as never
+                                  )
                                 ) {
-                                uniqueInterests.push(interest.id);
+                                  uniqueInterests.push(interest.id as never);
                                 }
-                            });
-                            return uniqueInterests;
+                              });
+                              return uniqueInterests;
                             }, [])
                             .map((uniqueInterestId) => (
-                            <div key={uniqueInterestId} className="mx-2">
-                                <img
-                                className="object-cover w-10 h-10"
-                                src={interests.find((interest) => interest.id === uniqueInterestId).icon}
-                                alt="logo"
+                              <div key={uniqueInterestId} className="mx-2">
+                                <Image
+                                  className="object-cover w-10 h-10"
+                                  width={300}
+                                  height={300}
+                                  src={
+                                    interests.find(
+                                      (interest) =>
+                                        interest.id === uniqueInterestId
+                                    )!.icon
+                                  }
+                                  alt="logo"
                                 />
-                            </div>
+                              </div>
                             ))}
-                        {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
-                        {knowledges.filter((knowledge) => knowledge.user_id === user.id).length === 0 && (
+                          {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
+                          {knowledges.filter(
+                            (knowledge) => knowledge.user_id === user.id
+                          ).length === 0 && (
                             <div className="mx-2">
-                            <img
+                              <Image
                                 className="object-cover w-10 h-10"
-                                src={interests.find((interest) => interest.id === 4).icon}
+                                width={300}
+                                height={300}
+                                src={
+                                  interests.find(
+                                    (interest) => interest.id === "4"
+                                  )!.icon
+                                }
                                 alt="logo"
-                            />
+                              />
                             </div>
-                        )}
+                          )}
                         </td>
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
-                        {knowledges
-                            .filter((knowledge) => knowledge.user_id === user.id)
+                          {knowledges
+                            .filter(
+                              (knowledge) => knowledge.user_id === user.id
+                            )
                             .reduce((uniqueInterests, knowledge) => {
-                            interests.forEach((interest) => {
+                              interests.forEach((interest) => {
                                 if (
-                                knowledge.interest_id === interest.id &&
-                                !uniqueInterests.includes(interest.id)
+                                  knowledge.interest_id === interest.id &&
+                                  !uniqueInterests.includes(
+                                    interest.id as never
+                                  )
                                 ) {
-                                uniqueInterests.push(interest.id);
+                                  uniqueInterests.push(interest.id as never);
                                 }
-                            });
-                            return uniqueInterests;
+                              });
+                              return uniqueInterests;
                             }, [])
                             .map((uniqueInterestId) => (
-                            <div key={uniqueInterestId} className="mx-2">
-                                <img
-                                className="object-cover w-10 h-10"
-                                src={interests.find((interest) => interest.id === uniqueInterestId).icon}
-                                alt="logo"
+                              <div key={uniqueInterestId} className="mx-2">
+                                <Image
+                                  className="object-cover w-10 h-10"
+                                  width={300}
+                                  height={300}
+                                  src={
+                                    interests.find(
+                                      (interest) =>
+                                        interest.id === uniqueInterestId
+                                    )!.icon
+                                  }
+                                  alt="logo"
                                 />
-                            </div>
+                              </div>
                             ))}
-                        {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
-                        {knowledges.filter((knowledge) => knowledge.user_id === user.id).length === 0 && (
+                          {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
+                          {knowledges.filter(
+                            (knowledge) => knowledge.user_id === user.id
+                          ).length === 0 && (
                             <div className="mx-2">
-                            <img
+                              <Image
                                 className="object-cover w-10 h-10"
-                                src={interests.find((interest) => interest.id === 4).icon}
+                                width={300}
+                                height={300}
+                                src={
+                                  interests.find(
+                                    (interest) => interest.id === "4"
+                                  )!.icon
+                                }
                                 alt="logo"
-                            />
+                              />
                             </div>
-                        )}
+                          )}
                         </td>
                         <td className="px-4 py-4 text-sm   whitespace-nowrap">
                           {user.points}
@@ -493,7 +531,8 @@ export default function Users() {
             </div>
           </div>
         </div>
-      ) : ( // view kanban
+      ) : (
+        // view kanban
         <div className="parent">
           <div className="div1">
             {usersGroup1.map((user, index) => (
@@ -520,42 +559,53 @@ export default function Users() {
                   <p className="mt-2 text-sm text-gray-600">
                     Connaissances :
                     <div className="flex flex-wrap justify-center mt-2">
-                    {knowledges
+                      {knowledges
                         .filter((knowledge) => knowledge.user_id === user.id)
                         .reduce((uniqueInterests, knowledge) => {
-                        interests.forEach((interest) => {
+                          interests.forEach((interest) => {
                             if (
-                            knowledge.interest_id === interest.id &&
-                            !uniqueInterests.includes(interest.id)
+                              knowledge.interest_id === interest.id &&
+                              !uniqueInterests.includes(interest.id as never)
                             ) {
-                            uniqueInterests.push(interest.id);
+                              uniqueInterests.push(interest.id as never);
                             }
-                        });
-                        return uniqueInterests;
+                          });
+                          return uniqueInterests;
                         }, [])
                         .map((uniqueInterestId) => (
-                        <div key={uniqueInterestId} className="mx-2">
-                            <img
-                            className="object-cover w-10 h-10"
-                            src={interests.find((interest) => interest.id === uniqueInterestId).icon}
-                            alt="logo"
+                          <div key={uniqueInterestId} className="mx-2">
+                            <Image
+                              className="object-cover w-10 h-10"
+                              width={300}
+                              height={300}
+                              src={
+                                interests.find(
+                                  (interest) => interest.id === uniqueInterestId
+                                )!.icon
+                              }
+                              alt="logo"
                             />
-                        </div>
+                          </div>
                         ))}
-                    {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
-                    {knowledges.filter((knowledge) => knowledge.user_id === user.id).length === 0 && (
+                      {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
+                      {knowledges.filter(
+                        (knowledge) => knowledge.user_id === user.id
+                      ).length === 0 && (
                         <div className="mx-2">
-                        <img
+                          <Image
                             className="object-cover w-10 h-10"
-                            src={interests.find((interest) => interest.id === 4).icon}
+                            width={300}
+                            height={300}
+                            src={
+                              interests.find((interest) => interest.id === "4")!
+                                .icon
+                            }
                             alt="logo"
-                        />
+                          />
                         </div>
-                    )}
+                      )}
                     </div>
-
-                    </p>
-
+                  </p>
 
                   <div className="flex justify-end mt-4">
                     <a href="#" className="text-lg font-medium" role="link">
@@ -589,15 +639,17 @@ export default function Users() {
                   </h2>
                   <p className="mt-2 text-sm text-gray-600">
                     Connaissances :
-                    {knowledges.map((knowledge) => (
-                      <div>
+                    {knowledges.map((knowledge, index) => (
+                      <div key={index}>
                         {knowledge.user_id == user.id ? (
                           <div>
-                            {interests.map((interest) => (
-                              <div>
+                            {interests.map((interest, indexbis) => (
+                              <div key={indexbis}>
                                 {knowledge.interest_id == interest.id ? (
-                                  <img
+                                  <Image
                                     className="object-cover w-10 h-10 "
+                                    width={300}
+                                    height={300}
                                     src={interest.icon}
                                     alt="logo"
                                   />
@@ -609,11 +661,6 @@ export default function Users() {
                       </div>
                     ))}
                   </p>
-
-                    </p>
-
-
-
                   <div className="flex justify-end mt-4">
                     <a href="#" className="text-lg font-medium" role="link">
                       Points : {user.points}
@@ -648,41 +695,53 @@ export default function Users() {
                   <p className="mt-2 text-sm text-gray-600">
                     Connaissances :
                     <div className="flex flex-wrap justify-center mt-2">
-                    {knowledges
+                      {knowledges
                         .filter((knowledge) => knowledge.user_id === user.id)
                         .reduce((uniqueInterests, knowledge) => {
-                        interests.forEach((interest) => {
+                          interests.forEach((interest) => {
                             if (
-                            knowledge.interest_id === interest.id &&
-                            !uniqueInterests.includes(interest.id)
+                              knowledge.interest_id === interest.id &&
+                              !uniqueInterests.includes(interest.id as never)
                             ) {
-                            uniqueInterests.push(interest.id);
+                              uniqueInterests.push(interest.id as never);
                             }
-                        });
-                        return uniqueInterests;
+                          });
+                          return uniqueInterests;
                         }, [])
                         .map((uniqueInterestId) => (
-                        <div key={uniqueInterestId} className="mx-2">
-                            <img
-                            className="object-cover w-10 h-10"
-                            src={interests.find((interest) => interest.id === uniqueInterestId).icon}
-                            alt="logo"
+                          <div key={uniqueInterestId} className="mx-2">
+                            <Image
+                              className="object-cover w-10 h-10"
+                              width={300}
+                              height={300}
+                              src={
+                                interests.find(
+                                  (interest) => interest.id === uniqueInterestId
+                                )!.icon
+                              }
+                              alt="logo"
                             />
-                        </div>
+                          </div>
                         ))}
-                    {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
-                    {knowledges.filter((knowledge) => knowledge.user_id === user.id).length === 0 && (
+                      {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
+                      {knowledges.filter(
+                        (knowledge) => knowledge.user_id === user.id
+                      ).length === 0 && (
                         <div className="mx-2">
-                        <img
+                          <Image
                             className="object-cover w-10 h-10"
-                            src={interests.find((interest) => interest.id === 4).icon}
+                            width={300}
+                            height={300}
+                            src={
+                              interests.find((interes) => interes.id === "4")!
+                                .icon
+                            }
                             alt="logo"
-                        />
+                          />
                         </div>
-                    )}
+                      )}
                     </div>
-
-                    </p>
+                  </p>
 
                   <div className="flex justify-end mt-4">
                     <a href="#" className="text-lg font-medium" role="link">
