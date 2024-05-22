@@ -1,14 +1,27 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { GoTrash } from "react-icons/go";
+import Image from "next/image";
 
 export default function Profile() {
+  interface SourceInfo {
+    id: string;
+    icon: string;
+    name: string;
+  }
+
+  interface ContactInfo {
+    id: string;
+    source_id: string;
+    information: string;
+  }
+
   //Inf
   const [name, setName] = useState([]);
   const [points, setPoints] = useState([]);
 
-  const [contacts, setContacts] = useState([]);
-  const [sources, setSources] = useState([]);
+  const [contacts, setContacts] = useState<ContactInfo[]>([]);
+  const [sources, setSources] = useState<SourceInfo[]>([]);
 
   const [ownUser, setOwnUser] = useState(false);
 
@@ -69,12 +82,11 @@ export default function Profile() {
         console.error("Error fetching users:", error);
       });
   }, []);
-
   //#region DELETE
   const [showDelete, setShowDelete] = React.useState(false);
   const [idContact, setIdContact] = useState([]);
 
-  const deleteContactTrigger = (idContact) => {
+  const deleteContactTrigger = (idContact: any) => {
     setShowDelete(true);
     setIdContact(idContact);
   };
@@ -98,8 +110,8 @@ export default function Profile() {
 
   //#region ADD
   const [showAdd, setShowAdd] = React.useState(false);
-  const [source, setSource] = useState([]);
-  const [info, setInfo] = useState([]);
+  const [source, setSource] = useState<string>();
+  const [info, setInfo] = useState<string>();
 
   const handleSourceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSource(event.target.value);
@@ -136,9 +148,12 @@ export default function Profile() {
   return (
     <div>
       <div className="ml-10 w-1/5 max-w-sm overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 float-right mr-10 mt-[88px]">
-        <img
+        <Image
           className="object-cover object-center w-full h-56"
-          src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
+          src=""
+          // https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80
+          width={300}
+          height={300}
           alt="avatar"
         />
         <div className="flex items-center px-6 py-3 bg-dark-blue">
@@ -152,18 +167,17 @@ export default function Profile() {
         </div>
 
         <div className="px-6 py-4">
-          {contacts.map((contact) => (
-            <div
-              key={contact}
-              className="flex items-center justify-between my-4"
-            >
+          {contacts.map((contact, index) => (
+            <div key={index} className="flex items-center justify-between my-4">
               <div className="flex items-center">
-                {sources.map((source) => (
-                  <div>
+                {sources.map((source, indexs) => (
+                  <div key={indexs}>
                     {source.id == contact.source_id ? (
-                      <img
+                      <Image
                         className="object-cover w-10 h-10"
-                        src={source.icon}
+                        src={"/" + source.icon}
+                        width={100}
+                        height={100}
                         alt="discord-logo"
                       />
                     ) : null}
@@ -231,7 +245,7 @@ export default function Profile() {
                       className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
                     >
                       <option value="">Sélectionner une source</option>
-                      {sources.map((source) => (
+                      {sources.map((source, index) => (
                         <option key={source.id} value={source.id}>
                           {source.name}
                         </option>
@@ -299,7 +313,7 @@ export default function Profile() {
                   className="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white"
                   id="modal-title"
                 >
-                  Suppression d'un contact
+                  Suppression d&apos;un contact
                 </h3>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                   Êtes vous sure de vouloir supprimer ce contact ?

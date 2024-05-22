@@ -1,15 +1,24 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { GoTrash } from "react-icons/go";
+import Image from "next/image";
 
 export default function WTL() {
-  const [wantToLearns, setWantToLearn] = useState([]);
-  const [interets, setInterets] = useState([]);
+  interface InterestInfo {
+    id: string;
+    icon: string;
+    name: string;
+  }
+  interface WTLInfo {
+    id: string;
+    interest_id: string;
+    description: string;
+  }
+
+  const [wantToLearns, setWantToLearn] = useState<WTLInfo[]>([]);
+  const [interets, setInterets] = useState<InterestInfo[]>([]);
   const [ownUser, setOwnUser] = useState(false);
   useEffect(() => {
-    // localStorage.setItem("idActualUser", "1");
-    // localStorage.setItem("idTargetUser", "1");
-
     if (
       localStorage.getItem("idActualUser") ==
       localStorage.getItem("idTargetUser")
@@ -54,7 +63,7 @@ export default function WTL() {
   const [showDelete, setShowDelete] = React.useState(false);
   const [idWTL, setIdWTL] = useState([]);
 
-  const deleteWTLTrigger = (idWTL) => {
+  const deleteWTLTrigger = (idWTL: any) => {
     setShowDelete(true);
     setIdWTL(idWTL);
   };
@@ -82,13 +91,13 @@ export default function WTL() {
   const [description, setDescription] = useState([]);
 
   const handleInteretChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setInteret(event.target.value);
+    setInteret(event.target.value as any);
   };
 
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setDescription(event.target.value);
+    setDescription(event.target.value as any);
   };
 
   const addWTL = () => {
@@ -120,15 +129,17 @@ export default function WTL() {
       <section className="ml-24">
         <div className="flex flex-col">
           <h1 className="flex items-center justify-center mt-10 mb-3 text-3xl">
-            Envie d'apprendre
+            Envie d&apos;apprendre
             {ownUser ? (
               <button
                 onClick={() => setShowAdd(true)}
                 className="px-6 py-2 ml-4 tracking-wide text-white capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none "
               >
-                <img
+                <Image
                   className="object-cover w-10 h-10 absolute top-[-10px] left-0"
-                  src="Logo/AddLogo.png"
+                  src="/Logo/AddLogo.png"
+                  width={100}
+                  height={100}
                   alt="logo"
                 />
               </button>
@@ -168,15 +179,17 @@ export default function WTL() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                    {wantToLearns.map((wtl) => (
-                      <tr key={wtl}>
-                        {interets.map((interest) => (
-                          <div>
+                    {wantToLearns.map((wtl, index) => (
+                      <tr key={index}>
+                        {interets.map((interest, indexbis) => (
+                          <div key={indexbis}>
                             {interest.id == wtl.interest_id ? (
                               <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">
-                                <img
+                                <Image
                                   className="object-cover w-10 h-10 "
-                                  src={interest.icon}
+                                  src={"/" + interest.icon}
+                                  width={100}
+                                  height={100}
                                   alt="logo"
                                 />
                               </td>
@@ -306,7 +319,7 @@ export default function WTL() {
                   className="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white"
                   id="modal-title"
                 >
-                  Suppression d'un objectif
+                  Suppression d&apos;un objectif
                 </h3>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                   Êtes vous sure de vouloir supprimer cet objectif ?
