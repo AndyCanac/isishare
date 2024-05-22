@@ -29,7 +29,7 @@ function Home() {
     //           </div>
     //           <a
     //             href="mailto:saipranayadepu@gmail.com"
-    //             className="min-h-[96px] bg-[#ff5e1a] transition-[background-color] duration-300 ease-[ease-out] text-[40px] leading-[48px] font-medium text-center tracking-[-0.01em] px-8 py-6 rounded-[99px] max-md:min-h-[80px] max-md:text-2xl max-md:leading-8 text-white"
+    //             className="min-h-[96px] bg-[#ff5e1a] transition-[background-color] duration-300 ease-&lsqb;ease-out&rsqb; text-[40px] leading-[48px] font-medium text-center tracking-[-0.01em] px-8 py-6 rounded-[99px] max-md:min-h-[80px] max-md:text-2xl max-md:leading-8 text-white"
     //           >
     //             hey@pranay.com
     //             {/* <span className=" animate-pulse">👋</span> */}

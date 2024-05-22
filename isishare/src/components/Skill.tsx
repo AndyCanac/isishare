@@ -207,21 +207,22 @@ export default function Skill() {
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                     {skills.map((skill, index) => (
                       <tr key={index}>
-                        {interets.map((interest, indexbis) => (
-                          <div key={indexbis}>
-                            {interest.id == skill.interest_id ? (
-                              <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">
+                        {interets.map((interest, indexbis) => {
+                          if (interest.id === skill.interest_id) {
+                            return (
+                              <td key={indexbis} className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">
                                 <Image
-                                  className="object-cover w-10 h-10 "
+                                  className="object-cover w-10 h-10"
                                   src={"/" + interest.icon}
                                   width={100}
                                   height={100}
                                   alt="logo"
                                 />
                               </td>
-                            ) : null}
-                          </div>
-                        ))}
+                            );
+                          }
+                          return null;
+                        })}
                         <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">
                           {skill.level}/5
                         </td>
@@ -233,16 +234,14 @@ export default function Skill() {
                         </td>
                         <td className="px-4 py-4 text-sm">
                           <div className="flex items-center gap-x-6">
-                            {ownUser ? (
+                            {ownUser && (
                               <button
-                                onClick={() =>
-                                  deleteConnaissanceTrigger(skill.id)
-                                }
+                                onClick={() => deleteConnaissanceTrigger(skill.id)}
                                 className="flex items-center px-6 py-2 ml-4 tracking-wide text-red capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none"
                               >
                                 <GoTrash size={30} style={{ color: "red" }} />
                               </button>
-                            ) : null}
+                            )}
                           </div>
                         </td>
                       </tr>

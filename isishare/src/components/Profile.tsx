@@ -150,12 +150,11 @@ export default function Profile() {
       <div className="ml-10 w-1/5 max-w-sm overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 float-right mr-10 mt-[88px]">
         <Image
           className="object-cover object-center w-full h-56"
-          src=""
-          // https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80
+          src="/male-avatar.jpeg"
           width={300}
           height={300}
           alt="avatar"
-        />
+          />
         <div className="flex items-center px-6 py-3 bg-dark-blue">
           <h1 className="mx-3 text-lg font-semibold text-white">
             NOM : {name}
