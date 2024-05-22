@@ -1,18 +1,14 @@
 "use client";
+
+import { error } from "console";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 
 export default function Login() {
-  interface UserInfo {
-    id: string;
-    email: string;
-    password: string;
-  }
-
-  const [idUser, setIdUser] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
-  const [infoLogin, setInfoLogin] = useState<UserInfo[]>([]);
+  ``;
+  const [idUser, setIdUser] = useState([0]);
+  const [email, setEmail] = useState([]);
+  const [password, setPassword] = useState([]);
+  const [infoLogin, setInfoLogin] = useState([]);
 
   useEffect(() => {
     localStorage.setItem("api", "http://localhost:3001/api/");
@@ -32,13 +28,13 @@ export default function Login() {
       });
   }, []);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     for (let i = 0; i < infoLogin.length; i++) {
       if (infoLogin[i].email === email && infoLogin[i].password === password) {
         document.location.href = "/home";
         setIdUser(infoLogin[i].id);
-        localStorage.setItem("idActualUser", infoLogin[i].id.toString());
+        localStorage.setItem("idActualUser", infoLogin[i].id);
         break;
       } else {
         alert("Email ou mot de passe incorrect");
@@ -51,7 +47,7 @@ export default function Login() {
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-lg">
         <a href="/">
-          <Image src="/isishare.png" width={150} height={0} alt="" />
+          <img src="/isishare.png" />
         </a>
 
         <form
@@ -142,7 +138,7 @@ export default function Login() {
             </a>
           </p>
         </form>
-        <h2 className="color-red"></h2>
+        <h2 className="color-red">{error}</h2>
       </div>
     </div>
   );

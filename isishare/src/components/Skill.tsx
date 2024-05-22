@@ -1,27 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { GoTrash } from "react-icons/go";
-import Image from "next/image";
 
 export default function Skill() {
-  interface InterestInfo {
-    id: string;
-    icon: string;
-    name: string;
-  }
-
-  interface SkillInfo {
-    id: string;
-    interest_id: string;
-    level: string;
-    description: string;
-    link: string;
-  }
-
-  const [skills, setSkills] = useState<SkillInfo[]>([]);
-  const [interets, setInterets] = useState<InterestInfo[]>([]);
+  const [skills, setSkills] = useState([]);
+  const [interets, setInterets] = useState([]);
   const [ownUser, setOwnUser] = useState(false);
-
   useEffect(() => {
     if (
       localStorage.getItem("idActualUser") ==
@@ -66,7 +50,7 @@ export default function Skill() {
   const [showDelete, setShowDelete] = React.useState(false);
   const [idConnaissance, setIdConnaissance] = useState([]);
 
-  const deleteConnaissanceTrigger = (idConnaissance: any) => {
+  const deleteConnaissanceTrigger = (idConnaissance) => {
     setShowDelete(true);
     setIdConnaissance(idConnaissance);
   };
@@ -90,10 +74,10 @@ export default function Skill() {
 
   //#region ADD
   const [showAdd, setShowAdd] = React.useState(false);
-  const [interet, setInteret] = useState<string>();
-  const [lvl, setLvl] = useState<string>();
-  const [description, setDescription] = useState<string>();
-  const [link, setLink] = useState<string>();
+  const [interet, setInteret] = useState([]);
+  const [lvl, setLvl] = useState([]);
+  const [description, setDescription] = useState([]);
+  const [link, setLink] = useState([]);
 
   const handleInteretChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setInteret(event.target.value);
@@ -148,11 +132,9 @@ export default function Skill() {
                 onClick={() => setShowAdd(true)}
                 className="px-6 py-2 ml-4 tracking-wide text-white capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none "
               >
-                <Image
+                <img
                   className="object-cover w-10 h-10 absolute top-[-10px] left-0"
-                  src="/Logo/AddLogo.png"
-                  width={100}
-                  height={100}
+                  src="Logo/AddLogo.png"
                   alt="logo"
                 />
               </button>
@@ -205,17 +187,15 @@ export default function Skill() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                    {skills.map((skill, index) => (
-                      <tr key={index}>
-                        {interets.map((interest, indexbis) => (
-                          <div key={indexbis}>
+                    {skills.map((skill) => (
+                      <tr key={skill}>
+                        {interets.map((interest) => (
+                          <div>
                             {interest.id == skill.interest_id ? (
                               <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">
-                                <Image
+                                <img
                                   className="object-cover w-10 h-10 "
-                                  src={"/" + interest.icon}
-                                  width={100}
-                                  height={100}
+                                  src={interest.icon}
                                   alt="logo"
                                 />
                               </td>
@@ -300,7 +280,7 @@ export default function Skill() {
 
                   <label className="block mt-3">
                     <select
-                      onChange={() => handleLvlChange}
+                      onChange={handleLvlChange}
                       name="lvl"
                       id="lvl"
                       className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
@@ -316,7 +296,7 @@ export default function Skill() {
 
                   <label className="block mt-3">
                     <input
-                      onChange={() => handleDescriptionChange}
+                      onChange={handleDescriptionChange}
                       type="text"
                       name="description"
                       id="description"
@@ -380,7 +360,7 @@ export default function Skill() {
                   className="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white"
                   id="modal-title"
                 >
-                  Suppression d&apos;une connaissance
+                  Suppression d'une connaissance
                 </h3>
                 <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                   Êtes vous sure de vouloir supprimer cette connaissance ?

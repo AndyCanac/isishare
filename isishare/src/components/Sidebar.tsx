@@ -8,10 +8,7 @@ import { HiOutlineLogout } from "react-icons/hi";
 
 export default function Sidebar() {
   const setIdUser = () => {
-    localStorage.setItem(
-      "idTargetUser",
-      localStorage.getItem("idActualUser") + ""
-    );
+    localStorage.setItem("idTargetUser", localStorage.getItem("idActualUser"));
     window.location.href = "/profile";
   };
 
@@ -55,7 +52,7 @@ export default function Sidebar() {
                   <TbUserSearch />
 
                   <span className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-black px-2 py-1.5 text-xs font-medium text-white invisible group-hover:visible">
-                    Recherche d&apos;utilisateurs
+                    Recherche d'utilisateurs
                   </span>
                 </a>
               </li>
