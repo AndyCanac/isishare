@@ -75,7 +75,7 @@ export default function Sidebar() {
 
               <li>
                 <a
-                  href=""
+                  href="/recommendation"
                   className="group relative flex justify-center rounded px-2 py-1.5 text-white hover:bg-white hover:text-light-blue"
                 >
                   <FaHandshake />
