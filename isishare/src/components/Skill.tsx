@@ -99,12 +99,12 @@ export default function Skill() {
     setInteret(event.target.value);
   };
 
-  const handleLvlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLvlChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setLvl(event.target.value);
   };
 
   const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setDescription(event.target.value);
   };
@@ -299,7 +299,7 @@ export default function Skill() {
 
                   <label className="block mt-3">
                     <select
-                      onChange={() => handleLvlChange}
+                      onChange={handleLvlChange}
                       name="lvl"
                       id="lvl"
                       className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
@@ -315,7 +315,7 @@ export default function Skill() {
 
                   <label className="block mt-3">
                     <input
-                      onChange={() => handleDescriptionChange}
+                      onChange={handleDescriptionChange}
                       type="text"
                       name="description"
                       id="description"
