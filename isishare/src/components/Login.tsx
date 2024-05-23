@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 
 export default function Login() {
   interface UserInfo {
@@ -51,9 +50,8 @@ export default function Login() {
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-lg">
         <a href="/">
-          <Image src="/isishare.png" width={150} height={0} alt="" />
+          <img src="/isishare.png" />
         </a>
-
         <form
           onSubmit={handleSubmit}
           className="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8"
