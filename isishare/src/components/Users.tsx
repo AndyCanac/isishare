@@ -135,7 +135,7 @@ const Users = () => {
   };
 
   return (
-    <section className="container px-4 mx-auto ml-14 w-auto">
+    <section className="container px-4 mx-auto ml-14 w-full">
     {/* #region blue spots */}
     <div
       className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -156,7 +156,7 @@ const Users = () => {
       />
     </div>
     {/* #endregion */}
-    <div className="flex justify-between items-center mt-2 ml-[-1rem] mb-4">
+    <div className="flex justify-between items-center mt-2 mb-4">
       {/* Barre de recherche */}
       <input
         type="text"
@@ -165,7 +165,7 @@ const Users = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="ml-8 search-input"
       />
-      <div className="mt-2 ml-[-1rem]">
+      <div className="mt-2">
         {/* Bouton pour afficher la vue Kanban */}
         <button
           onClick={() => setView("kanban")}
@@ -186,14 +186,14 @@ const Users = () => {
     {view === "tree" ? ( // view tree
       <div className="flex flex-col mt-6">
         <div className="-mx-4 -my-2 overflow-x-auto">
-          <div className="inline-block py-2 align-middle md:px-6 lg:px-8">
+          <div className="inline-block py-2 align-middle md:px-6 lg:px-8 w-full">
             <div className="overflow-hidden border border-dark-gray md:rounded-lg">
               <table className="max-w-1xl divide-y divide-dark-gray td-width">
                 <thead className="bg-black">
                   <tr>
                     <th
                       scope="col"
-                      className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white"
+                      className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-1/6"
                     >
                       <div className="flex items-center gap-x-3">
                         <span
@@ -207,7 +207,7 @@ const Users = () => {
 
                     <th
                       scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white"
+                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-1/6"
                       title="Cette colonne vise à mettre en lumière les connaissances individuelles de chaque utilisateur. Si les connaissances de certains utilisateurs peuvent, vous aidez dans vos objectifs, n'hésitez pas à le contacter."
                     >
                       <button className="flex items-center gap-x-2">
@@ -232,7 +232,7 @@ const Users = () => {
 
                     <th
                       scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white"
+                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-1/6"
                       title="Cette colonne vise à mettre en lumière les objectifs individuels de chaque utilisateur. Si vous partagez un objectif similaire, je vous encourage à vous entraider. Si vous possédez les compétences nécessaires, n'hésitez pas à contacter la personne pour l'assister dans la réalisation de son objectif."
                     >
                       <button className="flex items-center gap-x-2">
@@ -256,7 +256,7 @@ const Users = () => {
                     </th>
                     <th
                       scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white"
+                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-2/12"
                       title="Plus l'utilisateur participe dans les forums et plus elle appartiens à de nombreux groupes, plus la personne aura de points."
                     >
                       <button
@@ -287,7 +287,7 @@ const Users = () => {
                     </th>
                     <th
                       scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white"
+                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-2/12"
                       title="Elle correspond à la valeur moyenne de notes sur 5 fournis pas les autres utilisateurs."
                     >
                       <button
@@ -320,7 +320,7 @@ const Users = () => {
 
                     <th
                       scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white"
+                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-1/6"
                       title="Voici les groupes auxquels l'utilisateur appartient."
                     >
                       <button className="flex items-center gap-x-2">
@@ -345,7 +345,7 @@ const Users = () => {
 
                     <th
                       scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white"
+                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-1/12"
                     >
                       <button
                         className="flex items-center gap-x-2"
@@ -354,37 +354,37 @@ const Users = () => {
                         <LuFilter />
                       </button>
                       {popupOpen && (
-                        <div className="fixed top-0 left-0 w-full h-full bg-light-gray-transparent flex justify-center items-center z-10">
-                          <div className="bg-white text-black p-4 rounded shadow-lg">
-                            <h2>Sélectionnez vos filtres</h2>
-                            <ul>
-                              <li>
-                                <label>
+                        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                          <div className="bg-white p-8 rounded-lg shadow-lg w-3/4 max-w-md">
+                            <h2 className="text-2xl font-bold mb-4">Filtrer les connaissances</h2>
+                            <div className="grid grid-cols-2 gap-4 mb-4">
+                              {interests.map((interest) => (
+                                <label key={interest.id} className="flex items-center">
                                   <input
                                     type="checkbox"
-                                    value="Filtre1"
-                                    onChange={() =>
-                                      handleFilterSelection("Filtre1")
-                                    }
+                                    value={interest.id}
+                                    checked={selectedFilters.includes(interest.id)}
+                                    onChange={() => handleFilterSelection(interest.id)}
+                                    className="mr-2"
                                   />
-                                  Filtre 1
-                                </label>
-                              </li>
-                              <li>
-                                <label>
-                                  <input
-                                    type="checkbox"
-                                    value="Filtre2"
-                                    onChange={() =>
-                                      handleFilterSelection("Filtre2")
-                                    }
+                                  <Image
+                                    src={interest.icon}
+                                    alt="Knowledge Icon"
+                                    width={20}
+                                    height={20}
                                   />
-                                  Filtre 2
                                 </label>
-                              </li>
-                            </ul>
-                            <button onClick={closePopup}>Fermer</button>
+                              ))}
+                            </div>
+                            <div className="flex justify-end">
+                              <button
+                                onClick={closePopup}
+                                className="px-4 py-2 bg-dark-blue text-white rounded-md"
+                              >
+                                Appliquer
+                              </button>
                           </div>
+                        </div>
                         </div>
                       )}
                     </th>
@@ -400,7 +400,8 @@ const Users = () => {
                       <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
                         {user.name}
                       </td>
-                      <td className="px-4 py-4 text-sm   whitespace-nowrap flex justify-center">
+                      <td className="px-4 py-4 text-sm   whitespace-nowrap justify-center">
+                        <div className="flex justify-center">
                         {knowledges
                           .filter(
                             (knowledge) => knowledge.user_id === user.id
@@ -448,8 +449,10 @@ const Users = () => {
                             />
                           </div>
                         )}
+                        </div>
                       </td>
                       <td className="px-4 py-4 text-sm whitespace-nowrap">
+                      <div className="flex justify-center">
                         {knowledges
                           .filter(
                             (knowledge) => knowledge.user_id === user.id
@@ -498,6 +501,7 @@ const Users = () => {
                             />
                           </div>
                         )}
+                        </div>
                       </td>
                       <td className="px-4 py-4 text-sm   whitespace-nowrap">
                         {user.points}
@@ -544,25 +548,55 @@ const Users = () => {
           <p className="mt-2 text-sm text-gray-600">
             Connaissances :
           </p>
-          <div className="flex flex-wrap justify-center mt-2">
-            {knowledges
-              .filter((knowledge) => knowledge.user_id === user.id)
-              .map((knowledge, index) => (
-                <div key={index} className="mx-2">
-                  <Image
-                    className="object-cover w-10 h-10"
-                    width={300}
-                    height={300}
-                    src=
-                    {"/" + 
-                      interests.find(
-                        (interest) => interest.id === knowledge.interest_id
-                      )?.icon || "/Logo/Other.svg"
-                    }
-                    alt="logo"
-                  />
-                </div>
-              ))}
+          <div className="flex flex-wrap justify-center mt-2">                        
+          {knowledges
+                          .filter(
+                            (knowledge) => knowledge.user_id === user.id
+                          )
+                          .reduce((uniqueInterests, knowledge) => {
+                            interests.forEach((interest) => {
+                              if (
+                                knowledge.interest_id === interest.id &&
+                                !uniqueInterests.includes(
+                                  interest.id as never
+                                )
+                              ) {
+                                uniqueInterests.push(interest.id as never);
+                              }
+                            });
+                            return uniqueInterests;
+                          }, [])
+                          .map((uniqueInterestId) => (
+                            <div key={uniqueInterestId} className="mx-2">
+                              <Image
+                                className="object-cover w-10 h-10"
+                                width={300}
+                                height={300}
+                                src={"/" +
+                                  interests.find(
+                                    (interest) =>
+                                      interest.id === uniqueInterestId
+                                  )?.icon || "Logo/Empty.png"
+                                }
+                                alt="logo"
+                              />
+                            </div>
+                          ))}
+                        {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
+                        {knowledges.filter(
+                          (knowledge) => knowledge.user_id === user.id
+                        ).length === 0 && (
+                          <div className="mx-2">
+                            <Image
+                              className="object-cover w-10 h-10"
+                              width={300}
+                              height={300}
+                              src={"/Logo/Empty.png"
+                              }
+                              alt="logo"
+                            />
+                          </div>
+                        )}
           </div>
 
           <div className="flex justify-end mt-4">
@@ -599,25 +633,55 @@ const Users = () => {
           <p className="mt-2 text-sm text-gray-600">
             Connaissances :
           </p>
-          <div className="flex flex-wrap justify-center mt-2">
-            {knowledges
-              .filter((knowledge) => knowledge.user_id === user.id)
-              .map((knowledge, index) => (
-                <div key={index} className="mx-2">
-                  <Image
-                    className="object-cover w-10 h-10"
-                    width={300}
-                    height={300}
-                    src=
-                    {"/" + 
-                      interests.find(
-                        (interest) => interest.id === knowledge.interest_id
-                      )?.icon || "/Logo/Other.svg"
-                    }
-                    alt="logo"
-                  />
-                </div>
-              ))}
+          <div className="flex flex-wrap justify-center mt-2">                        
+          {knowledges
+                          .filter(
+                            (knowledge) => knowledge.user_id === user.id
+                          )
+                          .reduce((uniqueInterests, knowledge) => {
+                            interests.forEach((interest) => {
+                              if (
+                                knowledge.interest_id === interest.id &&
+                                !uniqueInterests.includes(
+                                  interest.id as never
+                                )
+                              ) {
+                                uniqueInterests.push(interest.id as never);
+                              }
+                            });
+                            return uniqueInterests;
+                          }, [])
+                          .map((uniqueInterestId) => (
+                            <div key={uniqueInterestId} className="mx-2">
+                              <Image
+                                className="object-cover w-10 h-10"
+                                width={300}
+                                height={300}
+                                src={"/" +
+                                  interests.find(
+                                    (interest) =>
+                                      interest.id === uniqueInterestId
+                                  )?.icon || "Logo/Empty.png"
+                                }
+                                alt="logo"
+                              />
+                            </div>
+                          ))}
+                        {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
+                        {knowledges.filter(
+                          (knowledge) => knowledge.user_id === user.id
+                        ).length === 0 && (
+                          <div className="mx-2">
+                            <Image
+                              className="object-cover w-10 h-10"
+                              width={300}
+                              height={300}
+                              src={"/Logo/Empty.png"
+                              }
+                              alt="logo"
+                            />
+                          </div>
+                        )}
           </div>
 
           <div className="flex justify-end mt-4">
@@ -654,25 +718,55 @@ const Users = () => {
           <p className="mt-2 text-sm text-gray-600">
             Connaissances :
           </p>
-          <div className="flex flex-wrap justify-center mt-2">
-            {knowledges
-              .filter((knowledge) => knowledge.user_id === user.id)
-              .map((knowledge, index) => (
-                <div key={index} className="mx-2">
-                  <Image
-                    className="object-cover w-10 h-10"
-                    width={300}
-                    height={300}
-                    src=
-                    {"/" + 
-                      interests.find(
-                        (interest) => interest.id === knowledge.interest_id
-                      )?.icon || "/Logo/Other.svg"
-                    }
-                    alt="logo"
-                  />
-                </div>
-              ))}
+          <div className="flex flex-wrap justify-center mt-2">                        
+          {knowledges
+                          .filter(
+                            (knowledge) => knowledge.user_id === user.id
+                          )
+                          .reduce((uniqueInterests, knowledge) => {
+                            interests.forEach((interest) => {
+                              if (
+                                knowledge.interest_id === interest.id &&
+                                !uniqueInterests.includes(
+                                  interest.id as never
+                                )
+                              ) {
+                                uniqueInterests.push(interest.id as never);
+                              }
+                            });
+                            return uniqueInterests;
+                          }, [])
+                          .map((uniqueInterestId) => (
+                            <div key={uniqueInterestId} className="mx-2">
+                              <Image
+                                className="object-cover w-10 h-10"
+                                width={300}
+                                height={300}
+                                src={"/" +
+                                  interests.find(
+                                    (interest) =>
+                                      interest.id === uniqueInterestId
+                                  )?.icon || "Logo/Empty.png"
+                                }
+                                alt="logo"
+                              />
+                            </div>
+                          ))}
+                        {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à l'interest.id 4 */}
+                        {knowledges.filter(
+                          (knowledge) => knowledge.user_id === user.id
+                        ).length === 0 && (
+                          <div className="mx-2">
+                            <Image
+                              className="object-cover w-10 h-10"
+                              width={300}
+                              height={300}
+                              src={"/Logo/Empty.png"
+                              }
+                              alt="logo"
+                            />
+                          </div>
+                        )}
           </div>
 
           <div className="flex justify-end mt-4">
