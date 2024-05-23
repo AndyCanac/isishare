@@ -207,8 +207,8 @@ const Users = () => {
                       />
                     </div>
                   ))}
-                  {knowledges.filter(
-                          (objectif) => objectif.user_id === user.id
+                  {objectifs.filter(
+                          (knowledge) => knowledge.user_id === user.id
                         ).length === 0 && (
                           <div className="mx-2">
                             <Image
@@ -310,7 +310,7 @@ const Users = () => {
                       />
                     </div>
                   ))}
-                  {knowledges.filter(
+                  {objectifs.filter(
                           (objectif) => objectif.user_id === user.id
                         ).length === 0 && (
                           <div className="mx-2">
