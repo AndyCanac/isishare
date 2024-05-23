@@ -1,27 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { Dialog } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useState } from "react";
+import { Dialog } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 const navigation = [
-  { name: 'Présentation', href: '#hero' },
-  { name: 'Qui sommes nous ?', href: '#qui-sommes-nous'},
-  { name: 'Fonctionnalitées', href: '#fonctionnalité' }
-]
+  { name: "Présentation", href: "#hero" },
+  { name: "Qui sommes nous ?", href: "#qui-sommes-nous" },
+  { name: "Fonctionnalitées", href: "#fonctionnalité" },
+];
 
 export default function Head() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
-        <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+        <nav
+          className="flex items-center justify-between p-6 lg:px-8"
+          aria-label="Global"
+        >
           <div className="flex lg:flex-1">
             <a href="" className="-m-1.5 p-1.5">
-              <img
+              <Image
                 className="h-12 w-auto"
                 src="/isishare.png"
+                width={300}
+                height={100}
                 alt=""
               />
             </a>
@@ -38,29 +44,45 @@ export default function Head() {
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
-              <a key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-gray-900">
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-sm font-semibold leading-6 text-gray-900"
+              >
                 {item.name}
               </a>
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="/login" className="text-sm font-semibold leading-6 text-gray-900 border border-black border-solid rounded-md px-2 py-1 ml-4 hover:bg-black hover:text-white ease-in duration-100">
+            <a
+              href="/login"
+              className="text-sm font-semibold leading-6 text-gray-900 border border-black border-solid rounded-md px-2 py-1 ml-4 hover:bg-black hover:text-white ease-in duration-100"
+            >
               Connexion <span aria-hidden="true"></span>
             </a>
-            <a href="/signup" className="text-sm font-semibold leading-6 text-gray-900 border border-black border-solid rounded-md px-2 py-1 ml-4 hover:bg-black hover:text-white ease-in duration-100">
+            <a
+              href="/signup"
+              className="text-sm font-semibold leading-6 text-gray-900 border border-black border-solid rounded-md px-2 py-1 ml-4 hover:bg-black hover:text-white ease-in duration-100"
+            >
               Inscription <span aria-hidden="true"></span>
             </a>
           </div>
         </nav>
-        <Dialog className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
+        <Dialog
+          className="lg:hidden"
+          open={mobileMenuOpen}
+          onClose={setMobileMenuOpen}
+        >
           <div className="fixed inset-0 z-50" />
           <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
               <a href="" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img
+                <span className="sr-only">Isishare</span>
+                <Image
                   className="h-8 w-auto"
                   src="/isishare.png"
+                  width={30}
+                  height={10}
                   alt=""
                 />
               </a>
@@ -106,5 +128,5 @@ export default function Head() {
         </Dialog>
       </header>
     </div>
-  )
+  );
 }
