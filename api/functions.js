@@ -56,6 +56,22 @@ const insertInto = (table, data, res) => {
   });
 };
 
+const updateInto = (table, data, res) => {
+  res.setHeader("Content-Type", "application/json");
+  const query = `UPDATE ${table}
+  SET ${data.colomns} = ${data.colomns} + ${data.values}
+  WHERE id = ${data.id}`;
+  pool.query(query, (error, results) => {
+    if (error) {
+      res
+        .status(500)
+        .json({ error: "An error occurred while executing the query" });
+    } else {
+      res.json({ success: true });
+    }
+  });
+};
+
 const deleteIdFrom = (table, id, res) => {
   res.setHeader("Content-Type", "application/json");
   const query = `DELETE FROM ${table} WHERE id = ${id}`;
@@ -75,5 +91,6 @@ module.exports = {
   selectIdFrom,
   selectIdUserFrom,
   insertInto,
+  updateInto,
   deleteIdFrom,
 };

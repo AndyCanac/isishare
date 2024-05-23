@@ -11,12 +11,14 @@ const knowledgeRoutes = require("./routes/knowledge");
 const interestsRoutes = require("./routes/interests");
 const groupsRoutes = require("./routes/groups");
 const contactsRoutes = require("./routes/contacts");
+const notationsRoutes = require("./routes/notations");
 
 const routes = [
   { path: "/api", route: mainRoutes },
 
   { path: "/api/users", route: usersRoutes },
   { path: "/api/users/id/:id", route: usersRoutes },
+  { path: "/api/users/update/:id/:colomns/:values", route: usersRoutes },
 
   { path: "/api/usersingroups", route: userInGroupeRoutes },
   { path: "/api/usersingroups/id/:id", route: userInGroupeRoutes },
@@ -47,6 +49,9 @@ const routes = [
   { path: "/api/contacts/user/:id", route: contactsRoutes },
   { path: "/api/contacts/insert/:colomns/:values", route: contactsRoutes },
   { path: "/api/contacts/delete/:id", route: contactsRoutes },
+
+  { path: "/api/notations", route: notationsRoutes },
+  { path: "/api/notations/insert/:colomns/:values", route: notationsRoutes },
 ];
 
 routes.forEach((route) => {

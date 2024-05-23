@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { GoTrash } from "react-icons/go";
 import Image from "next/image";
+import { debug } from "console";
 
 export default function Profile() {
   interface SourceInfo {
@@ -16,7 +17,11 @@ export default function Profile() {
     information: string;
   }
 
-  //Inf
+  interface NotationsInfo {
+    user_id_receiver: string;
+    user_id_assessor: string;
+  }
+
   const [name, setName] = useState([]);
   const [points, setPoints] = useState([]);
 
@@ -24,6 +29,8 @@ export default function Profile() {
   const [sources, setSources] = useState<SourceInfo[]>([]);
 
   const [ownUser, setOwnUser] = useState(false);
+
+  const [notations, setNotations] = useState<NotationsInfo[]>([]);
 
   useEffect(() => {
     if (
@@ -68,7 +75,9 @@ export default function Profile() {
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
-    fetch(`${localStorage.getItem("api")}sources`)
+
+    fetch(
+      `${localStorage.getItem("api")}sources`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -81,6 +90,22 @@ export default function Profile() {
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
+
+      fetch(
+        `${localStorage.getItem("api")}notations`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setNotations(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching users:", error);
+        });
   }, []);
   //#region DELETE
   const [showDelete, setShowDelete] = React.useState(false);
@@ -145,24 +170,104 @@ export default function Profile() {
   };
   //#endregion
 
+  const changeNote = (value : any) => {
+    let alreadyNote = false;
+    notations.forEach(notation => {
+      if(notation.user_id_receiver == localStorage.getItem("idTargetUser") && notation.user_id_assessor == localStorage.getItem("idActualUser")) alreadyNote = true;
+    });
+
+    if(!alreadyNote) {
+      console.log("Pas encore voté !");
+      fetch(
+        `${localStorage.getItem(
+          "api"
+        )}users/update/${localStorage.getItem("idTargetUser")}/notation/${value}`
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Notation modifié !")
+        })
+        .catch((error) => {
+          console.error("Error fetching users:", error);
+        });
+
+      fetch(
+        `${localStorage.getItem(
+          "api"
+        )}notations/insert/user_id_receiver,user_id_assessor/"${localStorage.getItem("idTargetUser")}","${localStorage.getItem("idActualUser")}"`
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          window.location.reload();
+        })
+        .catch((error) => {
+          console.error("Error fetching users:", error);
+        });
+    }
+    else alert("Vous avez déjà voté !");
+  };
+
   return (
     <div>
       <div className="ml-10 w-1/5 max-w-sm overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 float-right mr-10 mt-[88px]">
         <Image
-          className="object-cover object-center w-full h-56"
+          className="object-cover object-center w-full"
           src="/male-avatar.jpeg"
           width={300}
           height={300}
           alt="avatar"
           />
-        <div className="flex items-center px-6 py-3 bg-dark-blue">
-          <h1 className="mx-3 text-lg font-semibold text-white">
-            NOM : {name}
-          </h1>
-          <br />
-          <h1 className="mx-3 text-lg font-semibold text-white">
-            POINTS : {points}
-          </h1>
+        <div className="items-center px-6 py-4 bg-dark-blue">
+          <div className="flex justify-center w-full">
+            <h1 className="mx-3 text-lg font-semibold text-white">
+              NOM : {name}
+            </h1>
+            <br />
+            <h1 className="mx-3 text-lg font-semibold text-white">
+              POINTS : {points}
+            </h1>
+          </div>
+          {localStorage.getItem("idTargetUser") != localStorage.getItem("idActualUser")  ? (
+            <div className="flex justify-center w-full">
+            <button
+              key={0}
+              onClick={() => changeNote(-1)}
+              className={`mr-3 px-2 py-2 rounded text-white hover:bg-light-blue ease-in duration-300 ...`}
+            >
+              <Image
+                src="/Logo/bad.svg"
+                alt="Icone"
+                width={60}
+                height={60}
+                className="icon"
+              />
+            </button>
+
+            <button
+              key={1}
+              onClick={() => changeNote(1)}
+              className={`px-2 py-2 rounded text-white hover:bg-light-blue ease-in duration-300 ...`}
+            >
+              <Image
+                src="/Logo/good.svg"
+                alt="Icone"
+                width={60}
+                height={60}
+                className="icon"
+              />
+            </button>
+          </div>
+          ) : null}
         </div>
 
         <div className="px-6 py-4">
