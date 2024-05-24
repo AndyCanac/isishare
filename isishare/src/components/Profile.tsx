@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { GoTrash } from "react-icons/go";
 import Image from "next/image";
-import { debug } from "console";
 
 export default function Profile() {
   interface SourceInfo {
@@ -22,77 +21,32 @@ export default function Profile() {
     user_id_assessor: string;
   }
 
-  const [name, setName] = useState([]);
-  const [points, setPoints] = useState([]);
-
+  const [name, setName] = useState<string>('');
+  const [points, setPoints] = useState<number>(0);
   const [contacts, setContacts] = useState<ContactInfo[]>([]);
   const [sources, setSources] = useState<SourceInfo[]>([]);
-
   const [ownUser, setOwnUser] = useState(false);
-
   const [notations, setNotations] = useState<NotationsInfo[]>([]);
+  const [idActualUser, setIdActualUser] = useState("0");
+  const [idTargetUser, setIdTargetUser] = useState("0");
+  const [showDelete, setShowDelete] = useState(false);
+  const [idContact, setIdContact] = useState<string>("");
+  const [showAdd, setShowAdd] = useState(false);
+  const [source, setSource] = useState<string>("");
+  const [info, setInfo] = useState<string>("");
 
   useEffect(() => {
-    if (
-      localStorage.getItem("idActualUser") ==
-      localStorage.getItem("idTargetUser")
-    )
-      setOwnUser(true);
+    if (typeof window !== 'undefined') {
+      const actualUser = localStorage.getItem("idActualUser") || "0";
+      const targetUser = localStorage.getItem("idTargetUser") || "0";
+      setIdActualUser(actualUser);
+      setIdTargetUser(targetUser);
 
-    fetch(
-      `${localStorage.getItem("api")}contacts/user/${localStorage.getItem(
-        "idTargetUser"
-      )}`
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setContacts(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-      });
+      if (actualUser === targetUser) {
+        setOwnUser(true);
+      }
 
-    fetch(
-      `${localStorage.getItem("api")}users/id/${localStorage.getItem(
-        "idTargetUser"
-      )}`
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setName(data[0].name);
-        setPoints(data[0].points);
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-      });
-
-    fetch(
-      `${localStorage.getItem("api")}sources`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setSources(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-      });
-
-      fetch(
-        `${localStorage.getItem("api")}notations`)
+      fetch(`${localStorage.getItem("api")}contacts/user/${targetUser}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -100,21 +54,62 @@ export default function Profile() {
           return response.json();
         })
         .then((data) => {
-          console.log(data);
+          setContacts(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching contacts:", error);
+        });
+
+      fetch(`${localStorage.getItem("api")}users/id/${targetUser}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setName(data[0].name);
+          setPoints(data[0].points);
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+
+      fetch(`${localStorage.getItem("api")}sources`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setSources(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching sources:", error);
+        });
+
+      fetch(`${localStorage.getItem("api")}notations`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
           setNotations(data);
         })
         .catch((error) => {
-          console.error("Error fetching users:", error);
+          console.error("Error fetching notations:", error);
         });
+    }
   }, []);
-  //#region DELETE
-  const [showDelete, setShowDelete] = React.useState(false);
-  const [idContact, setIdContact] = useState([]);
 
-  const deleteContactTrigger = (idContact: any) => {
+  const deleteContactTrigger = (idContact: string) => {
     setShowDelete(true);
     setIdContact(idContact);
   };
+
   const deleteContact = () => {
     fetch(`${localStorage.getItem("api")}contacts/delete/${idContact}`)
       .then((response) => {
@@ -124,19 +119,13 @@ export default function Profile() {
         return response.json();
       })
       .then((data) => {
+        setContacts(contacts.filter(contact => contact.id !== idContact));
         setShowDelete(false);
-        window.location.reload();
       })
       .catch((error) => {
-        console.error("Error fetching users:", error);
+        console.error("Error deleting contact:", error);
       });
   };
-  //#endregion
-
-  //#region ADD
-  const [showAdd, setShowAdd] = React.useState(false);
-  const [source, setSource] = useState<string>();
-  const [info, setInfo] = useState<string>();
 
   const handleSourceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSource(event.target.value);
@@ -148,11 +137,7 @@ export default function Profile() {
 
   const addContact = () => {
     fetch(
-      `${localStorage.getItem(
-        "api"
-      )}contacts/insert/user_id,information,source_id/"${localStorage.getItem(
-        "idTargetUser"
-      )}","${info}","${source}"`
+      `${localStorage.getItem("api")}contacts/insert/user_id,information,source_id/"${idTargetUser}","${info}","${source}"`
     )
       .then((response) => {
         if (!response.ok) {
@@ -161,27 +146,22 @@ export default function Profile() {
         return response.json();
       })
       .then((data) => {
+        setContacts([...contacts, { id: data.id, source_id: source, information: info }]);
         setShowAdd(false);
-        window.location.reload();
       })
       .catch((error) => {
-        console.error("Error fetching users:", error);
+        console.error("Error adding contact:", error);
       });
   };
-  //#endregion
 
-  const changeNote = (value : any) => {
-    let alreadyNote = false;
-    notations.forEach(notation => {
-      if(notation.user_id_receiver == localStorage.getItem("idTargetUser") && notation.user_id_assessor == localStorage.getItem("idActualUser")) alreadyNote = true;
-    });
+  const changeNote = (value: any) => {
+    const alreadyNote = notations.some(notation =>
+      notation.user_id_receiver === idTargetUser && notation.user_id_assessor === idActualUser
+    );
 
-    if(!alreadyNote) {
-      console.log("Pas encore voté !");
+    if (!alreadyNote) {
       fetch(
-        `${localStorage.getItem(
-          "api"
-        )}users/update/${localStorage.getItem("idTargetUser")}/notation/${value}`
+        `${localStorage.getItem("api")}users/update/${idTargetUser}/notation/${value}`
       )
         .then((response) => {
           if (!response.ok) {
@@ -189,17 +169,15 @@ export default function Profile() {
           }
           return response.json();
         })
-        .then((data) => {
-          console.log("Notation modifié !")
+        .then(() => {
+          console.log("Notation modifiée !");
         })
         .catch((error) => {
-          console.error("Error fetching users:", error);
+          console.error("Error updating notation:", error);
         });
 
       fetch(
-        `${localStorage.getItem(
-          "api"
-        )}notations/insert/user_id_receiver,user_id_assessor/"${localStorage.getItem("idTargetUser")}","${localStorage.getItem("idActualUser")}"`
+        `${localStorage.getItem("api")}notations/insert/user_id_receiver,user_id_assessor/"${idTargetUser}","${idActualUser}"`
       )
         .then((response) => {
           if (!response.ok) {
@@ -207,15 +185,16 @@ export default function Profile() {
           }
           return response.json();
         })
-        .then((data) => {
-          window.location.reload();
+        .then(() => {
+          setNotations([...notations, { user_id_receiver: idTargetUser, user_id_assessor: idActualUser }]);
         })
         .catch((error) => {
-          console.error("Error fetching users:", error);
+          console.error("Error inserting notation:", error);
         });
+    } else {
+      alert("Vous avez déjà voté !");
     }
-    else alert("Vous avez déjà voté !");
-  };
+  }
 
   return (
     <div>
@@ -237,7 +216,7 @@ export default function Profile() {
               POINTS : {points}
             </h1>
           </div>
-          {localStorage.getItem("idTargetUser") != localStorage.getItem("idActualUser")  ? (
+          {idTargetUser != idActualUser  ? (
             <div className="flex justify-center w-full">
             <button
               key={0}

@@ -187,7 +187,7 @@ const Users = () => {
                         )}
               </div>
 
-              <p className="mt-2 text-sm text-gray-600">Envie d'apprendre :</p>
+              <p className="mt-2 text-sm text-gray-600">Envie d&apos;apprendre :</p>
               <div className="flex flex-wrap justify-center mt-2">
                 {objectifs
                   .filter((objectif) => objectif.user_id === user.id)
@@ -290,7 +290,7 @@ const Users = () => {
                         )}
               </div>
 
-              <p className="mt-2 text-sm text-gray-600">Envie d'apprendre :</p>
+              <p className="mt-2 text-sm text-gray-600">Envie d&apos;apprendre :</p>
               <div className="flex flex-wrap justify-center mt-2">
                 {objectifs
                   .filter((objectif) => objectif.user_id === user.id)

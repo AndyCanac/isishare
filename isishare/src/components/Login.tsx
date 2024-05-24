@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 
 export default function Login() {
   interface UserInfo {
@@ -14,7 +15,7 @@ export default function Login() {
   const [infoLogin, setInfoLogin] = useState<UserInfo[]>([]);
 
   useEffect(() => {
-    localStorage.setItem("api", "http://localhost:3001/api/");
+    localStorage.setItem("api", "https://localhost:3001/api/");
 
     fetch(`${localStorage.getItem("api")}users`)
       .then((response) => {
@@ -50,7 +51,13 @@ export default function Login() {
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-lg">
         <a href="/">
-          <img src="/isishare.png" />
+        <Image
+            className="w-full max-w-lg lg:mx-auto"
+            src="/isishare.png"
+            width={300}
+            height={300}
+            alt=""
+          />
         </a>
         <form
           onSubmit={handleSubmit}

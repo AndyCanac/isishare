@@ -5,7 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import DotPattern from "@/components/magicui/dot-pattern";
 import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
-
+import Image from "next/image";
 
 
 export default function BentoDemo() {
@@ -72,7 +72,17 @@ useEffect(() => {
       description: "Profil partageant les mêmes buts",
       href: "/",
       cta: "Learn more",
-      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      background: 
+      <DotPattern
+          width={20}
+          height={20}
+          cx={1}
+          cy={1}
+          cr={1}
+          className={cn(
+            "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] ",
+          )}
+        />,
       className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-3",
     },
     {
@@ -81,7 +91,17 @@ useEffect(() => {
       description: "Top des utilisateurs avec le plus de points", 
       href: "/",
       cta: "Learn more",
-      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      background:
+      <DotPattern
+          width={20}
+          height={20}
+          cx={1}
+          cy={1}
+          cr={1}
+          className={cn(
+            "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] ",
+          )}
+        />,
       className: "lg:col-start-2 lg:col-end-3 lg:row-start-3 lg:row-end-3",
     },
     {
@@ -90,7 +110,8 @@ useEffect(() => {
       description: "Utilisateur avec le plus de points",
       href: "/",
       cta: "Learn more",
-      background:  <DotPattern
+      background:  
+      <DotPattern
           width={20}
           height={20}
           cx={1}
@@ -108,7 +129,17 @@ useEffect(() => {
       description: "Profil correspondant aux mêmes buts",
       href: "/",
       cta: "Learn more",
-      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      background: 
+      <DotPattern
+          width={20}
+          height={20}
+          cx={1}
+          cy={1}
+          cr={1}
+          className={cn(
+            "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] ",
+          )}
+        />,
       className: "lg:col-start-2 lg:col-end-3 lg:row-start-2 lg:row-end-3",
     },
     {
@@ -117,7 +148,17 @@ useEffect(() => {
       description: "Mon profil",
       href: "/",
       cta: "Learn more",
-      background: <img className="absolute -right-20 -top-20 opacity-60" />,
+      background:           
+      <DotPattern
+          width={20}
+          height={20}
+          cx={1}
+          cy={1}
+          cr={1}
+          className={cn(
+            "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] ",
+          )}
+        />,
       className: "lg:col-start-1 lg:col-end-3 lg:row-start-1 lg:row-end-1",
     },
   ];
@@ -126,8 +167,8 @@ useEffect(() => {
       <Sidebar />
       <div className="ml-16 flex-1 p-4">
         <BentoGrid className="lg:grid-cols-2">
-          {features.map((feature) => (
-            <BentoCard key={feature.name} {...feature} />
+          {features.map((feature, index) => (
+            <BentoCard key={index} {...feature} />
           ))}
         </BentoGrid>
       </div>
