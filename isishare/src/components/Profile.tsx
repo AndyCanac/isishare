@@ -161,8 +161,9 @@ export default function Profile() {
   };
 
   const changeNote = (value: any) => {
+    console.log(notations);
     const alreadyNote = notations.some(notation =>
-      notation.user_id_receiver === idTargetUser && notation.user_id_assessor === idActualUser
+      notation.user_id_receiver == idTargetUser && notation.user_id_assessor == idActualUser
     );
 
     if (!alreadyNote) {
@@ -182,9 +183,7 @@ export default function Profile() {
           console.error("Error updating notation:", error);
         });
 
-      fetch(
-        `${localStorage.getItem("api")}notations/insert/user_id_receiver,user_id_assessor/"${idTargetUser}","${idActualUser}"`
-      )
+      fetch(`${localStorage.getItem("api")}notations/insert/user_id_receiver,user_id_assessor/"${idTargetUser}","${idActualUser}"`)
         .then((response) => {
           if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -192,7 +191,6 @@ export default function Profile() {
           return response.json();
         })
         .then(() => {
-          setNotations([...notations, { user_id_receiver: idTargetUser, user_id_assessor: idActualUser }]);
           window.location.reload();
         })
         .catch((error) => {
