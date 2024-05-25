@@ -15,13 +15,18 @@ export default function Sidebar() {
     window.location.href = "/profile";
   };
 
+  const signOut = () => {
+    localStorage.setItem("idActualUser","0");
+    window.location.href = "/";
+  };
+
   return (
     <div className="flex flex-col justify-between h-screen w-16 border-e bg-dark-blue fixed z-10">
       <div>
         <div className="inline-flex h-16 w-16 items-center justify-center">
           <a
             onClick={setIdUser}
-            href="/profile"
+            // href="/profile"
             className="t group relative flex justify-center rounded px-2 py-1.5 text-white hover:bg-white hover:text-light-blue"
           >
             <span className="grid w-7 place-content-center rounded-lg">L</span>
@@ -101,8 +106,9 @@ export default function Sidebar() {
       <div className="sticky inset-x-0 bottom-0 border-t border-white bg-dark-blue p-2">
         <form action="/logout">
           <a
+            onClick={signOut}
+            // href="/"
             className="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-white hover:bg-white hover:text-light-blue"
-            href="/"
           >
             <HiOutlineLogout />
             <span className="absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-black px-2 py-1.5 text-xs font-medium text-white invisible group-hover:visible">
