@@ -237,14 +237,14 @@ export default function Skill() {
                         </td>
                         <td className="px-4 py-4 text-sm">
                           <div className="flex items-center gap-x-6">
-                            {ownUser || admin == "1" && (
+                            {ownUser || admin == "1" ? (
                               <button
                                 onClick={() => deleteConnaissanceTrigger(skill.id)}
                                 className="flex items-center px-6 py-2 ml-4 tracking-wide text-red capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none"
                               >
                                 <GoTrash size={30} style={{ color: "red" }} />
                               </button>
-                            )}
+                            ) : null }
                           </div>
                         </td>
                       </tr>
