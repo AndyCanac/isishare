@@ -8,6 +8,7 @@ export default function Login() {
     id: string;
     email: string;
     password: string;
+    admin: string;
   }
 
   const [idUser, setIdUser] = useState<string>("");
@@ -41,6 +42,7 @@ export default function Login() {
         document.location.href = "/home";
         setIdUser(infoLogin[i].id);
         localStorage.setItem("idActualUser", infoLogin[i].id.toString());
+        localStorage.setItem("isAdmin", infoLogin[i].admin.toString());
         userFind = true;
       }
     }

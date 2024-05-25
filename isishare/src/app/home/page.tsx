@@ -1,4 +1,5 @@
 "use client";
+import NotConnect from "@/components/not-connect";
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
 import { BellIcon, CalendarIcon, FileTextIcon, GlobeIcon, InputIcon } from "@radix-ui/react-icons";
 import Sidebar from "@/components/Sidebar";
@@ -8,7 +9,7 @@ import React, { useState, useEffect } from "react";
 
 
 export default function BentoDemo() {
-  if(localStorage.getItem("idActualUser") == "0") window.location.href="/notconnect";
+  if(localStorage.getItem("idActualUser") == "0") return(<NotConnect/>)
   else{
 
     const [name, setName] = useState([]);

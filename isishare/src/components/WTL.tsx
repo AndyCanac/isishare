@@ -15,10 +15,13 @@ export default function WTL() {
     description: string;
   }
 
+  const [admin, setAdmin] = useState<string>("0");
   const [wantToLearns, setWantToLearn] = useState<WTLInfo[]>([]);
   const [interets, setInterets] = useState<InterestInfo[]>([]);
   const [ownUser, setOwnUser] = useState(false);
+
   useEffect(() => {
+    setAdmin(localStorage.getItem("isAdmin") + "");
     if (
       localStorage.getItem("idActualUser") ==
       localStorage.getItem("idTargetUser")
@@ -201,7 +204,7 @@ export default function WTL() {
     </td>
     <td className="px-4 py-4 text-sm">
       <div className="flex items-center gap-x-6">
-        {ownUser ? (
+        {ownUser || admin == "1" ? (
           <button
             onClick={() => deleteWTLTrigger(wtl.id)}
             className="flex items-center px-6 py-2 ml-4 tracking-wide text-red capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none"

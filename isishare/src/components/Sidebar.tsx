@@ -17,6 +17,7 @@ export default function Sidebar() {
 
   const signOut = () => {
     localStorage.setItem("idActualUser","0");
+    localStorage.setItem("isAdmin", "0");
     window.location.href = "/";
   };
 

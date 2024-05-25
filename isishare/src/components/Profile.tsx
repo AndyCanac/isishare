@@ -8,6 +8,7 @@ export default function Profile() {
     id: string;
     icon: string;
     name: string;
+    notation: string;
   }
 
   interface ContactInfo {
@@ -23,6 +24,8 @@ export default function Profile() {
 
   const [name, setName] = useState<string>('');
   const [points, setPoints] = useState<number>(0);
+  const [notation, setNotation] = useState<number>(0);
+  const [admin, setAdmin] = useState<string>("0");
   const [contacts, setContacts] = useState<ContactInfo[]>([]);
   const [sources, setSources] = useState<SourceInfo[]>([]);
   const [ownUser, setOwnUser] = useState(false);
@@ -36,6 +39,8 @@ export default function Profile() {
   const [info, setInfo] = useState<string>("");
 
   useEffect(() => {
+    setAdmin(localStorage.getItem("isAdmin") + "");
+
     if (typeof window !== 'undefined') {
       const actualUser = localStorage.getItem("idActualUser") || "0";
       const targetUser = localStorage.getItem("idTargetUser") || "0";
@@ -70,6 +75,7 @@ export default function Profile() {
         .then((data) => {
           setName(data[0].name);
           setPoints(data[0].points);
+          setNotation(data[0].notation);
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
@@ -187,6 +193,7 @@ export default function Profile() {
         })
         .then(() => {
           setNotations([...notations, { user_id_receiver: idTargetUser, user_id_assessor: idActualUser }]);
+          window.location.reload();
         })
         .catch((error) => {
           console.error("Error inserting notation:", error);
@@ -216,7 +223,7 @@ export default function Profile() {
               POINTS : {points}
             </h1>
           </div>
-          {idTargetUser != idActualUser  ? (
+          {idTargetUser != idActualUser ? (
             <div className="flex justify-center w-full">
             <button
               key={0}
@@ -247,6 +254,13 @@ export default function Profile() {
             </button>
           </div>
           ) : null}
+          {admin == "1" ? (
+            <div className="flex justify-center w-full">
+              <h1 className="mx-3 text-lg font-semibold text-white">
+                NOTATION : {notation}
+              </h1>
+            </div>
+          ) : null}
         </div>
 
         <div className="px-6 py-4">
@@ -270,7 +284,7 @@ export default function Profile() {
                   {contact.information}
                 </h1>
               </div>
-              {ownUser ? (
+              {ownUser || admin == "1" ? (
                 <button
                   onClick={() => deleteContactTrigger(contact.id)}
                   className="flex items-center px-6 py-2 ml-4 tracking-wide text-black capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none"
