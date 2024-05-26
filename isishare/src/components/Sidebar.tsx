@@ -28,7 +28,6 @@ export default function Sidebar() {
           <div className="inline-flex h-16 w-16 items-center justify-center">
             <a
               onClick={setIdUser}
-              // href="/profile"
               className="t group relative flex justify-center rounded px-2 py-1.5 text-white hover:bg-white hover:text-light-blue"
             >
               <span className="grid w-7 place-content-center rounded-lg">L</span>
@@ -91,7 +90,7 @@ export default function Sidebar() {
   
                 <li>
                   <a
-                    href="forum"
+                    href="/forum"
                     className="group relative flex justify-center rounded px-2 py-1.5 text-white hover:bg-white hover:text-light-blue"
                   >
                     <MdOutlineForum />
@@ -109,7 +108,6 @@ export default function Sidebar() {
           <form action="/logout">
             <a
               onClick={signOut}
-              // href="/"
               className="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-white hover:bg-white hover:text-light-blue"
             >
               <HiOutlineLogout />
@@ -163,7 +161,7 @@ export default function Sidebar() {
             </a>
     
             <a
-              href="forum"
+              href="/forum"
               className="group relative flex justify-center rounded px-2 py-1.5 text-white hover:bg-white hover:text-light-blue"
             >
               <MdOutlineForum />
