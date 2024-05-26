@@ -1,5 +1,6 @@
 // app.js
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const port = 3001;
 const mainRoutes = require("./routes/main");
@@ -12,6 +13,8 @@ const interestsRoutes = require("./routes/interests");
 const groupsRoutes = require("./routes/groups");
 const contactsRoutes = require("./routes/contacts");
 const notationsRoutes = require("./routes/notations");
+
+app.use(cors());
 
 const routes = [
   { path: "/api", route: mainRoutes },
