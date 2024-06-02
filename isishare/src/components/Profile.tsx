@@ -206,13 +206,7 @@ export default function Profile() {
     }
   }
 
-
   if(window.innerWidth > 500){
-
-    
-
-
-
     return isLoading ? (
       <div className="ml-10 w-1/5 max-w-sm overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 float-right mr-10 mt-[88px]">
           <div className="animate-pulse">
@@ -458,22 +452,16 @@ export default function Profile() {
               </>
           ) : null}
       </div>
-  );
-    
-
-
-
-
-
-
-
-
-
-
-
+    );
   }
   else{
-    return (
+    return isLoading ? (
+      <div className="ml-10 w-1/5 max-w-sm overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 float-right mr-10 mt-[88px]">
+          <div className="animate-pulse">
+              <div className="w-full h-96 bg-gray-200"></div>
+          </div>
+      </div>
+  ) : (
       <div>
         <div className="w-4/5 bg-white rounded-lg shadow-lg dark:bg-gray-800 mt-[20px] mx-auto relative">
           <Image
