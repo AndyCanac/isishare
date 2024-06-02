@@ -22,6 +22,7 @@ const routes = [
   { path: "/api/users", route: usersRoutes },
   { path: "/api/users/id/:id", route: usersRoutes },
   { path: "/api/users/update/:id/:colomns/:values", route: usersRoutes },
+  { path: "/api/users/delete/:id", route: usersRoutes },
 
   { path: "/api/usersingroups", route: userInGroupeRoutes },
   { path: "/api/usersingroups/id/:id", route: userInGroupeRoutes },

@@ -217,100 +217,89 @@ const Users = () => {
               <LuFilter />
             </button>
           </div>
-
           {/* Conteneur pour les boutons de changement de vue */}
-          <div className="flex items-center">
-            <button
-              onClick={() => setView("kanban")}
-              className="px-4 py-2 bg-dark-blue text-white rounded-md mr-4"
-            >
-              <LuKanbanSquare />
-            </button>
-            <button
-              onClick={() => setView("tree")}
-              className="px-4 py-2 bg-dark-blue text-white rounded-md mr-8"
-            >
-              <TbListTree />
-            </button>
+            <div className="flex items-center">
+              <button
+                onClick={() => setView("kanban")}
+                className="px-4 py-2 bg-dark-blue text-white rounded-md mr-4"
+              >
+                <LuKanbanSquare />
+              </button>
+              <button
+                onClick={() => setView("tree")}
+                className="px-4 py-2 bg-dark-blue text-white rounded-md mr-8"
+              >
+                <TbListTree />
+              </button>
+            </div>
           </div>
-          </div>
-
-
-
-
           {popupOpen && (
-  <div className="fixed inset-0 flex items-center justify-center bg-light-gray-transparent bg-opacity-50">
-    <div className="bg-white p-8 rounded-lg w-[65vw] h-[40vw] overflow-auto">
-      <h2 className="text-xl text-dark-blue font-bold mb-4">Filtres</h2>
-      <div>
-        <h3 className="text-dark-blue font-bold mb-4">Connaissances</h3>
-        <div>
-          {interests
-            .filter((interest) => interest.name !== "Empty")
-            .map((interest) => (
-              <button
-                key={interest.id}
-                onClick={() => handleFilterSelection(interest.id)}
-                className={`mr-2 mb-2 px-4 py-2 rounded ${
-                  selectedFilters.includes(interest.id)
-                    ? "bg-dark-blue text-white"
-                    : "bg-gray-200 text-gray-800"
-                }`}
-              >
-                <Image
-                  src={"/" + interest.icon}
-                  alt="Icone"
-                  width={20}
-                  height={20}
-                  className="icon"
-                />
-              </button>
-            ))}
-        </div>
-      </div>
-      <div>
-        <h3 className="text-dark-blue font-bold mb-4">Objectifs</h3>
-        <div>
-          {interests
-            .filter((interest) => interest.name !== "Empty")
-            .map((interest) => (
-              <button
-                key={interest.id}
-                onClick={() => handleGoalFilterSelection(interest.id)}
-                className={`mr-2 mb-2 px-4 py-2 rounded ${
-                  selectedGoalFilters.includes(interest.id)
-                    ? "bg-dark-blue text-white"
-                    : "bg-gray-200 text-gray-800"
-                }`}
-              >
-                <Image
-                  src={"/" + interest.icon}
-                  alt="Icone"
-                  width={20}
-                  height={20}
-                  className="icon"
-                />
-              </button>
-            ))}
-        </div>
-      </div>
-      <div className="flex justify-end">
-        <button
-          onClick={closePopup}
-          className="px-4 py-2 bg-dark-blue text-white rounded-md"
-        >
-          Fermer
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
-
-
-
-
-
+            <div className="fixed inset-0 flex items-center justify-center bg-light-gray-transparent bg-opacity-50">
+              <div className="bg-white p-8 rounded-lg w-[65vw] h-[40vw] overflow-auto">
+                <h2 className="text-xl text-dark-blue font-bold mb-4">Filtres</h2>
+                <div>
+                  <h3 className="text-dark-blue font-bold mb-4">Connaissances</h3>
+                  <div>
+                    {interests
+                      .filter((interest) => interest.name !== "Empty")
+                      .map((interest) => (
+                        <button
+                          key={interest.id}
+                          onClick={() => handleFilterSelection(interest.id)}
+                          className={`mr-2 mb-2 px-4 py-2 rounded ${
+                            selectedFilters.includes(interest.id)
+                              ? "bg-dark-blue text-white"
+                              : "bg-gray-200 text-gray-800"
+                          }`}
+                        >
+                          <Image
+                            src={"/" + interest.icon}
+                            alt="Icone"
+                            width={20}
+                            height={20}
+                            className="icon"
+                          />
+                        </button>
+                      ))}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-dark-blue font-bold mb-4">Objectifs</h3>
+                  <div>
+                    {interests
+                      .filter((interest) => interest.name !== "Empty")
+                      .map((interest) => (
+                        <button
+                          key={interest.id}
+                          onClick={() => handleGoalFilterSelection(interest.id)}
+                          className={`mr-2 mb-2 px-4 py-2 rounded ${
+                            selectedGoalFilters.includes(interest.id)
+                              ? "bg-dark-blue text-white"
+                              : "bg-gray-200 text-gray-800"
+                          }`}
+                        >
+                          <Image
+                            src={"/" + interest.icon}
+                            alt="Icone"
+                            width={20}
+                            height={20}
+                            className="icon"
+                          />
+                        </button>
+                      ))}
+                  </div>
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    onClick={closePopup}
+                    className="px-4 py-2 bg-dark-blue text-white rounded-md"
+                  >
+                    Fermer
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         <br />
         {view === "tree" ? ( // view tree
@@ -955,16 +944,6 @@ const Users = () => {
           </div>
           </div>
 
-
-
-
-
-
-
-
-
-
-
           {popupOpen && (
   <div className="fixed inset-0 flex items-center justify-center bg-light-gray-transparent bg-opacity-50">
     <div className="bg-white p-8 rounded-lg w-[95vw] h-[90vw] overflow-auto">
@@ -1032,20 +1011,6 @@ const Users = () => {
     </div>
   </div>
 )}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
         <br />
         {view === "tree" ? ( // view tree

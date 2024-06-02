@@ -86,6 +86,20 @@ const deleteIdFrom = (table, id, res) => {
   });
 };
 
+const deleteUserHandler = async (table, id, res) => {
+  res.setHeader("Content-Type", "application/json");
+  const query = `CALL delete_user('${id.id}')`;
+  pool.query(query, (error, results) => {
+    if (error) {
+      res
+        .status(500)
+        .json({ error: "An error occurred while executing the query" });
+    } else {
+      res.json(results);
+    }
+  });
+};
+
 module.exports = {
   selectAllFrom,
   selectIdFrom,
@@ -93,4 +107,5 @@ module.exports = {
   insertInto,
   updateInto,
   deleteIdFrom,
+  deleteUserHandler
 };
