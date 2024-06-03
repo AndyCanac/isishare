@@ -15,6 +15,7 @@ const Accounts = () => {
     admin: string;
   }
 
+  const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState<UserInfo[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [popupOpenAdmin, setPopupOpenAdmin] = useState(false);
@@ -34,26 +35,18 @@ const Accounts = () => {
         const usersResponse = await fetch(`${localStorage.getItem("api")}users`);
         const usersData = await usersResponse.json();
         setUsers(usersData);
+
+        const usersIDResponse = await fetch(`${localStorage.getItem("api")}users/id/${localStorage.getItem("idActualUser")}`);
+        const usersIDData = await usersIDResponse.json();
+        setMailSender(usersData[0].email);
+
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-
-    fetch(`${localStorage.getItem("api")}users/id/${localStorage.getItem("idActualUser")}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      setMailSender(data[0].email);
-    })
-    .catch((error) => {
-      console.error("Error fetching user data:", error);
-    });
   }, []);
 
   // Filtrer les utilisateurs par connaissance et objectifs sélectionnée
@@ -198,157 +191,229 @@ const Accounts = () => {
           </div>
       </div>
 
-      <div className="parentRecom ml-[5vw] gap-x-[10vw]">
-        <div className="div1Recom">
-          {usersGroup1.map((user, index) => (
-            <div key={index}>
-              <div
-                className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg z-10"
-                onClick={() => setIdUser(user.id)}
-              >
-                <div className="flex justify-center -mt-16 md:justify-end">
-                  <Image
-                    className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
-                    alt="Testimonial avatar"
-                    src="/male-avatar.jpeg"
-                    width={100}
-                    height={100}
-                  />
-                </div>
-  
-                <h2 className="mt-2 text-xl font-semibold md:mt-0">
-                  {user.name}
-                </h2>
+      {isLoading ? (
+            <div className="parentRecom ml-[5vw] gap-x-[10vw]">
+              <div className="div1Recom">
+                {[...Array(3)].map((_, index) => (
+                      <div key={index}>
+                    <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+                          <div className="flex justify-center -mt-16 md:justify-end">
+                            <Image
+                              className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                              alt="Testimonial avatar"
+                              src="/male-avatar.jpeg"
+                              width={100}
+                              height={100}
+                            />
+                          </div>
+                          
+                          <br />
+                          <br />
+                          <br />
+                          <br />
 
-                <div className="flex justify-center items-center mt-4 z-20">
-                {user.admin == "0" ? (
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      updateUserTrigger(user.id, "1", user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <MdOutlineAdminPanelSettings size={30} style={{ color: "green" }} />
-                  </button>
-                ) : (
-                  <button
-                  onClick={(e) =>{
-                    e.stopPropagation();
-                    updateUserTrigger(user.id, "-1", user.name)}
-                  }
-                    className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <MdOutlineRemoveModerator size={30} style={{ color: "red" }} />
-                  </button>
-                )}
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      sendMailUserTrigger(user.email, user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <IoMailOutline size={30} style={{ color: "blue" }} />
-                  </button>
-
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      deleteUserTrigger(user.id, user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <GoTrash size={30} style={{ color: "red" }} />
-                  </button>
-                </div>
-  
-                <div className="flex justify-between mt-4">
-                  <a href="#" className="text-lg font-medium" role="link">
-                      Notation : {user.notation}
-                  </a>
-
-                  <a href="#" className="text-lg font-medium" role="link">
-                      Points : {user.points}
-                  </a>
+                          <div className="flex justify-between mt-4">
+                            <a href="#" className="text-lg font-medium" role="link">
+                                Notation : ~
+                            </a>
+          
+                            <a href="#" className="text-lg font-medium" role="link">
+                                Points : ~
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                 </div>
 
+                <div className="div2Recom">
+                    {[...Array(3)].map((_, index) => (
+                      <div key={index}>
+                        <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+                          <div className="flex justify-center -mt-16 md:justify-end">
+                            <Image
+                              className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                              alt="Testimonial avatar"
+                              src="/male-avatar.jpeg"
+                              width={100}
+                              height={100}
+                            />
+                          </div>
+
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+
+                          <div className="flex justify-between mt-4">
+                            <a href="#" className="text-lg font-medium" role="link">
+                                Notation : ~
+                            </a>
+          
+                            <a href="#" className="text-lg font-medium" role="link">
+                                Points : ~
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      ))}
+                </div>
+            </div>
+            ) : (
+            <div className="parentRecom ml-[5vw] gap-x-[10vw]">
+              <div className="div1Recom">
+                {usersGroup1.map((user, index) => (
+                  <div key={index}>
+                    <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg z-10"
+                      onClick={() => setIdUser(user.id)}
+                    >
+                      <div className="flex justify-center -mt-16 md:justify-end">
+                        <Image
+                          className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                          alt="Testimonial avatar"
+                          src="/male-avatar.jpeg"
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+        
+                      <h2 className="mt-2 text-xl font-semibold md:mt-0">
+                        {user.name}
+                      </h2>
+      
+                      <div className="flex justify-center items-center mt-4 z-20">
+                      {user.admin == "0" ? (
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            updateUserTrigger(user.id, "1", user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <MdOutlineAdminPanelSettings size={30} style={{ color: "green" }} />
+                        </button>
+                      ) : (
+                        <button
+                        onClick={(e) =>{
+                          e.stopPropagation();
+                          updateUserTrigger(user.id, "-1", user.name)}
+                        }
+                          className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <MdOutlineRemoveModerator size={30} style={{ color: "red" }} />
+                        </button>
+                      )}
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            sendMailUserTrigger(user.email, user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <IoMailOutline size={30} style={{ color: "blue" }} />
+                        </button>
+      
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            deleteUserTrigger(user.id, user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <GoTrash size={30} style={{ color: "red" }} />
+                        </button>
+                      </div>
+        
+                      <div className="flex justify-between mt-4">
+                        <a href="#" className="text-lg font-medium" role="link">
+                            Notation : {user.notation}
+                        </a>
+      
+                        <a href="#" className="text-lg font-medium" role="link">
+                            Points : {user.points}
+                        </a>
+                      </div>
+      
+                    </div>
+                  </div>
+                ))}
+              </div>
+      
+              <div className="div2Recom">
+              {usersGroup2.map((user, index) => (
+                  <div key={index}>
+                    <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg z-10"
+                      onClick={() => setIdUser(user.id)}
+                    >
+                      <div className="flex justify-center -mt-16 md:justify-end">
+                        <Image
+                          className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                          alt="Testimonial avatar"
+                          src="/male-avatar.jpeg"
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+        
+                      <h2 className="mt-2 text-xl font-semibold md:mt-0">
+                        {user.name}
+                      </h2>
+      
+                      <div className="flex justify-center items-center mt-4 z-20">
+                      {user.admin == "0" ? (
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            updateUserTrigger(user.id, "1", user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <MdOutlineAdminPanelSettings size={30} style={{ color: "green" }} />
+                        </button>
+                      ) : (
+                        <button
+                        onClick={(e) =>{
+                          e.stopPropagation();
+                          updateUserTrigger(user.id, "-1", user.name)}
+                        }
+                          className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <MdOutlineRemoveModerator size={30} style={{ color: "red" }} />
+                        </button>
+                      )}
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            sendMailUserTrigger(user.email, user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <IoMailOutline size={30} style={{ color: "blue" }} />
+                        </button>
+      
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            deleteUserTrigger(user.id, user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <GoTrash size={30} style={{ color: "red" }} />
+                        </button>
+                      </div>
+        
+                      <div className="flex justify-between mt-4">
+                        <a href="#" className="text-lg font-medium" role="link">
+                            Notation : {user.notation}
+                        </a>
+      
+                        <a href="#" className="text-lg font-medium" role="link">
+                            Points : {user.points}
+                        </a>
+                      </div>
+      
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-
-        <div className="div2Recom">
-        {usersGroup2.map((user, index) => (
-            <div key={index}>
-              <div
-                className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg z-10"
-                onClick={() => setIdUser(user.id)}
-              >
-                <div className="flex justify-center -mt-16 md:justify-end">
-                  <Image
-                    className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
-                    alt="Testimonial avatar"
-                    src="/male-avatar.jpeg"
-                    width={100}
-                    height={100}
-                  />
-                </div>
-  
-                <h2 className="mt-2 text-xl font-semibold md:mt-0">
-                  {user.name}
-                </h2>
-
-                <div className="flex justify-center items-center mt-4 z-20">
-                {user.admin == "0" ? (
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      updateUserTrigger(user.id, "1", user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <MdOutlineAdminPanelSettings size={30} style={{ color: "green" }} />
-                  </button>
-                ) : (
-                  <button
-                  onClick={(e) =>{
-                    e.stopPropagation();
-                    updateUserTrigger(user.id, "-1", user.name)}
-                  }
-                    className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <MdOutlineRemoveModerator size={30} style={{ color: "red" }} />
-                  </button>
-                )}
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      sendMailUserTrigger(user.email, user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <IoMailOutline size={30} style={{ color: "blue" }} />
-                  </button>
-
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      deleteUserTrigger(user.id, user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-6 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <GoTrash size={30} style={{ color: "red" }} />
-                  </button>
-                </div>
-  
-                <div className="flex justify-between mt-4">
-                  <a href="#" className="text-lg font-medium" role="link">
-                      Notation : {user.notation}
-                  </a>
-
-                  <a href="#" className="text-lg font-medium" role="link">
-                      Points : {user.points}
-                  </a>
-                </div>
-
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            )}
 
       <br />
       <br />
@@ -572,161 +637,239 @@ const Accounts = () => {
           </div>
       </div>
       
-      <div className="parentRecom flex w-full gap-x-[2vw]">
-        <div className="div1Recom flex-grow w-[46vw] ml-[3vw]">
-          {usersGroup1.map((user, index) => (
-            <div key={index}>
-              <div
-                className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg z-10"
-                onClick={() => setIdUser(user.id)}
-              >
-                <div className="flex justify-center -mt-16 md:justify-end">
-                  <Image
-                    className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
-                    alt="Testimonial avatar"
-                    src="/male-avatar.jpeg"
-                    width={100}
-                    height={100}
-                  />
-                </div>
-  
-                <h2 className="mt-2 text-base font-semibold md:mt-0">
-                  {user.name}
-                </h2>
+      {isLoading ? (
+          <div className="parentRecom flex w-full gap-x-[2vw]">
+            <div className="div1Recom flex-grow w-[46vw] ml-[3vw]">
+                {[...Array(3)].map((_, index) => (
+                      <div key={index}>
+                    <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+                          <div className="flex justify-center -mt-16 md:justify-end">
+                            <Image
+                              className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                              alt="Testimonial avatar"
+                              src="/male-avatar.jpeg"
+                              width={100}
+                              height={100}
+                            />
+                          </div>
+                          
+                          <br />
+                          <br />
+                          <br />
+                          <br />
 
-                <div className="flex justify-center items-center mt-4 z-20">
-                {user.admin == "0" ? (
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      updateUserTrigger(user.id, "1", user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <MdOutlineAdminPanelSettings size={30} style={{ color: "green" }} />
-                  </button>
-                ) : (
-                  <button
-                  onClick={(e) =>{
-                    e.stopPropagation();
-                    updateUserTrigger(user.id, "-1", user.name)}
-                  }
-                    className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <MdOutlineRemoveModerator size={30} style={{ color: "red" }} />
-                  </button>
-                )}
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      sendMailUserTrigger(user.email, user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <IoMailOutline size={30} style={{ color: "blue" }} />
-                  </button>
+                          <div className=" mt-6">
+                            <div className="flex-1">
+                              <a href="#" className="text-base font-medium" role="link">
+                                Notation : ~
+                              </a>
+                            </div>
+                            <div className="flex-1">
+                              <a href="#" className="text-base font-medium" role="link">
+                                Points : ~
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
 
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      deleteUserTrigger(user.id, user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <GoTrash size={30} style={{ color: "red" }} />
-                  </button>
+                <div className="div2Recom flex-grow w-[46vw]">
+                    {[...Array(3)].map((_, index) => (
+                      <div key={index}>
+                        <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+                          <div className="flex justify-center -mt-16 md:justify-end">
+                            <Image
+                              className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                              alt="Testimonial avatar"
+                              src="/male-avatar.jpeg"
+                              width={100}
+                              height={100}
+                            />
+                          </div>
+
+                          <br />
+                          <br />
+                          <br />
+                          <br />
+
+                          <div className=" mt-6">
+                            <div className="flex-1">
+                              <a href="#" className="text-base font-medium" role="link">
+                                Notation : ~
+                              </a>
+                            </div>
+                            <div className="flex-1">
+                              <a href="#" className="text-base font-medium" role="link">
+                                Points : ~
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      ))}
                 </div>
-  
-                <div className=" mt-6">
-                  <div className="flex-1">
-                    <a href="#" className="text-base font-medium" role="link">
-                      Notation : {user.notation}
-                    </a>
+            </div>
+            ) : (
+            <div className="parentRecom flex w-full gap-x-[2vw]">
+              <div className="div1Recom flex-grow w-[46vw] ml-[3vw]">
+                {usersGroup1.map((user, index) => (
+                  <div key={index}>
+                    <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg z-10"
+                      onClick={() => setIdUser(user.id)}
+                    >
+                      <div className="flex justify-center -mt-16 md:justify-end">
+                        <Image
+                          className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                          alt="Testimonial avatar"
+                          src="/male-avatar.jpeg"
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+        
+                      <h2 className="mt-2 text-base font-semibold md:mt-0">
+                        {user.name}
+                      </h2>
+      
+                      <div className="flex justify-center items-center mt-4 z-20">
+                      {user.admin == "0" ? (
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            updateUserTrigger(user.id, "1", user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <MdOutlineAdminPanelSettings size={30} style={{ color: "green" }} />
+                        </button>
+                      ) : (
+                        <button
+                        onClick={(e) =>{
+                          e.stopPropagation();
+                          updateUserTrigger(user.id, "-1", user.name)}
+                        }
+                          className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <MdOutlineRemoveModerator size={30} style={{ color: "red" }} />
+                        </button>
+                      )}
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            sendMailUserTrigger(user.email, user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <IoMailOutline size={30} style={{ color: "blue" }} />
+                        </button>
+      
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            deleteUserTrigger(user.id, user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <GoTrash size={30} style={{ color: "red" }} />
+                        </button>
+                      </div>
+        
+                      <div className=" mt-6">
+                        <div className="flex-1">
+                          <a href="#" className="text-base font-medium" role="link">
+                            Notation : {user.notation}
+                          </a>
+                        </div>
+                        <div className="flex-1">
+                          <a href="#" className="text-base font-medium" role="link">
+                            Points : {user.points}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <a href="#" className="text-base font-medium" role="link">
-                      Points : {user.points}
-                    </a>
+                ))}
+              </div>
+        
+              <div className="div2Recom flex-grow w-[46vw]">
+              {usersGroup2.map((user, index) => (
+                  <div key={index}>
+                    <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg z-10"
+                      onClick={() => setIdUser(user.id)}
+                    >
+                      <div className="flex justify-center -mt-16 md:justify-end">
+                        <Image
+                          className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                          alt="Testimonial avatar"
+                          src="/male-avatar.jpeg"
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+        
+                      <h2 className="mt-2 text-base font-semibold md:mt-0">
+                        {user.name}
+                      </h2>
+      
+                      <div className="flex justify-center items-center mt-4 z-20">
+                      {user.admin == "0" ? (
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            updateUserTrigger(user.id, "1", user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <MdOutlineAdminPanelSettings size={30} style={{ color: "green" }} />
+                        </button>
+                      ) : (
+                        <button
+                        onClick={(e) =>{
+                          e.stopPropagation();
+                          updateUserTrigger(user.id, "-1", user.name)}
+                        }
+                          className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <MdOutlineRemoveModerator size={30} style={{ color: "red" }} />
+                        </button>
+                      )}
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            sendMailUserTrigger(user.email, user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <IoMailOutline size={30} style={{ color: "blue" }} />
+                        </button>
+      
+                        <button
+                          onClick={(e) =>{
+                            e.stopPropagation();
+                            deleteUserTrigger(user.id, user.name)}
+                          }
+                          className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
+                          <GoTrash size={30} style={{ color: "red" }} />
+                        </button>
+                      </div>
+        
+                      <div className=" mt-6">
+                        <div className="flex-1">
+                          <a href="#" className="text-base font-medium" role="link">
+                            Notation : {user.notation}
+                          </a>
+                        </div>
+                        <div className="flex-1">
+                          <a href="#" className="text-base font-medium" role="link">
+                            Points : {user.points}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-  
-        <div className="div2Recom flex-grow w-[46vw]">
-        {usersGroup2.map((user, index) => (
-            <div key={index}>
-              <div
-                className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full px-8 py-4 mt-16 bg-white rounded-lg shadow-lg z-10"
-                onClick={() => setIdUser(user.id)}
-              >
-                <div className="flex justify-center -mt-16 md:justify-end">
-                  <Image
-                    className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
-                    alt="Testimonial avatar"
-                    src="/male-avatar.jpeg"
-                    width={100}
-                    height={100}
-                  />
-                </div>
-  
-                <h2 className="mt-2 text-base font-semibold md:mt-0">
-                  {user.name}
-                </h2>
-
-                <div className="flex justify-center items-center mt-4 z-20">
-                {user.admin == "0" ? (
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      updateUserTrigger(user.id, "1", user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <MdOutlineAdminPanelSettings size={30} style={{ color: "green" }} />
-                  </button>
-                ) : (
-                  <button
-                  onClick={(e) =>{
-                    e.stopPropagation();
-                    updateUserTrigger(user.id, "-1", user.name)}
-                  }
-                    className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <MdOutlineRemoveModerator size={30} style={{ color: "red" }} />
-                  </button>
-                )}
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      sendMailUserTrigger(user.email, user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <IoMailOutline size={30} style={{ color: "blue" }} />
-                  </button>
-
-                  <button
-                    onClick={(e) =>{
-                      e.stopPropagation();
-                      deleteUserTrigger(user.id, user.name)}
-                    }
-                    className="hover:bg-light-blue flex items-center px-2 py-2 tracking-wide text-black capitalize transition-transform duration-300 transform rounded-md hover:scale-110 focus:outline-none">
-                    <GoTrash size={30} style={{ color: "red" }} />
-                  </button>
-                </div>
-  
-                <div className=" mt-6">
-                  <div className="flex-1">
-                    <a href="#" className="text-base font-medium" role="link">
-                      Notation : {user.notation}
-                    </a>
-                  </div>
-                  <div className="flex-1">
-                    <a href="#" className="text-base font-medium" role="link">
-                      Points : {user.points}
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            )}
 
       <br />
       <br />
