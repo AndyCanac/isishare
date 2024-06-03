@@ -1416,9 +1416,6 @@ const Users = () => {
 
         ) : (
           // view kanban
-
-
-
           <>
           {isLoading ? (
             <div className="parentRecom flex w-full gap-x-[2vw]">
