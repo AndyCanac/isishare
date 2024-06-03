@@ -30,6 +30,7 @@ const Users = () => {
     icon: string;
   }
 
+  const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState<UserInfo[]>([]);
   const [admin, setAdmin] = useState<string>("0");
   const [knowledges, setknowledges] = useState<KnowledgInfo[]>([]);
@@ -71,6 +72,8 @@ const Users = () => {
         const interestsResponse = await fetch(`${localStorage.getItem("api")}interests`);
         const interestsData = await interestsResponse.json();
         setInterests(interestsData);
+
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -92,7 +95,6 @@ const Users = () => {
     // Inverser la direction du tri
     setSortDirectionNom(sortDirectionNom === "asc" ? "desc" : "asc");
   };
-
   // Fonction pour trier la liste des utilisateurs en fonction du score des points
   const sortUsersByPoints = () => {
     const sortedUsers = [...users].sort((a: any, b: any) => {
@@ -105,7 +107,6 @@ const Users = () => {
     setUsers(sortedUsers);
     setSortDirectionPoints(sortDirectionPoints === "asc" ? "desc" : "asc"); // Inverse la direction du tri
   };
-
   // Fonction pour trier la liste des utilisateurs en fonction du score de note
   const sortUsersByNotation = () => {
     const sortedUsers = [...users].sort((a: any, b: any) => {
@@ -118,7 +119,6 @@ const Users = () => {
     setUsers(sortedUsers);
     setSortDirectionNotation(sortDirectionNotation === "asc" ? "desc" : "asc"); // Inverse la direction du tri
   };
-
   // Filtrer les utilisateurs par connaissance et objectifs sélectionnée
   const filteredUsers = users.filter((user) => {
     const userKnowledgeIds = knowledges
@@ -596,286 +596,391 @@ const Users = () => {
           </div>
         ) : (
           // view kanban
-          <div className="parent ml-14">
-            <div className="div1">
-              {usersGroup1.map((user, index) => (
-                <div key={index}>
-                  <div
-                    className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
-                    onClick={() => setIdUser(user.id)}
-                  >
-                    <div className="flex justify-center -mt-16 md:justify-end">
-                      <Image
-                        className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
-                        alt="Testimonial avatar"
-                        src="/male-avatar.jpeg"
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-  
-                    <h2 className="mt-2 text-xl font-semibold md:mt-0">
-                      {user.name}
-                    </h2>
-  
-                    <p className="mt-2 text-sm text-gray-600">
-                      Connaissances :
-                    </p>
-                    <div className="flex flex-wrap justify-center mt-2">
-                      {knowledges
-                        .filter(
+          <>
+          {isLoading ? (
+            <div className="parent ml-14">
+                <div className="div1">
+                {[...Array(3)].map((_, index) => (
+                      <div key={index}>
+                        <div
+                          className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+                          <div className="flex justify-center -mt-16 md:justify-end">
+                            <Image
+                              className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                              alt="Testimonial avatar"
+                              src="/male-avatar.jpeg"
+                              width={100}
+                              height={100}
+                            />
+                          </div>
+
+                          <p className="mt-2 text-sm text-gray-600">
+                            Connaissances :
+                          </p>
+                          <div className="flex flex-wrap justify-center mt-2">
+
+                          </div>
+                          <div className="flex justify-between mt-6">
+                            <div className="flex-1 text-right">
+                              <a href="#" className="text-lg font-medium" role="link">
+                                Points : ~
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+
+                <div className="div2">
+                    {[...Array(3)].map((_, index) => (
+                      <div key={index}>
+                        <div
+                          className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+                          <div className="flex justify-center -mt-16 md:justify-end">
+                            <Image
+                              className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                              alt="Testimonial avatar"
+                              src="/male-avatar.jpeg"
+                              width={100}
+                              height={100}
+                            />
+                          </div>
+
+                          <p className="mt-2 text-sm text-gray-600">
+                            Connaissances :
+                          </p>
+                          <div className="flex flex-wrap justify-center mt-2">
+
+                          </div>
+                          <div className="flex justify-between mt-6">
+                            <div className="flex-1 text-right">
+                              <a href="#" className="text-lg font-medium" role="link">
+                                Points : ~
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      ))}
+                </div>
+
+                <div className="div3">
+                  {[...Array(3)].map((_, index) => (
+                        <div key={index}>
+                          <div
+                            className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+                            <div className="flex justify-center -mt-16 md:justify-end">
+                              <Image
+                                className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                                alt="Testimonial avatar"
+                                src="/male-avatar.jpeg"
+                                width={100}
+                                height={100}
+                              />
+                            </div>
+
+                            <p className="mt-2 text-sm text-gray-600">
+                              Connaissances :
+                            </p>
+                            <div className="flex flex-wrap justify-center mt-2">
+
+                            </div>
+                            <div className="flex justify-between mt-6">
+                              <div className="flex-1 text-right">
+                                <a href="#" className="text-lg font-medium" role="link">
+                                  Points : ~
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                </div>
+            </div>
+            ) : (
+              <div className="parent ml-14">
+              <div className="div1">
+                {usersGroup1.map((user, index) => (
+                  <div key={index}>
+                    <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
+                      onClick={() => setIdUser(user.id)}
+                    >
+                      <div className="flex justify-center -mt-16 md:justify-end">
+                        <Image
+                          className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                          alt="Testimonial avatar"
+                          src="/male-avatar.jpeg"
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+
+                      <h2 className="mt-2 text-xl font-semibold md:mt-0">
+                        {user.name}
+                      </h2>
+
+                      <p className="mt-2 text-sm text-gray-600">
+                        Connaissances :
+                      </p>
+                      <div className="flex flex-wrap justify-center mt-2">
+                        {knowledges
+                          .filter(
+                            (knowledge) => knowledge.user_id === user.id
+                          )
+                          .reduce((uniqueInterests, knowledge) => {
+                            interests.forEach((interest) => {
+                              if (
+                                knowledge.interest_id === interest.id &&
+                                !uniqueInterests.includes(
+                                  interest.id as never
+                                )
+                              ) {
+                                uniqueInterests.push(interest.id as never);
+                              }
+                            });
+                            return uniqueInterests;
+                          }, [])
+                          .map((uniqueInterestId) => (
+                            <div key={uniqueInterestId} className="mx-2">
+                              <Image
+                                className="object-cover w-10 h-10"
+                                width={300}
+                                height={300}
+                                src={"/" +
+                                  interests.find(
+                                    (interest) =>
+                                      interest.id === uniqueInterestId
+                                  )?.icon || "Logo/Empty.png"
+                                }
+                                alt="logo"
+                              />
+                            </div>
+                          ))}
+                        {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à empty */}
+                        {knowledges.filter(
                           (knowledge) => knowledge.user_id === user.id
-                        )
-                        .reduce((uniqueInterests, knowledge) => {
-                          interests.forEach((interest) => {
-                            if (
-                              knowledge.interest_id === interest.id &&
-                              !uniqueInterests.includes(
-                                interest.id as never
-                              )
-                            ) {
-                              uniqueInterests.push(interest.id as never);
-                            }
-                          });
-                          return uniqueInterests;
-                        }, [])
-                        .map((uniqueInterestId) => (
-                          <div key={uniqueInterestId} className="mx-2">
-                            <Image
-                              className="object-cover w-10 h-10"
-                              width={300}
-                              height={300}
-                              src={"/" +
-                                interests.find(
-                                  (interest) =>
-                                    interest.id === uniqueInterestId
-                                )?.icon || "Logo/Empty.png"
-                              }
-                              alt="logo"
-                            />
+                        ).length === 0 && (
+                            <div className="mx-2">
+                              <Image
+                                className="object-cover w-10 h-10"
+                                width={300}
+                                height={300}
+                                src={"/Logo/Empty.png"
+                                }
+                                alt="logo"
+                              />
+                            </div>
+                          )}
+                      </div>
+                      <div className="flex justify-between mt-6">
+                        {admin == "1" ? (
+                          <div className="flex-1">
+                            <a href="#" className="text-lg font-medium" role="link">
+                              Notation : {user.notation}
+                            </a>
                           </div>
-                        ))}
-                      {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à empty */}
-                      {knowledges.filter(
-                        (knowledge) => knowledge.user_id === user.id
-                      ).length === 0 && (
-                          <div className="mx-2">
-                            <Image
-                              className="object-cover w-10 h-10"
-                              width={300}
-                              height={300}
-                              src={"/Logo/Empty.png"
-                              }
-                              alt="logo"
-                            />
-                          </div>
-                        )}
-                    </div>
-                    <div className="flex justify-between mt-6">
-                      {admin == "1" ? (
-                        <div className="flex-1">
+                        ) : null}
+                        <div className="flex-1 text-right">
                           <a href="#" className="text-lg font-medium" role="link">
-                            Notation : {user.notation}
+                            Points : {user.points}
                           </a>
                         </div>
-                      ) : null}
-                      <div className="flex-1 text-right">
-                        <a href="#" className="text-lg font-medium" role="link">
-                          Points : {user.points}
-                        </a>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-  
-            <div className="div2">
-              {usersGroup2.map((user, index) => (
-                <div key={index}>
-                  <div
-                    className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
-                    onClick={() => setIdUser(user.id)}
-                  >
-                    <div className="flex justify-center -mt-16 md:justify-end">
-                      <Image
-                        className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
-                        alt="Testimonial avatar"
-                        src="/male-avatar.jpeg"
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-  
-                    <h2 className="mt-2 text-xl font-semibold md:mt-0">
-                      {user.name}
-                    </h2>
-  
-                    <p className="mt-2 text-sm text-gray-600">
-                      Connaissances :
-                    </p>
-                    <div className="flex flex-wrap justify-center mt-2">
-                      {knowledges
-                        .filter(
+                ))}
+              </div>
+
+              <div className="div2">
+                {usersGroup2.map((user, index) => (
+                  <div key={index}>
+                    <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
+                      onClick={() => setIdUser(user.id)}
+                    >
+                      <div className="flex justify-center -mt-16 md:justify-end">
+                        <Image
+                          className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                          alt="Testimonial avatar"
+                          src="/male-avatar.jpeg"
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+
+                      <h2 className="mt-2 text-xl font-semibold md:mt-0">
+                        {user.name}
+                      </h2>
+
+                      <p className="mt-2 text-sm text-gray-600">
+                        Connaissances :
+                      </p>
+                      <div className="flex flex-wrap justify-center mt-2">
+                        {knowledges
+                          .filter(
+                            (knowledge) => knowledge.user_id === user.id
+                          )
+                          .reduce((uniqueInterests, knowledge) => {
+                            interests.forEach((interest) => {
+                              if (
+                                knowledge.interest_id === interest.id &&
+                                !uniqueInterests.includes(
+                                  interest.id as never
+                                )
+                              ) {
+                                uniqueInterests.push(interest.id as never);
+                              }
+                            });
+                            return uniqueInterests;
+                          }, [])
+                          .map((uniqueInterestId) => (
+                            <div key={uniqueInterestId} className="mx-2">
+                              <Image
+                                className="object-cover w-10 h-10"
+                                width={300}
+                                height={300}
+                                src={"/" +
+                                  interests.find(
+                                    (interest) =>
+                                      interest.id === uniqueInterestId
+                                  )?.icon || "Logo/Empty.png"
+                                }
+                                alt="logo"
+                              />
+                            </div>
+                          ))}
+                        {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à empty */}
+                        {knowledges.filter(
                           (knowledge) => knowledge.user_id === user.id
-                        )
-                        .reduce((uniqueInterests, knowledge) => {
-                          interests.forEach((interest) => {
-                            if (
-                              knowledge.interest_id === interest.id &&
-                              !uniqueInterests.includes(
-                                interest.id as never
-                              )
-                            ) {
-                              uniqueInterests.push(interest.id as never);
-                            }
-                          });
-                          return uniqueInterests;
-                        }, [])
-                        .map((uniqueInterestId) => (
-                          <div key={uniqueInterestId} className="mx-2">
-                            <Image
-                              className="object-cover w-10 h-10"
-                              width={300}
-                              height={300}
-                              src={"/" +
-                                interests.find(
-                                  (interest) =>
-                                    interest.id === uniqueInterestId
-                                )?.icon || "Logo/Empty.png"
-                              }
-                              alt="logo"
-                            />
+                        ).length === 0 && (
+                            <div className="mx-2">
+                              <Image
+                                className="object-cover w-10 h-10"
+                                width={300}
+                                height={300}
+                                src={"/Logo/Empty.png"
+                                }
+                                alt="logo"
+                              />
+                            </div>
+                          )}
+                      </div>
+                      <div className="flex justify-between mt-6">
+                        {admin == "1" ? (
+                          <div className="flex-1">
+                            <a href="#" className="text-lg font-medium" role="link">
+                              Notation : {user.notation}
+                            </a>
                           </div>
-                        ))}
-                      {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à empty */}
-                      {knowledges.filter(
-                        (knowledge) => knowledge.user_id === user.id
-                      ).length === 0 && (
-                          <div className="mx-2">
-                            <Image
-                              className="object-cover w-10 h-10"
-                              width={300}
-                              height={300}
-                              src={"/Logo/Empty.png"
-                              }
-                              alt="logo"
-                            />
-                          </div>
-                        )}
-                    </div>
-                    <div className="flex justify-between mt-6">
-                      {admin == "1" ? (
-                        <div className="flex-1">
+                        ) : null}
+                        <div className="flex-1 text-right">
                           <a href="#" className="text-lg font-medium" role="link">
-                            Notation : {user.notation}
+                            Points : {user.points}
                           </a>
                         </div>
-                      ) : null}
-                      <div className="flex-1 text-right">
-                        <a href="#" className="text-lg font-medium" role="link">
-                          Points : {user.points}
-                        </a>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-  
-            <div className="div3">
-              {usersGroup3.map((user, index) => (
-                <div key={index}>
-                  <div
-                    className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
-                    onClick={() => setIdUser(user.id)}
-                  >
-                    <div className="flex justify-center -mt-16 md:justify-end">
-                      <Image
-                        className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
-                        alt="Testimonial avatar"
-                        src="/male-avatar.jpeg"
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-  
-                    <h2 className="mt-2 text-xl font-semibold md:mt-0">
-                      {user.name}
-                    </h2>
-  
-                    <p className="mt-2 text-sm text-gray-600">
-                      Connaissances :
-                    </p>
-                    <div className="flex flex-wrap justify-center mt-2">
-                      {knowledges
-                        .filter(
+                ))}
+              </div>
+
+              <div className="div3">
+                {usersGroup3.map((user, index) => (
+                  <div key={index}>
+                    <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
+                      onClick={() => setIdUser(user.id)}
+                    >
+                      <div className="flex justify-center -mt-16 md:justify-end">
+                        <Image
+                          className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                          alt="Testimonial avatar"
+                          src="/male-avatar.jpeg"
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+
+                      <h2 className="mt-2 text-xl font-semibold md:mt-0">
+                        {user.name}
+                      </h2>
+
+                      <p className="mt-2 text-sm text-gray-600">
+                        Connaissances :
+                      </p>
+                      <div className="flex flex-wrap justify-center mt-2">
+                        {knowledges
+                          .filter(
+                            (knowledge) => knowledge.user_id === user.id
+                          )
+                          .reduce((uniqueInterests, knowledge) => {
+                            interests.forEach((interest) => {
+                              if (
+                                knowledge.interest_id === interest.id &&
+                                !uniqueInterests.includes(
+                                  interest.id as never
+                                )
+                              ) {
+                                uniqueInterests.push(interest.id as never);
+                              }
+                            });
+                            return uniqueInterests;
+                          }, [])
+                          .map((uniqueInterestId) => (
+                            <div key={uniqueInterestId} className="mx-2">
+                              <Image
+                                className="object-cover w-10 h-10"
+                                width={300}
+                                height={300}
+                                src={"/" +
+                                  interests.find(
+                                    (interest) =>
+                                      interest.id === uniqueInterestId
+                                  )?.icon || "Logo/Empty.png"
+                                }
+                                alt="logo"
+                              />
+                            </div>
+                          ))}
+                        {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à empty */}
+                        {knowledges.filter(
                           (knowledge) => knowledge.user_id === user.id
-                        )
-                        .reduce((uniqueInterests, knowledge) => {
-                          interests.forEach((interest) => {
-                            if (
-                              knowledge.interest_id === interest.id &&
-                              !uniqueInterests.includes(
-                                interest.id as never
-                              )
-                            ) {
-                              uniqueInterests.push(interest.id as never);
-                            }
-                          });
-                          return uniqueInterests;
-                        }, [])
-                        .map((uniqueInterestId) => (
-                          <div key={uniqueInterestId} className="mx-2">
-                            <Image
-                              className="object-cover w-10 h-10"
-                              width={300}
-                              height={300}
-                              src={"/" +
-                                interests.find(
-                                  (interest) =>
-                                    interest.id === uniqueInterestId
-                                )?.icon || "Logo/Empty.png"
-                              }
-                              alt="logo"
-                            />
+                        ).length === 0 && (
+                            <div className="mx-2">
+                              <Image
+                                className="object-cover w-10 h-10"
+                                width={300}
+                                height={300}
+                                src={"/Logo/Empty.png"
+                                }
+                                alt="logo"
+                              />
+                            </div>
+                          )}
+                      </div>
+                      <div className="flex justify-between mt-6">
+                        {admin == "1" ? (
+                          <div className="flex-1">
+                            <a href="#" className="text-lg font-medium" role="link">
+                              Notation : {user.notation}
+                            </a>
                           </div>
-                        ))}
-                      {/* Si aucun logo de connaissance n'est trouvé, affichez le logo correspondant à empty */}
-                      {knowledges.filter(
-                        (knowledge) => knowledge.user_id === user.id
-                      ).length === 0 && (
-                          <div className="mx-2">
-                            <Image
-                              className="object-cover w-10 h-10"
-                              width={300}
-                              height={300}
-                              src={"/Logo/Empty.png"
-                              }
-                              alt="logo"
-                            />
-                          </div>
-                        )}
-                    </div>
-                    <div className="flex justify-between mt-6">
-                      {admin == "1" ? (
-                        <div className="flex-1">
+                        ) : null}
+                        <div className="flex-1 text-right">
                           <a href="#" className="text-lg font-medium" role="link">
-                            Notation : {user.notation}
+                            Points : {user.points}
                           </a>
                         </div>
-                      ) : null}
-                      <div className="flex-1 text-right">
-                        <a href="#" className="text-lg font-medium" role="link">
-                          Points : {user.points}
-                        </a>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+            )}
+          </>
         )}
       </section>
     );
@@ -1305,161 +1410,240 @@ const Users = () => {
               </div>
             </div>
           </div>
+
+
+
+
         ) : (
           // view kanban
-          <div className="parentRecom flex w-full gap-x-[2vw]">
-            <div className="div1Recom flex-grow w-[45vw]">
-              {usersGroup1.map((user, index) => (
-                <div key={index}>
-                  <div
-                    className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
-                    onClick={() => setIdUser(user.id)}
-                  >
-                    <div className="flex justify-center -mt-16 md:justify-end">
-                      <Image
-                        className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
-                        alt="Testimonial avatar"
-                        src="/male-avatar.jpeg"
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-  
-                    <h2 className="mt-2 text-base font-semibold md:mt-0">
-                      {user.name}
-                    </h2>
-  
-                    <p className="mt-2 text-sm text-gray-600">
-                      Connaissances :
-                    </p>
-                    <div className="flex flex-wrap justify-center mt-2">
-                  {knowledges
-                    .filter((knowledge) => knowledge.user_id === user.id)
-                    .map((knowledge, index) => (
-                      <div key={index} className="mx-2">
-                        <Image
-                          className="object-cover w-7 h-7"
-                          width={300}
-                          height={300}
-                          src=
-                          {"/" + 
-                            interests.find(
-                              (interest) => interest.id === knowledge.interest_id
-                            )?.icon || "/Logo/Other.svg"
-                          }
-                          alt="logo"
-                        />
+
+
+
+          <>
+          {isLoading ? (
+            <div className="parentRecom flex w-full gap-x-[2vw]">
+              <div className="div1Recom flex-grow w-[45vw]">
+                {[...Array(3)].map((_, index) => (
+                      <div key={index}>
+                        <div
+                          className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+                          <div className="flex justify-center -mt-16 md:justify-end">
+                            <Image
+                              className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                              alt="Testimonial avatar"
+                              src="/male-avatar.jpeg"
+                              width={100}
+                              height={100}
+                            />
+                          </div>
+
+                          <p className="mt-2 text-sm text-gray-600">
+                            Connaissances :
+                          </p>
+                          <div className="flex flex-wrap justify-center mt-2">
+
+                          </div>
+                          <div className="flex justify-between mt-6">
+                            <div className="flex-1 text-right">
+                              <a href="#" className="text-lg font-medium" role="link">
+                                Points : ~
+                              </a>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     ))}
-                    {knowledges.filter(
-                            (knowledge) => knowledge.user_id === user.id
-                          ).length === 0 && (
-                            <div className="mx-2">
-                              <Image
-                                className="object-cover w-7 h-7"
-                                width={300}
-                                height={300}
-                                src="/Logo/Empty.png"
-                                alt="logo"
-                              />
-                            </div>
-                          )}
                 </div>
-                    <div className=" mt-6">
-                      {admin == "1" ? (
+
+                <div className="div2Recom flex-grow w-[45vw]">
+                    {[...Array(3)].map((_, index) => (
+                      <div key={index}>
+                        <div
+                          className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+                          <div className="flex justify-center -mt-16 md:justify-end">
+                            <Image
+                              className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                              alt="Testimonial avatar"
+                              src="/male-avatar.jpeg"
+                              width={100}
+                              height={100}
+                            />
+                          </div>
+
+                          <p className="mt-2 text-sm text-gray-600">
+                            Connaissances :
+                          </p>
+                          <div className="flex flex-wrap justify-center mt-2">
+
+                          </div>
+                          <div className="flex justify-between mt-6">
+                            <div className="flex-1 text-right">
+                              <a href="#" className="text-lg font-medium" role="link">
+                                Points : ~
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      ))}
+                </div>
+            </div>
+            ) : (
+              <div className="parentRecom flex w-full gap-x-[2vw]">
+              <div className="div1Recom flex-grow w-[45vw]">
+                {usersGroup1.map((user, index) => (
+                  <div key={index}>
+                    <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
+                      onClick={() => setIdUser(user.id)}
+                    >
+                      <div className="flex justify-center -mt-16 md:justify-end">
+                        <Image
+                          className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                          alt="Testimonial avatar"
+                          src="/male-avatar.jpeg"
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+    
+                      <h2 className="mt-2 text-base font-semibold md:mt-0">
+                        {user.name}
+                      </h2>
+    
+                      <p className="mt-2 text-sm text-gray-600">
+                        Connaissances :
+                      </p>
+                      <div className="flex flex-wrap justify-center mt-2">
+                    {knowledges
+                      .filter((knowledge) => knowledge.user_id === user.id)
+                      .map((knowledge, index) => (
+                        <div key={index} className="mx-2">
+                          <Image
+                            className="object-cover w-7 h-7"
+                            width={300}
+                            height={300}
+                            src=
+                            {"/" + 
+                              interests.find(
+                                (interest) => interest.id === knowledge.interest_id
+                              )?.icon || "/Logo/Other.svg"
+                            }
+                            alt="logo"
+                          />
+                        </div>
+                      ))}
+                      {knowledges.filter(
+                              (knowledge) => knowledge.user_id === user.id
+                            ).length === 0 && (
+                              <div className="mx-2">
+                                <Image
+                                  className="object-cover w-7 h-7"
+                                  width={300}
+                                  height={300}
+                                  src="/Logo/Empty.png"
+                                  alt="logo"
+                                />
+                              </div>
+                            )}
+                  </div>
+                      <div className=" mt-6">
+                        {admin == "1" ? (
+                          <div className="flex-1">
+                            <a href="#" className="text-base font-medium" role="link">
+                              Notation : {user.notation}
+                            </a>
+                          </div>
+                        ) : null}
                         <div className="flex-1">
                           <a href="#" className="text-base font-medium" role="link">
-                            Notation : {user.notation}
+                            Points : {user.points}
                           </a>
                         </div>
-                      ) : null}
-                      <div className="flex-1">
-                        <a href="#" className="text-base font-medium" role="link">
-                          Points : {user.points}
-                        </a>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-  
-            <div className="div2Recom flex-grow w-[45vw]">
-              {usersGroup2.map((user, index) => (
-                <div key={index}>
-                  <div
-                    className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
-                    onClick={() => setIdUser(user.id)}
-                  >
-                    <div className="flex justify-center -mt-16 md:justify-end">
-                      <Image
-                        className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
-                        alt="Testimonial avatar"
-                        src="/male-avatar.jpeg"
-                        width={100}
-                        height={100}
-                      />
-                    </div>
-  
-                    <h2 className="mt-2 text-base font-semibold md:mt-0">
-                      {user.name}
-                    </h2>
-  
-                    <p className="mt-2 text-sm text-gray-600">
-                      Connaissances :
-                    </p>
-                    <div className="flex flex-wrap justify-center mt-2">
-                  {knowledges
-                    .filter((knowledge) => knowledge.user_id === user.id)
-                    .map((knowledge, index) => (
-                      <div key={index} className="mx-2">
+                ))}
+              </div>
+    
+              <div className="div2Recom flex-grow w-[45vw]">
+                {usersGroup2.map((user, index) => (
+                  <div key={index}>
+                    <div
+                      className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg"
+                      onClick={() => setIdUser(user.id)}
+                    >
+                      <div className="flex justify-center -mt-16 md:justify-end">
                         <Image
-                          className="object-cover w-7 h-7"
-                          width={300}
-                          height={300}
-                          src=
-                          {"/" + 
-                            interests.find(
-                              (interest) => interest.id === knowledge.interest_id
-                            )?.icon || "/Logo/Other.svg"
-                          }
-                          alt="logo"
+                          className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
+                          alt="Testimonial avatar"
+                          src="/male-avatar.jpeg"
+                          width={100}
+                          height={100}
                         />
                       </div>
-                    ))}
-                    {knowledges.filter(
-                            (knowledge) => knowledge.user_id === user.id
-                          ).length === 0 && (
-                            <div className="mx-2">
-                              <Image
-                                className="object-cover w-7 h-7"
-                                width={300}
-                                height={300}
-                                src="/Logo/Empty.png"
-                                alt="logo"
-                              />
-                            </div>
-                          )}
-                </div>
-                    <div className=" mt-6">
-                      {admin == "1" ? (
+    
+                      <h2 className="mt-2 text-base font-semibold md:mt-0">
+                        {user.name}
+                      </h2>
+    
+                      <p className="mt-2 text-sm text-gray-600">
+                        Connaissances :
+                      </p>
+                      <div className="flex flex-wrap justify-center mt-2">
+                    {knowledges
+                      .filter((knowledge) => knowledge.user_id === user.id)
+                      .map((knowledge, index) => (
+                        <div key={index} className="mx-2">
+                          <Image
+                            className="object-cover w-7 h-7"
+                            width={300}
+                            height={300}
+                            src=
+                            {"/" + 
+                              interests.find(
+                                (interest) => interest.id === knowledge.interest_id
+                              )?.icon || "/Logo/Other.svg"
+                            }
+                            alt="logo"
+                          />
+                        </div>
+                      ))}
+                      {knowledges.filter(
+                              (knowledge) => knowledge.user_id === user.id
+                            ).length === 0 && (
+                              <div className="mx-2">
+                                <Image
+                                  className="object-cover w-7 h-7"
+                                  width={300}
+                                  height={300}
+                                  src="/Logo/Empty.png"
+                                  alt="logo"
+                                />
+                              </div>
+                            )}
+                  </div>
+                      <div className=" mt-6">
+                        {admin == "1" ? (
+                          <div className="flex-1">
+                            <a href="#" className="text-base font-medium" role="link">
+                              Notation : {user.notation}
+                            </a>
+                          </div>
+                        ) : null}
                         <div className="flex-1">
                           <a href="#" className="text-base font-medium" role="link">
-                            Notation : {user.notation}
+                            Points : {user.points}
                           </a>
                         </div>
-                      ) : null}
-                      <div className="flex-1">
-                        <a href="#" className="text-base font-medium" role="link">
-                          Points : {user.points}
-                        </a>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+            )}
+          </>
         )}
       </section>
     );
