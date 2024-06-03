@@ -440,7 +440,7 @@ const Accounts = () => {
                     className="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white"
                     id="modal-title"
                   >
-                    Changer l'autorisation de {nameUserModification}
+                    Changer l&apos;autorisation de {nameUserModification}
                   </h3>
                   <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                     Êtes vous sur de vouloir modifier ce profil ?
@@ -896,7 +896,7 @@ const Accounts = () => {
                     className="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white"
                     id="modal-title"
                   >
-                    Changer l'autorisation de {nameUserModification}
+                    Changer l&apos;autorisation de {nameUserModification}
                   </h3>
                   <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                     Êtes vous sur de vouloir modifier ce profil ?
