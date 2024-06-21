@@ -1,21 +1,23 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Users from "./Recommendation";
 
 export default function Login() {
   interface UserInfo {
     id: string;
     email: string;
     password: string;
+    admin: string;
   }
 
-  const [idUser, setIdUser] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [idUser, setIdUser] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [infoLogin, setInfoLogin] = useState<UserInfo[]>([]);
 
   useEffect(() => {
-    localStorage.setItem("api", "https://localhost:3001/api/");
+    localStorage.setItem("api", "http://localhost:3001/api/");
 
     fetch(`${localStorage.getItem("api")}users`)
       .then((response) => {
@@ -34,17 +36,18 @@ export default function Login() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    let userFind = false;
     for (let i = 0; i < infoLogin.length; i++) {
-      if (infoLogin[i].email === email && infoLogin[i].password === password) {
+      if (infoLogin[i].email == email && infoLogin[i].password == password) {
         document.location.href = "/home";
         setIdUser(infoLogin[i].id);
         localStorage.setItem("idActualUser", infoLogin[i].id.toString());
-        break;
-      } else {
-        alert("Email ou mot de passe incorrect");
-        break;
+        localStorage.setItem("isAdmin", infoLogin[i].admin.toString());
+        userFind = true;
       }
     }
+
+    if(!userFind)alert("Email ou mot de passe incorrect");
   };
 
   return (

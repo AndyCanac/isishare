@@ -1,5 +1,6 @@
 // app.js
 const express = require("express");
+const cors = require("cors");
 const app = express();
 const port = 3001;
 const mainRoutes = require("./routes/main");
@@ -13,12 +14,15 @@ const groupsRoutes = require("./routes/groups");
 const contactsRoutes = require("./routes/contacts");
 const notationsRoutes = require("./routes/notations");
 
+app.use(cors());
+
 const routes = [
   { path: "/api", route: mainRoutes },
 
   { path: "/api/users", route: usersRoutes },
   { path: "/api/users/id/:id", route: usersRoutes },
   { path: "/api/users/update/:id/:colomns/:values", route: usersRoutes },
+  { path: "/api/users/delete/:id", route: usersRoutes },
 
   { path: "/api/usersingroups", route: userInGroupeRoutes },
   { path: "/api/usersingroups/id/:id", route: userInGroupeRoutes },

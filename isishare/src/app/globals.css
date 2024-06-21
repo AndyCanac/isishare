@@ -3,6 +3,38 @@
 @tailwind utilities;
 
 @layer base {
+
+
+
+
+.containerForum {
+    display: grid;
+    grid-template-rows: 1fr 100px;
+    min-height: 100vh;
+}
+
+.mainForum {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    width: calc(100% - 40px);
+    max-width: 900px;
+    margin: 20px auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 3px 10px 1px rgba(0,0,0,0.2);
+  }
+
+  .titleForum {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin: 0;
+    color: white;
+    background: #2a429e;
+    font-size: 3vw;
+  }
+
     :root {
         --background: 0 0% 100%;
         --foreground: 0 0% 3.9%;
@@ -42,11 +74,6 @@
         --black: #000000;
         --light-blue-transparent: #609bf37c;
         --light-gray-transparent: #bbbbbc76;
-    }
-
-    #buttontogglePopup {
-        position: relative;
-        top: 0.5vh;
     }
 
     .dark {
@@ -106,7 +133,7 @@
     padding: 0.5rem;
     border: 1px solid #bbbbbc;
     border-radius: 4px;
-    width: 300px;
+    width: 30vw;
     outline: none;
 }
 
@@ -135,10 +162,8 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr;
-    grid-column-gap: 10vw;
     grid-row-gap: 0px;
     width: 80vw;
-    margin-left: 5vw;
 }
     
 .div1Recom { grid-area: 1 / 1 / 2 / 2; }

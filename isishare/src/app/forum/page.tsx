@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import NotConnect from "@/components/not-connect";
+import Chat from "@/components/Chat";
 import Sidebar from "@/components/Sidebar";
-import Recom from "@/components/Recommendation";
 
-export default function Recommendation() {
+export default function ForumPage() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -22,7 +22,12 @@ export default function Recommendation() {
     return (
       <>
         <Sidebar />
-        <Recom />
+        <div className="containerForum">
+          <main className="mainForum">
+            <h1 className="titleForum text-2xl" id="title">Discute avec tout le monde !</h1>
+            <Chat />
+          </main>
+        </div>
       </>
     );
   }
