@@ -136,7 +136,7 @@ const Users = () => {
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  //fonction pour gérer la sélection des filtres d'objectifs
+  //Fonction pour gérer la sélection des filtres d'objectifs
   const handleGoalFilterSelection = (filter: string) => {
     if (selectedGoalFilters.includes(filter)) {
       setSelectedGoalFilters(selectedGoalFilters.filter((item) => item !== filter));
