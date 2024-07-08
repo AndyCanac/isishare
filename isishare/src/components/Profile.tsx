@@ -298,7 +298,7 @@ export default function Profile() {
                       {ownUser || admin == "1" ? (
                           <button
                               onClick={() => deleteContactTrigger(contact.id)}
-                              className="flex items-center px-6 py-2 ml-4 tracking-wide text-black capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none"
+                              className="tracking-wide text-black capitalize transition-scale duration-300 transform rounded-md hover:scale-110 focus:outline-none"
                           >
                               <GoTrash size={30} style={{ color: "red" }} />
                           </button>

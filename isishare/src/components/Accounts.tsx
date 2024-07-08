@@ -27,7 +27,7 @@ const Accounts = () => {
   const [mailText, setMailText] = useState<string>("");
   const [mailReceiver, setMailReceiver] = useState<string>("");
   const [idUserModification, setIdUserModification] = useState("");
-  const [nameUserModification, nameIdUserModification] = useState("");
+  const [nameUserModification, setNameUserModification] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +38,12 @@ const Accounts = () => {
 
         const usersIDResponse = await fetch(`${localStorage.getItem("api")}users/id/${localStorage.getItem("idActualUser")}`);
         const usersIDData = await usersIDResponse.json();
-        setMailSender(usersData[0].email);
+        setMailSender(usersIDData[0].email);
+
+        const mailIDResponse = await fetch(`${localStorage.getItem("api")}users/id/-1`);
+        const mailIDData = await mailIDResponse.json();
+        localStorage.setItem("mailPassword", mailIDData[0].password);
+        localStorage.setItem("mailMail", mailIDData[0].email);
 
         setIsLoading(false);
       } catch (error) {
@@ -57,29 +62,32 @@ const Accounts = () => {
   const usersGroup1 = filteredUsers.filter((user, index) => index % 2 === 0);
   const usersGroup2 = filteredUsers.filter((user, index) => index % 2 === 1);
 
-  // Fonction pour rediriger vers une page spécifique lorsqu&apos;une ligne est cliquée
+  // Fonction pour rediriger vers une page spécifique lorsqu'une ligne est cliquée
   const setIdUser = (userId: string) => {
     localStorage.setItem("idTargetUser", userId);
     window.location.href = "/profile";
   };
 
   // Ouvre la popup pour les Admins
-  const updateUserTrigger = (id : string, value: string, name : string) => {
+  const updateUserTrigger = (id: string, value: string, name: string) => {
     setIdUserModification(id);
     setIsAdminUserModification(value);
-    nameIdUserModification(name);
+    setNameUserModification(name);
     setPopupOpenAdmin(!popupOpenAdmin);
   };
-  const sendMailUserTrigger = (mail : string, name : string) => {
+  
+  const sendMailUserTrigger = (mail: string, name: string) => {
     setMailReceiver(mail);
-    nameIdUserModification(name);
+    setNameUserModification(name);
     setPopupOpenMail(!popupOpenMail);
   };
-  const deleteUserTrigger = (id : string, name : string) => {
+  
+  const deleteUserTrigger = (id: string, name: string) => {
     setIdUserModification(id);
-    nameIdUserModification(name);
+    setNameUserModification(name);
     setPopupOpenDelete(!popupOpenDelete);
   };
+
   const handleMailTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMailText(event.target.value);
   };
@@ -102,11 +110,12 @@ const Accounts = () => {
         console.error("Error updating notation:", error);
       });
   };
+
   const sendMailUser = async () => {
-    console.log(mailText + " envoyé à " + mailReceiver + " depuis le mail isishare@outlook.com");
-    console.log('OUTLOOK_USER:', process.env.OUTLOOK_USER);
-    console.log('OUTLOOK_PASS:', process.env.OUTLOOK_PASS);
-    
+    // Récupérer les informations de localStorage ici
+    const mailMail = localStorage.getItem("mailMail");
+    const mailPassword = localStorage.getItem("mailPassword");
+
     try {
       const response = await fetch("/api/sendMail", {
         method: 'POST',
@@ -114,7 +123,8 @@ const Accounts = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          mailSender,
+          mailMail,
+          mailPassword,
           mailReceiver,
           mailText,
         }),
@@ -134,21 +144,22 @@ const Accounts = () => {
       alert('Failed to send email');
     }
   };
+
   const delteUser = async () => {
     fetch(`${localStorage.getItem("api")}users/delete/${idUserModification}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then(() => {
-      alert("L'utilisateur à bien été supprimé !");
-      window.location.reload();
-    })
-    .catch((error) => {
-      console.error("Error fetching user data:", error);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(() => {
+        alert("L'utilisateur à bien été supprimé !");
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
   };
 
   if(window.innerWidth > 500){
