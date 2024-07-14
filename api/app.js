@@ -13,6 +13,7 @@ const interestsRoutes = require("./routes/interests");
 const groupsRoutes = require("./routes/groups");
 const contactsRoutes = require("./routes/contacts");
 const notationsRoutes = require("./routes/notations");
+const picturesRoutes = require("./routes/pictures");
 
 app.use(cors());
 
@@ -22,6 +23,7 @@ const routes = [
   { path: "/api/users", route: usersRoutes },
   { path: "/api/users/id/:id", route: usersRoutes },
   { path: "/api/users/update/:id/:colomns/:values", route: usersRoutes },
+  { path: "/api/users/change/:id/:colomns/:values", route: usersRoutes },
   { path: "/api/users/delete/:id", route: usersRoutes },
 
   { path: "/api/usersingroups", route: userInGroupeRoutes },
@@ -56,6 +58,8 @@ const routes = [
 
   { path: "/api/notations", route: notationsRoutes },
   { path: "/api/notations/insert/:colomns/:values", route: notationsRoutes },
+
+  { path: "/api/pictures", route: picturesRoutes },
 ];
 
 routes.forEach((route) => {
