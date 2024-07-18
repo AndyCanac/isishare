@@ -3,6 +3,7 @@ const pool = require("./db");
 const selectAllFrom = (table, res) => {
   res.setHeader("Content-Type", "application/json");
   const query = `SELECT * FROM ${table}`;
+  console.log(query);
   pool.query(query, (error, results) => {
     if (error) {
       res

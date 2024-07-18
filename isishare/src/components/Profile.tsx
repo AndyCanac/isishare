@@ -40,45 +40,128 @@ export default function Profile() {
   const [info, setInfo] = useState<string>("");
   const [linkPicture, setLinkPicture] = useState<string>("");
 
+  const fileToBase64 = (file : any) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // const handleFileChange = async (e: any) => {
+  //   const selectedFile = e.target.files[0];
+  
+  //   if (selectedFile) {
+  //     const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
+  //     if (!validImageTypes.includes(selectedFile.type)) {
+  //       alert("Selected file is not a valid image. Please select an image file (JPEG, PNG, GIF, SVG).");
+  //       return;
+  //     }
+  
+  //     try {
+  //       const userId = localStorage.getItem("idActualUser");
+  //       const base64Image = await fileToBase64(selectedFile);
+
+  //       const res = await fetch(`${localStorage.getItem("api")}pictures`, {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json'
+  //         },
+  //         body: JSON.stringify({
+  //           userId: userId,
+  //           image: base64Image
+  //         }),
+  //       });
+  
+  //       if (!res.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  
+  //       window.location.reload();
+  //     } catch (error) {
+  //       console.error("Error uploading file or updating profile picture:", error);
+  //     }
+  //   }
+  // };
+
+
+
+
+
   const handleFileChange = async (e: any) => {
     const selectedFile = e.target.files[0];
   
-    if (selectedFile) {
-      // Vérifie si le fichier est une image en vérifiant le type MIME
-      const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
-      if (!validImageTypes.includes(selectedFile.type)) {
-        alert("Selected file is not a valid image. Please select an image file (JPEG, PNG, GIF, SVG).");
-        return;
-      }
-      
-      const formData = new FormData();
-      formData.append('profilePic', selectedFile);
+    if (!selectedFile) {
+      return;
+    }
   
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
+    if (!validImageTypes.includes(selectedFile.type)) {
+      alert("Selected file is not a valid image. Please select an image file (JPEG, PNG, GIF, SVG).");
+      return;
+    }
+  
+    try {
       const userId = localStorage.getItem("idActualUser");
-      formData.append('userId', userId as any);
+      const base64Image = await fileToBase64(selectedFile);
   
-      try {
-        const res = await fetch(`${localStorage.getItem("api")}pictures`, {
-          method: 'POST',
-          body: formData,
-        });
+      const res = await fetch(`${localStorage.getItem("api")}pictures`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: userId,
+          filePath: base64Image  // Assurez-vous que 'filePath' correspond à ce que votre API attend
+        }),
+      });
   
-        const data = await res.json();
-  
-        const updateRes = await fetch(`${localStorage.getItem("api")}users/change/${userId}/picture/${data.url}`, {
-          method: 'PUT',
-        });
-  
-        if (!updateRes.ok) {
-          throw new Error("Network response was not ok");
-        }
-  
-        window.location.reload();
-      } catch (error) {
-        console.error("Error uploading file or updating profile picture:", error);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
       }
+  
+      const data = await res.json();
+      console.log('Image uploaded successfully:', data.url);
+  
+      // Rafraîchir la page ou mettre à jour l'état pour refléter les changements
+      window.location.reload();
+    } catch (error) {
+      console.error("Error uploading file or updating profile picture:", error);
     }
   };
+  
+  
+  
+
+
+
+
+
+
+
+
   
 
   useEffect(() => {
@@ -119,7 +202,7 @@ export default function Profile() {
           setName(data[0].name);
           setPoints(data[0].points);
           setNotation(data[0].notation);
-          setLinkPicture("/uploads/" + data[0].picture);
+          setLinkPicture(data[0].picture);
         })
         .catch((error) => {
           console.error("Error fetching user data:", error);
@@ -158,6 +241,7 @@ export default function Profile() {
         });
     }
   }, []);
+
 
   const deleteContactTrigger = (idContact: string) => {
     setShowDelete(true);
@@ -260,13 +344,14 @@ export default function Profile() {
       <div className="ml-10 w-1/5 max-w-sm overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 float-right mr-10 mt-[88px]">
 
       <div className="relative w-full group">
-        <Image
-            className="object-cover object-center w-full"
-            src={linkPicture}
-            width={300}
-            height={300}
-            alt="avatar"
+        <img
+          className="object-cover object-center w-full"
+          src={linkPicture}
+          width={300}
+          height={300}
+          alt="avatar"
         />
+
 
         {idTargetUser == idActualUser ? (
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white">
