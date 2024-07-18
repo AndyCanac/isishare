@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Ably from 'ably';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -44,6 +44,12 @@ const Chat: React.FC = () => {
   const [input, setInput] = useState<string>('');
   const [isClient, setIsClient] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     setIsClient(true);
@@ -153,15 +159,14 @@ const Chat: React.FC = () => {
 
   useEffect(() => {
     if (isClient) {
+      localStorage.setItem('channels', JSON.stringify(channels));
       localStorage.setItem('messages', JSON.stringify(messages));
     }
-  }, [messages, isClient]);
+  }, [messages, channels, isClient]);
 
   useEffect(() => {
-    if (isClient) {
-      localStorage.setItem('channels', JSON.stringify(channels));
-    }
-  }, [channels, isClient]);
+    scrollToBottom();
+  }, [messages[currentChannelId]]);
 
   if (!isClient) {
     return null; // Rend un contenu vide tant que le composant n'est pas monté côté client
@@ -171,7 +176,7 @@ const Chat: React.FC = () => {
     <div className="grid md:grid-cols-[260px_1fr] min-h-screen w-full">
       {/* Sidebar for larger screens */}
       <div className="hidden md:flex md:flex-col gap-2 text-foreground bg-background border-r-[1px]">
-        <div className="sticky top-0 p-2">
+        <div className="sticky top-0 p-2 bg-background">
           <Button
             variant="ghost"
             className="justify-start w-full gap-2 px-2 text-left"
@@ -180,22 +185,24 @@ const Chat: React.FC = () => {
             Nouveau chat
             <PenIcon />
           </Button>
-        </div>
-        <div className="flex-1 overflow-auto">
+          <div className="flex-1 overflow-hidden">
           <div className="grid gap-1 p-2 text-foreground mt-2">
             <div className="px-2 text-xs font-medium text-muted-foreground">Conversations</div>
-            {channels.map((channel) => (
-              <Link
-                key={channel.id}
-                href="#"
-                className={`flex-1 block p-2 overflow-hidden text-sm truncate transition-colors rounded-md whitespace-nowrap ${currentChannelId === channel.id ? 'bg-dark-blue text-white' : 'hover:bg-light-blue hover:text-white'}`}
-                prefetch={false}
-                onClick={() => handleChannelChange(channel.id)}
-              >
-                {channel.name}
-              </Link>
-            ))}
+            <div className="h-[calc(100vh-150px)] overflow-y-auto">  {/* Ajout de la hauteur fixe et du défilement vertical */}
+              {channels.map((channel) => (
+                <Link
+                  key={channel.id}
+                  href="#"
+                  className={`flex-1 block p-2 overflow-hidden text-sm truncate transition-colors rounded-md whitespace-nowrap ${currentChannelId === channel.id ? 'bg-dark-blue text-white' : 'hover:bg-light-blue hover:text-white'}`}
+                  prefetch={false}
+                  onClick={() => handleChannelChange(channel.id)}
+                >
+                  {channel.name}
+                </Link>
+              ))}
+            </div>
           </div>
+        </div>
         </div>
       </div>
 
@@ -252,6 +259,7 @@ const Chat: React.FC = () => {
               </div>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
         <div className="max-w-2xl w-full sticky bottom-0 py-2 flex flex-col gap-1.5 px-4 bg-background">
           <div className="relative">
@@ -264,6 +272,12 @@ const Chat: React.FC = () => {
                 className="min-h-[48px] rounded-2xl resize-none p-4 border border-neutral-400 shadow-sm pr-16"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault(); // Empêche le retour à la ligne
+                    handleSubmit(e);
+                  }
+                }}
               />
               <Button type="submit" size="icon" className="absolute w-8 h-8 top-3 right-3">
                 <ArrowUpIcon />

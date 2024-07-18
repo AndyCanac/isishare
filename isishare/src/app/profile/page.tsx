@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import NotConnect from "@/components/not-connect";
 import Sidebar from "@/components/Sidebar";
 import Profile from "@/components/Profile";
-import Skill from "@/components/Skill";
-import WTL from "@/components/WTL";
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
@@ -24,10 +22,9 @@ export default function Home() {
     return (
       <>
         <Sidebar />
-        <Profile />
-        <Skill />
-        <br />
-        <WTL />
+        <div className="ml-16">
+          <Profile />
+        </div>
       </>
     );
   }
