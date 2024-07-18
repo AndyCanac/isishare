@@ -964,7 +964,7 @@ export default function Andy(){
         {/* Bills Table */}
         <div className="bg-white rounded-lg shadow-lg p-6 overflow-x-auto">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Envie d'apprendre</h2>
+            <h2 className="text-xl font-semibold">Envie d&apos;apprendre</h2>
             {ownUser ? (
             <button onClick={() => setShowAddWTL(true)} className="bg-gray-200 py-1 px-3 rounded border bg-dark-blue text-white">Ajouter</button>
             ) : null}

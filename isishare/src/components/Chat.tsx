@@ -105,6 +105,18 @@ const Chat: React.FC = () => {
   }, [ablyClient]);
 
   useEffect(() => {
+    if (isClient) {
+      localStorage.setItem('channels', JSON.stringify(channels));
+      localStorage.setItem('messages', JSON.stringify(messages));
+    }
+  }, [messages, channels, isClient]);
+
+  useEffect(() => {
+    const currentChannelMessages = messages[currentChannelId];
+    scrollToBottom();
+  }, [messages, currentChannelId]);
+
+  useEffect(() => {
     // Subscribe to message_added events for the current channel
     if (!ablyClient || !currentChannelId) return;
 
@@ -156,17 +168,6 @@ const Chat: React.FC = () => {
     channelsChannel.publish('channel_added', newChannel);
     setCurrentChannelId(newChannel.id); // Automatically switch to the new channel
   };
-
-  useEffect(() => {
-    if (isClient) {
-      localStorage.setItem('channels', JSON.stringify(channels));
-      localStorage.setItem('messages', JSON.stringify(messages));
-    }
-  }, [messages, channels, isClient]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages[currentChannelId]]);
 
   if (!isClient) {
     return null; // Rend un contenu vide tant que le composant n'est pas monté côté client
