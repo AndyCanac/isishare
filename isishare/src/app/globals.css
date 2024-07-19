@@ -145,6 +145,17 @@
     opacity: 10;
 }
 
+/* Taille icon interet groups view kanban */
+.small-icon-kanban {
+    width: 25%;
+    height: auto;
+    float:right;
+  }
+  
+.small-icon-tree {
+    width: 20%;
+    height: auto;
+}
 
 .parent {
     display: grid;
