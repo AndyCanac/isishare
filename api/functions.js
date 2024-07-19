@@ -2,7 +2,7 @@ const pool = require("./db");
 
 const selectAllFrom = (table, res) => {
   res.setHeader("Content-Type", "application/json");
-  const query = `SELECT * FROM ${table} WHERE id != -1`;
+  const query = `SELECT * FROM \`${table}\` WHERE id != -1`;
   pool.query(query, (error, results) => {
     if (error) {
       res
@@ -82,6 +82,22 @@ const deleteIdFrom = (table, id, res) => {
         .json({ error: "An error occurred while executing the query" });
     } else {
       res.json(results);
+    }
+  });
+};
+
+const changeInto = (table, data, res) => {
+  res.setHeader("Content-Type", "application/json");
+  const query = `UPDATE ${table}
+  SET ${data.colomns} = "${data.values}"
+  WHERE id = ${data.id}`;
+  pool.query(query, (error, results) => {
+    if (error) {
+      res
+        .status(500)
+        .json({ error: "An error occurred while executing the query" });
+    } else {
+      res.json({ success: true });
     }
   });
 };

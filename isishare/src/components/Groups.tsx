@@ -308,7 +308,7 @@ const Groups = () => {
                                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                                         <div key={group.id} className="flex justify-center">
                                                 <a href="#" role="link">
-                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-tree"/>
+                                                    <Image src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-tree"/>
                                                 </a>
                                             </div>
                                         </td>
@@ -415,7 +415,7 @@ const Groups = () => {
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
                                                 <a href="#" role="link">
-                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
+                                                    <Image src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
                                                 </a>
                                                 </div>
                                             </div>
@@ -439,7 +439,7 @@ const Groups = () => {
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
                                                 <a href="#" role="link">
-                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
+                                                    <Image src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
                                                 </a>
                                                 </div>
                                             </div>
@@ -463,7 +463,7 @@ const Groups = () => {
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
                                                 <a href="#" role="link">
-                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
+                                                    <Image src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
                                                 </a>
                                                 </div>
                                             </div>
