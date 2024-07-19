@@ -9,7 +9,7 @@ app.use(express.json());
 const port = 3001;
 const mainRoutes = require("./routes/main");
 const usersRoutes = require("./routes/users");
-const userInGroupeRoutes = require("./routes/userInGroupe");
+const user_groupeRoutes = require("./routes/user_groupe");
 const sourcesRoutes = require("./routes/sources");
 const objectifsRoutes = require("./routes/objectifs");
 const knowledgeRoutes = require("./routes/knowledge");
@@ -30,8 +30,8 @@ const routes = [
   { path: "/api/users/change/:id/:colomns/:values", route: usersRoutes },
   { path: "/api/users/delete/:id", route: usersRoutes },
 
-  { path: "/api/usersingroups", route: userInGroupeRoutes },
-  { path: "/api/usersingroups/id/:id", route: userInGroupeRoutes },
+  { path: "/api/user_group", route: user_groupeRoutes },
+  { path: "/api/user_group/id/:id", route: user_groupeRoutes },
 
   { path: "/api/sources", route: sourcesRoutes },
   { path: "/api/sources/id/:id", route: sourcesRoutes },
