@@ -1,18 +1,20 @@
 "use client";
 import { BentoCard, BentoGrid } from "@/components/magicui/bento-grid";
-import { BellIcon, CalendarIcon, FileTextIcon, GlobeIcon, InputIcon } from "@radix-ui/react-icons";
 import Sidebar from "@/components/Sidebar";
-import DotPattern from "@/components/magicui/dot-pattern";
-import { cn } from "@/lib/utils";
 import React, { useState, useEffect } from "react";
-
-
-export default function BentoDemo() {
+import { MdGroups } from "react-icons/md";
+import { FaUser,FaUserCheck } from "react-icons/fa6";
+ 
+ 
+ 
+export default function Bento() {
     const [name, setName] = useState([]);
-
+ 
     const [ownUser, setOwnUser] = useState(false);
     
     useEffect(() => {
+      localStorage.setItem("idTargetUser", localStorage.getItem("idActualUser") + "");
+
         if (
           localStorage.getItem("idActualUser") ==
           localStorage.getItem("idTargetUser")
@@ -21,7 +23,7 @@ export default function BentoDemo() {
     
         fetch(
           `${localStorage.getItem("api")}contacts/user/${localStorage.getItem(
-            "idTargetUser"
+            "idActualUser"
           )}`
         )
           .then((response) => {
@@ -33,10 +35,10 @@ export default function BentoDemo() {
           .catch((error) => {
             console.error("Error fetching users:", error);
           });
-    
+
         fetch(
           `${localStorage.getItem("api")}users/id/${localStorage.getItem(
-            "idTargetUser"
+            "idActualUser"
           )}`
         )
           .then((response) => {
@@ -65,98 +67,30 @@ export default function BentoDemo() {
     
       const features = [
         {
-          Icon: InputIcon,
-          name: "test",
-          description: "Profil partageant les mêmes buts",
-          href: "/",
-          cta: "Learn more",
-          background: 
-          <DotPattern
-              width={20}
-              height={20}
-              cx={1}
-              cy={1}
-              cr={1}
-              className={cn(
-                "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] ",
-              )}
-            />,
-          className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-3",
+          Icon: MdGroups,
+          name: "Groupes",
+          description: "Groupes de partage de ressources",
+          href: "/groups",
+          cta: "Voir les groupes",
+          background: "",
+          className: "lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-3 ",
         },
         {
-          Icon: GlobeIcon,
-          name: "test",
-          description: "Top des utilisateurs avec le plus de points", 
-          href: "/",
-          cta: "Learn more",
-          background:
-          <DotPattern
-              width={20}
-              height={20}
-              cx={1}
-              cy={1}
-              cr={1}
-              className={cn(
-                "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] ",
-              )}
-            />,
-          className: "lg:col-start-2 lg:col-end-3 lg:row-start-3 lg:row-end-3",
-        },
-        {
-          Icon: CalendarIcon,
-          name: "test",
-          description: "Utilisateur avec le plus de points",
-          href: "/",
-          cta: "Learn more",
-          background:  
-          <DotPattern
-              width={20}
-              height={20}
-              cx={1}
-              cy={1}
-              cr={1}
-              className={cn(
-                "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] ",
-              )}
-            />,
-          className: "lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-3",
-        },
-        {
-          Icon: BellIcon,
-          name: "test",
-          description: "Profil correspondant aux mêmes buts",
-          href: "/",
-          cta: "Learn more",
-          background: 
-          <DotPattern
-              width={20}
-              height={20}
-              cx={1}
-              cy={1}
-              cr={1}
-              className={cn(
-                "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] ",
-              )}
-            />,
+          Icon: FaUserCheck,
+          name: "Recommandations",
+          description: "Voici les recommandations pour vous",
+          href: "/recommendation",
+          cta: "Voir les recommandations",
+          background: "",
           className: "lg:col-start-2 lg:col-end-3 lg:row-start-2 lg:row-end-3",
         },
         {
-          Icon: FileTextIcon,
+          Icon: FaUser,
           name: `${name}`,
-          description: "Mon profil",
-          href: "/",
-          cta: "Learn more",
-          background:           
-          <DotPattern
-              width={20}
-              height={20}
-              cx={1}
-              cy={1}
-              cr={1}
-              className={cn(
-                "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] ",
-              )}
-            />,
+          description: "Mon profil utilisateur",
+          href: "/profile",
+          cta: "Mon profil",
+          background: "",
           className: "lg:col-start-1 lg:col-end-3 lg:row-start-1 lg:row-end-1",
         },
       ];
@@ -173,3 +107,4 @@ export default function BentoDemo() {
         </div>
       );
 }
+ 

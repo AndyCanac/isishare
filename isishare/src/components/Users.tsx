@@ -12,6 +12,7 @@ const Users = () => {
     description: string;
     points: string;
     notation: string;
+    picture: string;
   }
 
   interface KnowledgInfo {
@@ -710,7 +711,7 @@ const Users = () => {
                       <Image
                         className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
                         alt="Testimonial avatar"
-                        src="/male-avatar.jpeg"
+                        src={user.picture ? user.picture : "/male-avatar.jpeg"}
                         width={100}
                         height={100}
                       />
@@ -803,7 +804,7 @@ const Users = () => {
                       <Image
                         className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
                         alt="Testimonial avatar"
-                        src="/male-avatar.jpeg"
+                        src={user.picture ? user.picture : "/male-avatar.jpeg"}
                         width={100}
                         height={100}
                       />
@@ -896,7 +897,7 @@ const Users = () => {
                       <Image
                         className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
                         alt="Testimonial avatar"
-                        src="/male-avatar.jpeg"
+                        src={user.picture ? user.picture : "/male-avatar.jpeg"}
                         width={100}
                         height={100}
                       />

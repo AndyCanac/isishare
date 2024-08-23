@@ -9,6 +9,7 @@ const Users = () => {
     description: string;
     points: string;
     notation: string;
+    picture: string;
   }
 
   interface KnowledgInfo {
@@ -115,8 +116,8 @@ const Users = () => {
         {isLoading ? (
             <div className="parentRecom ml-[5vw] gap-x-[10vw]">
               <div className="div1Recom">
-                <h1 className="text-center text-6xl font-bold my-14 h-26" id="title">Les Apprentis Curieux</h1>
-                <h2 className="text-center">Personnes qui veulent apprendre par rapport à vos connaissances.</h2>
+                <h1 className="text-center text-4xl font-bold my-14 h-26">Les Apprentis Curieux</h1>
+                <h2 className="text-center text-light-gray">Personnes qui veulent apprendre par rapport à vos connaissances.</h2>
                 {[...Array(3)].map((_, index) => (
                       <div key={index}>
                     <div
@@ -152,8 +153,8 @@ const Users = () => {
                 </div>
 
                 <div className="div2Recom">
-                  <h1 className="text-center text-6xl font-bold my-14 h-26" id="title">Les Experts du Savoir</h1>
-                  <h2 className="text-center">Personnes qui ont déjà fais des projets sur ce que vous voulez apprendre.</h2>
+                  <h1 className="text-center text-4xl font-bold my-14 h-26">Les Experts du Savoir</h1>
+                  <h2 className="text-center text-light-gray">Personnes qui ont déjà fais des projets sur ce que vous voulez apprendre.</h2>
                     {[...Array(3)].map((_, index) => (
                       <div key={index}>
                         <div
@@ -192,8 +193,8 @@ const Users = () => {
             ) : (
             <div className="parentRecom ml-[5vw] gap-x-[10vw]">
               <div className="div1Recom">
-                <h1 className="text-center text-6xl font-bold my-14 h-26" id="title">Les Apprentis Curieux</h1>
-                <h2 className="text-center">Personnes qui veulent apprendre par rapport à vos connaissances.</h2>
+                <h1 className="text-center text-4xl font-bold my-14 h-26">Les Apprentis Curieux</h1>
+                <h2 className="text-center text-light-gray">Personnes qui veulent apprendre par rapport à vos connaissances.</h2>
                 {usersGroup1.map((user, index) => (
                   <div key={index}>
                     <div
@@ -204,7 +205,7 @@ const Users = () => {
                         <Image
                           className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
                           alt="Testimonial avatar"
-                          src="/male-avatar.jpeg"
+                          src={user.picture ? user.picture : "/male-avatar.jpeg"}
                           width={100}
                           height={100}
                         />
@@ -295,8 +296,8 @@ const Users = () => {
               </div>
         
               <div className="div2Recom">
-              <h1 className="text-center text-6xl font-bold my-14 h-26" id="title">Les Experts du Savoir</h1>
-              <h2 className="text-center">Personnes qui ont déjà fais des projets sur ce que vous voulez apprendre.</h2>
+              <h1 className="text-center text-4xl font-bold my-14 h-26">Les Experts du Savoir</h1>
+              <h2 className="text-center text-light-gray">Personnes qui ont déjà fais des projets sur ce que vous voulez apprendre.</h2>
                 {usersGroup2.map((user, index) => (
                   <div key={index}>
                     <div
@@ -426,8 +427,8 @@ const Users = () => {
       {isLoading ? (
             <div className="parentRecom flex w-full gap-x-[2vw]">
               <div className="div1Recom flex-grow w-[46vw] ml-[3vw]">
-                <h1 className="text-center text-xl font-bold my-8 h-26" id="title">Les Apprentis Curieux</h1>
-                <h2 className="text-center text-base">Personnes qui veulent apprendre par rapport à vos connaissances.</h2>
+                <h1 className="text-center text-4xl font-bold my-14 h-26">Les Apprentis Curieux</h1>
+                <h2 className="text-center text-light-gray">Personnes qui veulent apprendre par rapport à vos connaissances.</h2>
                 {[...Array(3)].map((_, index) => (
                       <div key={index}>
                     <div
@@ -460,8 +461,8 @@ const Users = () => {
                 </div>
 
                 <div className="div2Recom flex-grow w-[46vw]">
-                  <h1 className="text-center text-xl font-bold my-8 h-26" id="title">Les Experts du Savoir</h1>
-                  <h2 className="text-center text-base">Personnes qui ont déjà fais des projets sur ce que vous voulez apprendre.</h2>
+                  <h1 className="text-center text-4xl font-bold my-14 h-26">Les Experts du Savoir</h1>
+                  <h2 className="text-center text-light-gray">Personnes qui ont déjà fais des projets sur ce que vous voulez apprendre.</h2>
                     {[...Array(3)].map((_, index) => (
                       <div key={index}>
                         <div
@@ -495,8 +496,8 @@ const Users = () => {
             ) : (
               <div className="parentRecom flex w-full gap-x-[2vw]">
                 <div className="div1Recom flex-grow w-[46vw] ml-[3vw]">
-                  <h1 className="text-center text-xl font-bold my-8 h-26" id="title">Les Apprentis Curieux</h1>
-                  <h2 className="text-center text-base">Personnes qui veulent apprendre par rapport à vos connaissances.</h2>
+                  <h1 className="text-center text-4xl font-bold my-14 h-26">Les Apprentis Curieux</h1>
+                  <h2 className="text-center text-light-gray">Personnes qui veulent apprendre par rapport à vos connaissances.</h2>
                   {usersGroup1.map((user, index) => (
                     <div key={index}>
                       <div
@@ -506,8 +507,8 @@ const Users = () => {
                         <div className="flex justify-center -mt-16 md:justify-end">
                           <Image
                             className="object-cover w-14 h-14 border-2 border-blue-500 rounded-full"
-                            alt="Testimonial avatar"
-                            src="/male-avatar.jpeg"
+                            alt="Profile picture"
+                            src={user.picture ? user.picture : "/male-avatar.jpeg"}
                             width={100}
                             height={100}
                           />
@@ -598,8 +599,8 @@ const Users = () => {
                 </div>
           
                 <div className="div2Recom flex-grow w-[46vw]">
-                <h1 className="text-center text-xl font-bold my-8 h-26" id="title">Les Experts du Savoir</h1>
-                <h2 className="text-center text-base">Personnes qui ont déjà fais des projets sur ce que vous voulez apprendre.</h2>
+                <h1 className="text-center text-4xl font-bold my-14 h-26">Les Experts du Savoir</h1>
+                <h2 className="text-center text-light-gray">Personnes qui ont déjà fais des projets sur ce que vous voulez apprendre.</h2>
                   {usersGroup2.map((user, index) => (
                     <div key={index}>
                       <div
