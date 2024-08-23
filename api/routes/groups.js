@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { selectAllFrom, selectIdFrom,  insertInto  } = require("../functions");
+const { selectAllFrom, selectIdFrom, insertInto} = require("../functions");
 
 router.get("/", (req, res) => {
   selectAllFrom("groups", res);
