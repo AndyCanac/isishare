@@ -4,6 +4,7 @@ import { BsSortNumericDown, BsSortNumericUpAlt } from "react-icons/bs";
 import { LuFilter, LuKanbanSquare } from "react-icons/lu";
 import { TbListTree } from "react-icons/tb";
 import Image from "next/image";
+import { MdGroupRemove, MdGroups, MdGroupAdd } from "react-icons/md";
 
 const UsersGroup = () => {
     interface UserInfo {
@@ -12,6 +13,7 @@ const UsersGroup = () => {
         description: string;
         points: string;
         notation: string;
+        picture: string;
     }
 
     interface User_groupInfo {
@@ -213,6 +215,42 @@ const UsersGroup = () => {
         localStorage.setItem("idTargetUser", userId);
         window.location.href = "/profile";
     };
+    const verificationInGroup = () => {
+        const userId = localStorage.getItem("idActualUser");
+        for (let i = 0; i < user_group.length; i++) {
+            if (userId && userId == user_group[i].user_id) {
+                return true;
+            }
+        }
+        return false
+    }
+    const joinGroup = async () => {
+        const userId = localStorage.getItem("idActualUser");
+        let inGroup = verificationInGroup()
+
+        if (inGroup) {
+            const getGroupResponse = await fetch(`${localStorage.getItem("api")}user_group`);
+            const user_groups = await getGroupResponse.json();
+            const user_group = user_groups.find((g: any) => g.user_id == userId && g.group_id == group[0].id);
+            await fetch(`${localStorage.getItem("api")}user_group/delete/${user_group.id}`)
+            if (filteredUsers.length == 1){
+                await fetch(`${localStorage.getItem("api")}groups/delete/${group[0].id}`)
+                alert("Vous ne faite plus partie du groupe et le groupe a été supprimer");
+                window.location.href="/groups";
+            } 
+            else{
+                alert("Vous ne faite plus partie du groupe");
+                window.location.reload()
+            }
+
+        }
+        else {
+            const userGroup = await fetch(
+                `${localStorage.getItem("api")}user_group/insert/user_id,group_id/"${userId}","${group[0].id}"`)
+            alert("Vous avez été ajoutez au groupe !");
+            window.location.reload()
+        }
+    };
 
     const usersGroup1 = filteredUsers.filter((user, index) => index % 3 === 0);
     const usersGroup2 = filteredUsers.filter((user, index) => index % 3 === 1);
@@ -246,12 +284,7 @@ const UsersGroup = () => {
                 <div className="flex justify-between items-center">
                     {/* Conteneur pour la barre de recherche et le bouton de filtre */}
                     <div className="flex items-center">
-                    {group.map((group, index) => (
-                <p key={index}>
-                    {group.name}
-                </p>
-                ))}
-                Membre: {filteredUsers.length}
+
                         <input
                             type="text"
                             placeholder="Rechercher par nom..."
@@ -269,6 +302,12 @@ const UsersGroup = () => {
                     {/* Conteneur pour les boutons de changement de vue */}
                     <div className="flex items-center">
                         <button
+                            onClick={joinGroup}
+                            className="px-4 py-2 bg-dark-blue text-white rounded-md mr-4"
+                        >
+                            {verificationInGroup() ? <MdGroupRemove /> : <MdGroupAdd />}
+                        </button>
+                        <button
                             onClick={() => setView("kanban")}
                             className="px-4 py-2 bg-dark-blue text-white rounded-md mr-4"
                         >
@@ -282,6 +321,28 @@ const UsersGroup = () => {
                         </button>
                     </div>
                 </div>
+                <div className="flex items-center justify-center p-4 bg-gray-100">
+                    <div className="border border-gray-300 rounded-lg shadow-md bg-white p-6">
+                        <div className="flex justify-center">
+                            <MdGroups className="text-6xl" />
+                        </div>
+                        {group.length > 0 ? (
+                            <div>
+                                {group.map((groupItem, index) => (
+                                    <p key={index} className="text-lg text-gray-700">
+                                        Nom du groupe : {groupItem.name}
+                                    </p>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-lg font-semibold text-gray-700">Groupe non trouvé</p>
+                        )}
+                        <p className="text-gray-600 mt-4 text-center font-semibold">
+                            <span className="font-medium text-gray-800">Membres:</span> {filteredUsers.length}
+                        </p>
+                    </div>
+                </div>
+
                 {popupFilters && (
                     <div className="fixed inset-0 flex items-center justify-center bg-light-gray-transparent bg-opacity-50">
                         <div className="bg-white p-8 rounded-lg w-[65vw] h-[40vw] overflow-auto">
@@ -758,7 +819,7 @@ const UsersGroup = () => {
                                                 <Image
                                                     className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
                                                     alt="Testimonial avatar"
-                                                    src="/male-avatar.jpeg"
+                                                    src={user.picture ? user.picture : "/male-avatar.jpeg"}
                                                     width={100}
                                                     height={100}
                                                 />
@@ -851,7 +912,7 @@ const UsersGroup = () => {
                                                 <Image
                                                     className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
                                                     alt="Testimonial avatar"
-                                                    src="/male-avatar.jpeg"
+                                                    src={user.picture ? user.picture : "/male-avatar.jpeg"}
                                                     width={100}
                                                     height={100}
                                                 />
@@ -944,7 +1005,7 @@ const UsersGroup = () => {
                                                 <Image
                                                     className="object-cover w-20 h-20 border-2 border-blue-500 rounded-full"
                                                     alt="Testimonial avatar"
-                                                    src="/male-avatar.jpeg"
+                                                    src={user.picture ? user.picture : "/male-avatar.jpeg"}
                                                     width={100}
                                                     height={100}
                                                 />

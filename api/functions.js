@@ -74,6 +74,7 @@ const updateInto = (table, data, res) => {
 
 const deleteIdFrom = (table, id, res) => {
   res.setHeader("Content-Type", "application/json");
+  console.log(`DELETE FROM \`${table}\` WHERE id = ${id}`);
   const query = `DELETE FROM \`${table}\` WHERE id = ${id}`;
   pool.query(query, (error, results) => {
     if (error) {
