@@ -55,7 +55,7 @@ const UsersGroup = () => {
     const [sortDirectionPoints, setSortDirectionPoints] = useState("asc");
     const [sortDirectionNotation, setSortDirectionNotation] = useState("asc");
     const [sortDirectionNom, setSortDirectionNom] = useState("desc");
-    const [popupOpen, setPopupOpen] = useState(false);
+    const [popupFilters, setPopupFilters] = useState(false);
     const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
     const [selectedGoalFilters, setSelectedGoalFilters] = useState<string[]>([]);
 
@@ -190,8 +190,8 @@ const UsersGroup = () => {
     };
 
     // Ouvre la popup
-    const togglePopup = () => {
-        setPopupOpen(!popupOpen);
+    const togglePopupFilters = () => {
+        setPopupFilters(!popupFilters);
     };
 
     // Selection des filtres
@@ -204,8 +204,8 @@ const UsersGroup = () => {
     };
 
     //Ferme la popup des filtres
-    const closePopup = () => {
-        setPopupOpen(false);
+    const closePopupFilters = () => {
+        setPopupFilters(false);
     };
 
     // Fonction pour rediriger vers une page spécifique lorsqu&apos;une ligne est cliquée
@@ -243,8 +243,6 @@ const UsersGroup = () => {
 
             <div className="ml-14">
                 <br />
-
-
                 <div className="flex justify-between items-center">
                     {/* Conteneur pour la barre de recherche et le bouton de filtre */}
                     <div className="flex items-center">
@@ -262,7 +260,7 @@ const UsersGroup = () => {
                             className="search-input px-4 py-2 border border-gray-300 rounded-md"
                         />
                         <button
-                            onClick={togglePopup}
+                            onClick={togglePopupFilters}
                             className="px-4 py-2 bg-dark-blue text-white rounded-md ml-4"
                         >
                             <LuFilter />
@@ -284,7 +282,7 @@ const UsersGroup = () => {
                         </button>
                     </div>
                 </div>
-                {popupOpen && (
+                {popupFilters && (
                     <div className="fixed inset-0 flex items-center justify-center bg-light-gray-transparent bg-opacity-50">
                         <div className="bg-white p-8 rounded-lg w-[65vw] h-[40vw] overflow-auto">
                             <h2 className="text-xl text-dark-blue font-bold mb-4">Filtres</h2>
@@ -340,7 +338,7 @@ const UsersGroup = () => {
                             </div>
                             <div className="flex justify-end">
                                 <button
-                                    onClick={closePopup}
+                                    onClick={closePopupFilters}
                                     className="px-4 py-2 bg-dark-blue text-white rounded-md"
                                 >
                                     Fermer

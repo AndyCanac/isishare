@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { selectAllFrom, selectIdFrom } = require("../functions");
+const { selectAllFrom, selectIdFrom, insertInto } = require("../functions");
 
 router.get("/", (req, res) => {
   selectAllFrom("user_group", res);
@@ -9,6 +9,10 @@ router.get("/", (req, res) => {
 
 router.get("/id/:id", (req, res) => {
   selectIdFrom("user_group", req.params.id, res);
+});
+
+router.all("/insert/:colomns/:values", (req, res) => {
+  insertInto("user_group", req.params, res);
 });
 
 module.exports = router;

@@ -28,6 +28,7 @@ const routes = [
 
   { path: "/api/user_group", route: user_groupeRoutes },
   { path: "/api/user_group/id/:id", route: user_groupeRoutes },
+  { path: "/api/user_group/insert/:colomns/:values", route: user_groupeRoutes },
 
   { path: "/api/sources", route: sourcesRoutes },
   { path: "/api/sources/id/:id", route: sourcesRoutes },
@@ -49,6 +50,7 @@ const routes = [
 
   { path: "/api/groups", route: groupsRoutes },
   { path: "/api/groups/id/:id", route: groupsRoutes },
+  { path: "/api/groups/insert/:colomns/:values", route: groupsRoutes },
 
   { path: "/api/contacts", route: contactsRoutes },
   { path: "/api/contacts/id/:id", route: contactsRoutes },

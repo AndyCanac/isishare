@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 import { LuFilter, LuKanbanSquare } from "react-icons/lu";
 import { TbListTree } from "react-icons/tb";
 import Image from "next/image";
+import { HiMiniUserGroup } from "react-icons/hi2";
+import { Console } from "console";
+import { generateKey } from "crypto";
 
 const Groups = () => {
     interface GroupInfo {
@@ -28,8 +31,11 @@ const Groups = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [view, setView] = useState("kanban");
     const [sortDirectionNom, setSortDirectionNom] = useState("desc");
-    const [popupOpen, setPopupOpen] = useState(false);
+    const [popupFilters, setPopupFilters] = useState(false);
+    const [popupCreateGroup, setPopupCreateGroup] = useState(false);
     const [selectedGoalFilters, setSelectedGoalFilters] = useState<string[]>([]);
+    const [selectedInterest, setSelectedInterest] = useState(null);
+    const [groupName, setGroupName] = useState('');
 
 
     // Recupere les datas via l'api
@@ -61,12 +67,12 @@ const Groups = () => {
         fetchData();
     }, []);
 
-    const getInterestIcon = (interestId : any) => {
+    const getInterestIcon = (interestId: any) => {
         const interest = interests.find(i => i.id === interestId);
         return interest ? interest.icon : '';
     };
 
-    const getMemberCount = (groupId : any) => {
+    const getMemberCount = (groupId: any) => {
         return user_group.filter(userGroup => userGroup.group_id === groupId).length;
     };
 
@@ -85,7 +91,7 @@ const Groups = () => {
     };
 
     // Filtrer les groupes par objectifs sélectionnés et par nom
-    const filteredGroups = groups.filter((group) => 
+    const filteredGroups = groups.filter((group) =>
         group.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (selectedGoalFilters.length === 0 || selectedGoalFilters.includes(group.interest))
     );
@@ -100,19 +106,69 @@ const Groups = () => {
     };
 
     // Ouvre la popup
-    const togglePopup = () => {
-        setPopupOpen(!popupOpen);
+    const togglePopupFilters = () => {
+        setPopupFilters(!popupFilters);
+    };
+    const togglePopupCreateGroup = () => {
+        setPopupCreateGroup(!popupCreateGroup);
     };
 
     //Ferme la popup des filtres
-    const closePopup = () => {
-        setPopupOpen(false);
+    const closePopupFilters = () => {
+        setPopupFilters(false);
     };
+
+    const closePopupCreateGroup = () => {
+        setPopupCreateGroup(false);
+    };
+
+    const handleInterestClick = (interest: any) => {
+        setSelectedInterest(interest.id); // Mise à jour de l'état avec l'intérêt sélectionné
+    };
+
 
     // Fonction pour rediriger vers une page spécifique lorsqu'une ligne est cliquée
     const setIdGroup = (groupsId: string) => {
         localStorage.setItem("idTargetGroup", groupsId);
         window.location.href = "/usersGroup";
+    };
+
+    const generateGroup = async () => {
+        // Crée le groupe si le nom du groupe est fourni
+        const createResponse = await fetch(
+            `${localStorage.getItem("api")}groups/insert/name,interest/"${groupName}","${selectedInterest}"`
+        );
+
+        if (!createResponse.ok) {
+            throw new Error("Network response was not ok during group creation");
+        }
+
+    }
+    const CreateGroup = async () => {
+        try {
+            if (groupName && selectedInterest) {
+                generateGroup()
+
+                const getGroupResponse = await fetch(`${localStorage.getItem("api")}groups`);
+
+                // Extraire les groupes en tant que JSON
+                const groups = await getGroupResponse.json();
+
+                // Filtrer les groupes pour trouver celui qui a le nom spécifié
+                const group = groups.find((g: any) => g.name === groupName);
+
+                // Étape 3 : Associer l'utilisateur au groupe
+                const userId = localStorage.getItem("idActualUser");
+                const userGroup = await fetch(
+                `${localStorage.getItem("api")}user_group/insert/user_id,group_id/"${userId}","${group.id}"`)
+                setPopupCreateGroup(false);
+            } else {
+                alert("Le nom et l'intérêt du groupe sont requis. Veuillez les renseigner.");
+            }
+
+        } catch (error) {
+            console.error("Error creating group or adding user to group:", error);
+        }
     };
 
     const groupsGroup1 = filteredGroups.filter((groups, index) => index % 3 === 0);
@@ -155,7 +211,7 @@ const Groups = () => {
                             className="search-input px-4 py-2 border border-gray-300 rounded-md"
                         />
                         <button
-                            onClick={togglePopup}
+                            onClick={togglePopupFilters}
                             className="px-4 py-2 bg-dark-blue text-white rounded-md ml-4"
                         >
                             <LuFilter />
@@ -163,6 +219,13 @@ const Groups = () => {
                     </div>
                     {/* Conteneur pour les boutons de changement de vue */}
                     <div className="flex items-center">
+                        <button
+                            onClick={togglePopupCreateGroup}
+                            className="px-4 py-2 bg-dark-blue text-white rounded-md mr-4"
+                            title="Permet de créer un groupe"
+                        >
+                            <HiMiniUserGroup />
+                        </button>
                         <button
                             onClick={() => setView("kanban")}
                             className="px-4 py-2 bg-dark-blue text-white rounded-md mr-4"
@@ -174,230 +237,287 @@ const Groups = () => {
                             className="px-4 py-2 bg-dark-blue text-white rounded-md mr-8"
                         >
                             <TbListTree />
-            </button>
-        </div>
-        </div>
-        {popupOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-light-gray-transparent bg-opacity-50">
-            <div className="bg-white p-8 rounded-lg w-[65vw] h-[40vw] overflow-auto">
-            <h2 className="text-xl text-dark-blue font-bold mb-4">Filtres</h2>
-            <div>
-                <h3 className="text-dark-blue font-bold mb-4">Intérêt</h3>
-                <div>
-                {interests
-                    .filter((interest) => interest.name !== "Empty")
-                    .map((interest) => (
-                    <button
-                        key={interest.id}
-                        onClick={() => handleGoalFilterSelection(interest.id)}
-                        className={`mr-2 mb-2 px-4 py-2 rounded ${
-                        selectedGoalFilters.includes(interest.id)
-                            ? "bg-dark-blue text-white"
-                            : "bg-gray-200 text-gray-800"
-                        }`}
-                    >
-                        <Image
-                        src={"/" + interest.icon}
-                        alt="Icone"
-                        width={20}
-                        height={20}
-                        className="icon"
-                        />
-                    </button>
-                    ))}
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div className="flex justify-end">
-                <button
-                onClick={closePopup}
-                className="px-4 py-2 bg-dark-blue text-white rounded-md"
-                >
-                Fermer
-                </button>
-            </div>
-            </div>
-        </div>
-        )}
-    </div>
-    <br />
-    {view === "tree" ? ( // view tree
-        <div className="flex flex-col mt-6 ml-14">
-            <div className="-mx-4 -my-2 overflow-x-auto">
-                <div className="inline-block py-2 align-middle px-7 w-full">
-                    <div className="overflow-x-auto border border-dark-gray md:rounded-lg">
-                        <table className="min-w-full divide-y divide-dark-gray td-width">
-                            <thead className="bg-black">
-                                <tr>
-                                    <th
-                                        scope="col"
-                                        className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-1/6"
-                                    >
-                                        <div className="flex items-center gap-x-3">
-                                            <span
-                                                className="cursor-pointer"
-                                                onClick={sortGroupsByName}
+                {popupFilters && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-light-gray-transparent bg-opacity-50">
+                        <div className="bg-white p-8 rounded-lg w-[65vw] h-[40vw] overflow-auto">
+                            <h2 className="text-xl text-dark-blue font-bold mb-4">Filtres</h2>
+                            <div>
+                                <h3 className="text-dark-blue font-bold mb-4">Intérêt</h3>
+                                <div>
+                                    {interests
+                                        .filter((interest) => interest.name !== "Empty")
+                                        .map((interest) => (
+                                            <button
+                                                key={interest.id}
+                                                onClick={() => handleGoalFilterSelection(interest.id)}
+                                                className={`mr-2 mb-2 px-4 py-2 rounded ${selectedGoalFilters.includes(interest.id)
+                                                    ? "bg-dark-blue text-white"
+                                                    : "bg-gray-200 text-gray-800"
+                                                    }`}
                                             >
+                                                <Image
+                                                    src={"/" + interest.icon}
+                                                    alt="Icone"
+                                                    width={20}
+                                                    height={20}
+                                                    className="icon"
+                                                />
+                                            </button>
+                                        ))}
+                                </div>
+                            </div>
+                            <div className="flex justify-end">
+                                <button
+                                    onClick={closePopupFilters}
+                                    className="px-4 py-2 bg-dark-blue text-white rounded-md"
+                                >
+                                    Fermer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {popupCreateGroup && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-light-gray-transparent bg-opacity-50">
+                        <div className="bg-white p-8 rounded-lg w-[65vw] h-[40vw] overflow-auto">
+                            <h2 className="text-xl text-dark-blue font-bold mb-4">Créer un groupe</h2>
+                            <div>
+                                <h3 className="text-dark-blue font-bold mb-4">Nom du groupe</h3>
+                                <div>
+                                    <input
+                                        type="text"
+                                        value={groupName}
+                                        onChange={(e) => setGroupName(e.target.value)}
+                                        placeholder="Nom du groupe"
+                                        className="search-input px-4 py-2 border border-gray-300 rounded-md"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <h3 className="text-dark-blue font-bold mb-4 mt-4">Objectifs</h3>
+                                <div>
+                                    {interests
+                                        .filter((interest) => interest.name !== "Empty")
+                                        .map((interest) => (
+                                            <button
+                                                key={interest.id}
+                                                onClick={() => handleInterestClick(interest)}
+                                                className={`mr-2 mb-2 px-4 py-2 rounded ${selectedInterest === interest.id
+                                                    ? "bg-dark-blue text-white"
+                                                    : "bg-gray-200 text-gray-800"
+                                                    }`}
+                                            >
+                                                <Image
+                                                    src={"/" + interest.icon}
+                                                    alt="Icone"
+                                                    width={20}
+                                                    height={20}
+                                                    className="icon"
+                                                />
+                                            </button>
+                                        ))}
+                                </div>
+                            </div>
+                            <div className="flex justify-between mt-4">
+                                <button
+                                    onClick={() => CreateGroup()}
+                                    className="px-4 py-2 bg-dark-blue text-white rounded-md"
+                                >
+                                    Créer
+                                </button>
+                                <button
+                                    onClick={closePopupCreateGroup}
+                                    className="px-4 py-2 bg-dark-blue text-white rounded-md"
+                                >
+                                    Fermer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+            <br />
+            {view === "tree" ? ( // view tree
+                <div className="flex flex-col mt-6 ml-14">
+                    <div className="-mx-4 -my-2 overflow-x-auto">
+                        <div className="inline-block py-2 align-middle px-7 w-full">
+                            <div className="overflow-x-auto border border-dark-gray md:rounded-lg">
+                                <table className="min-w-full divide-y divide-dark-gray td-width">
+                                    <thead className="bg-black">
+                                        <tr>
+                                            <th
+                                                scope="col"
+                                                className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-1/6"
+                                            >
+                                                <div className="flex items-center gap-x-3">
+                                                    <span
+                                                        className="cursor-pointer"
+                                                        onClick={sortGroupsByName}
+                                                    >
+                                                        Nom
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-1/6"
+                                                title="Indication du nombre de membres que contient le groupe."
+                                            >
+                                                <button className="flex items-center gap-x-2">
+                                                    <span>Membre</span>
+
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        strokeWidth="2"
+                                                        stroke="currentColor"
+                                                        className="w-4 h-4"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-1/6"
+                                                title="Cette colonne vise à mettre en lumière le langage utilisé par le groupe."
+                                            >
+                                                <button className="flex items-center gap-x-2">
+                                                    <span>Intérêt</span>
+
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        strokeWidth="2"
+                                                        stroke="currentColor"
+                                                        className="w-4 h-4"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                                                        />
+                                                    </svg>
+                                                </button>
+                                            </th>
+                                            <th className="bg-dark-blue"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-light-gray bg-white text-black ">
+                                        {filteredGroups.map((group, index) => (
+                                            <tr
+                                                key={index}
+                                                className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300"
+                                                onClick={() => setIdGroup(group.id)}
+                                            >
+                                                <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                                                    {group.name}
+                                                </td>
+                                                <td className="px-4 py-4 text-sm font-medium whitespace-nowrap flex">
+                                                    {getMemberCount(group.id)}
+                                                </td>
+                                                <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                    <div key={group.id} className="flex justify-center">
+                                                        <a href="#" role="link">
+                                                            <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-tree" />
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                // view kanban
+                <>
+                    {isLoading ? (
+                        <div className="parent ml-14">
+                            <div className="div1">
+                                {[...Array(3)].map((_, index) => (
+                                    <div key={index}>
+                                        <div
+                                            className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+
+                                            <p className="mt-2 text-sm text-gray-600">
                                                 Nom
-                                            </span>
-                                        </div>
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-1/6"
-                                        title="Indication du nombre de membres que contient le groupe."
-                                    >
-                                        <button className="flex items-center gap-x-2">
-                                            <span>Membre</span>
+                                            </p>
+                                            <div className="flex flex-wrap justify-center mt-2">
 
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                strokeWidth="2"
-                                                stroke="currentColor"
-                                                className="w-4 h-4"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right bg-dark-blue text-white w-1/6"
-                                        title="Cette colonne vise à mettre en lumière le langage utilisé par le groupe."
-                                    >
-                                        <button className="flex items-center gap-x-2">
-                                            <span>Intérêt</span>
-
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                strokeWidth="2"
-                                                stroke="currentColor"
-                                                className="w-4 h-4"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </th>
-                                    <th className="bg-dark-blue"></th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-light-gray bg-white text-black ">
-                                {filteredGroups.map((group, index) => (
-                                    <tr
-                                        key={index}
-                                        className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300"
-                                        onClick={() => setIdGroup(group.id)}
-                                    >
-                                        <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                                            {group.name}
-                                        </td>
-                                        <td className="px-4 py-4 text-sm font-medium whitespace-nowrap flex">
-                                            {getMemberCount(group.id)}
-                                        </td>
-                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                        <div key={group.id} className="flex justify-center">
-                                                <a href="#" role="link">
-                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-tree"/>
-                                                </a>
                                             </div>
-                                        </td>
-                                        <td></td>
-                                    </tr>
+                                            <div className="flex justify-between mt-6">
+                                                <div className="flex-1 text-right">
+                                                    <a href="#" className="text-lg font-medium" role="link">
+                                                        Intérêt : ~
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    ) : (
-    // view kanban
-        <>
-            {isLoading ? (
-                <div className="parent ml-14">
-                    <div className="div1">
-                        {[...Array(3)].map((_, index) => (
-                            <div key={index}>
-                                <div
-                                    className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+                            </div>
 
-                                    <p className="mt-2 text-sm text-gray-600">
-                                        Nom
-                                    </p>
-                                    <div className="flex flex-wrap justify-center mt-2">
+                            <div className="div2">
+                                {[...Array(3)].map((_, index) => (
+                                    <div key={index}>
+                                        <div
+                                            className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
 
-                                    </div>
-                                    <div className="flex justify-between mt-6">
-                                        <div className="flex-1 text-right">
-                                            <a href="#" className="text-lg font-medium" role="link">
-                                                Intérêt : ~
-                                            </a>
+                                            <p className="mt-2 text-sm text-gray-600">
+                                                Nom
+                                            </p>
+                                            <div className="flex flex-wrap justify-center mt-2">
+
+                                            </div>
+                                            <div className="flex justify-between mt-6">
+                                                <div className="flex-1 text-right">
+                                                    <a href="#" className="text-lg font-medium" role="link">
+                                                        Intérêt : ~
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
 
-                    <div className="div2">
-                        {[...Array(3)].map((_, index) => (
-                            <div key={index}>
-                                <div
-                                    className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
+                            <div className="div3">
+                                {[...Array(3)].map((_, index) => (
+                                    <div key={index}>
+                                        <div
+                                            className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
 
-                                    <p className="mt-2 text-sm text-gray-600">
-                                        Nom
-                                    </p>
-                                    <div className="flex flex-wrap justify-center mt-2">
+                                            <p className="mt-2 text-sm text-gray-600">
+                                                Nom
+                                            </p>
+                                            <div className="flex flex-wrap justify-center mt-2">
 
-                                    </div>
-                                    <div className="flex justify-between mt-6">
-                                        <div className="flex-1 text-right">
-                                            <a href="#" className="text-lg font-medium" role="link">
-                                                Intérêt : ~
-                                            </a>
+                                            </div>
+                                            <div className="flex justify-between mt-6">
+                                                <div className="flex-1 text-right">
+                                                    <a href="#" className="text-lg font-medium" role="link">
+                                                        Intérêt : ~
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-
-                    <div className="div3">
-                        {[...Array(3)].map((_, index) => (
-                            <div key={index}>
-                                <div
-                                    className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300 w-full max-w-md px-8 py-4 mt-16 bg-white rounded-lg shadow-lg">
-
-                                    <p className="mt-2 text-sm text-gray-600">
-                                        Nom
-                                    </p>
-                                    <div className="flex flex-wrap justify-center mt-2">
-
-                                    </div>
-                                    <div className="flex justify-between mt-6">
-                                        <div className="flex-1 text-right">
-                                            <a href="#" className="text-lg font-medium" role="link">
-                                                Intérêt : ~
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                        </div>
                     ) : (
                         <div className="parent ml-14">
                             <div className="div1">
@@ -410,13 +530,13 @@ const Groups = () => {
                                             <div className="flex justify-between mt-6">
                                                 <div className="flex-1">
                                                     <a href="#" className="text-lg font-medium" role="link">
-                                                    Membre : {getMemberCount(group.id)}
+                                                        Membre : {getMemberCount(group.id)}
                                                     </a>
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
-                                                <a href="#" role="link">
-                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
-                                                </a>
+                                                    <a href="#" role="link">
+                                                        <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" />
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -434,13 +554,13 @@ const Groups = () => {
                                             <div className="flex justify-between mt-6">
                                                 <div className="flex-1">
                                                     <a href="#" className="text-lg font-medium" role="link">
-                                                    Membre : {getMemberCount(group.id)}
+                                                        Membre : {getMemberCount(group.id)}
                                                     </a>
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
-                                                <a href="#" role="link">
-                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
-                                                </a>
+                                                    <a href="#" role="link">
+                                                        <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" />
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -458,13 +578,13 @@ const Groups = () => {
                                             <div className="flex justify-between mt-6">
                                                 <div className="flex-1">
                                                     <a href="#" className="text-lg font-medium" role="link">
-                                                    Membre : {getMemberCount(group.id)}
+                                                        Membre : {getMemberCount(group.id)}
                                                     </a>
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
-                                                <a href="#" role="link">
-                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
-                                                </a>
+                                                    <a href="#" role="link">
+                                                        <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" />
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
