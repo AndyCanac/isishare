@@ -159,7 +159,8 @@ const Groups = () => {
                 const userId = localStorage.getItem("idActualUser");
                 const userGroup = await fetch(
                 `${localStorage.getItem("api")}user_group/insert/user_id,group_id/"${userId}","${group.id}"`)
-                setPopupCreateGroup(false);
+                alert("Le groupe a bien été créé !");
+                closePopupCreateGroup();
             } else {
                 alert("Le nom et l'intérêt du groupe sont requis. Veuillez les renseigner.");
             }
@@ -426,7 +427,7 @@ const Groups = () => {
                                                 <td className="px-4 py-4 text-sm whitespace-nowrap">
                                                     <div key={group.id} className="flex justify-center">
                                                         <a href="#" role="link">
-                                                            <Image src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-tree" />
+                                                            <Image src={"/" + getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-tree" width={20} height={20}/>
                                                         </a>
                                                     </div>
                                                 </td>
@@ -533,7 +534,7 @@ const Groups = () => {
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
                                                     <a href="#" role="link">
-                                                        <Image src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" />
+                                                        <Image src={"/" + getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" width={20} height={20}/>
                                                     </a>
                                                 </div>
                                             </div>
@@ -557,7 +558,7 @@ const Groups = () => {
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
                                                     <a href="#" role="link">
-                                                        <Image src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" />
+                                                        <Image src={"/" + getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" width={20} height={20}/>
                                                     </a>
                                                 </div>
                                             </div>
@@ -581,7 +582,7 @@ const Groups = () => {
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
                                                     <a href="#" role="link">
-                                                        <Image src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" />
+                                                        <Image src={"/" + getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" width={20} height={20}/>
                                                     </a>
                                                 </div>
                                             </div>
