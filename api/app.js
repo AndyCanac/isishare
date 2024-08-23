@@ -28,6 +28,7 @@ const routes = [
   { path: "/api/users/id/:id", route: usersRoutes },
   { path: "/api/users/update/:id/:colomns/:values", route: usersRoutes },
   { path: "/api/users/change/:id/:colomns/:values", route: usersRoutes },
+  { path: "/api/users/insert/:colomns/:values", route: usersRoutes },
   { path: "/api/users/delete/:id", route: usersRoutes },
 
   { path: "/api/user_group", route: user_groupeRoutes },

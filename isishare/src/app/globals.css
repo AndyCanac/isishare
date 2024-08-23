@@ -4,9 +4,6 @@
 
 @layer base {
 
-
-
-
 .containerForum {
     display: grid;
     grid-template-rows: 1fr 100px;
@@ -74,6 +71,7 @@
         --black: #000000;
         --light-blue-transparent: #609bf37c;
         --light-gray-transparent: #bbbbbc76;
+        --red: #ff0000;
     }
 
     .dark {

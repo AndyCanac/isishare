@@ -6,9 +6,21 @@ import Profile from "@/components/Profile";
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Assumes mobile view for screens <= 768px
+    };
+
+    handleResize(); // Check on mount
+    window.addEventListener("resize", handleResize); // Listen for resize events
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Cleanup on unmount
+    };
   }, []);
 
   if (!isClient) {
@@ -22,7 +34,7 @@ export default function Home() {
     return (
       <>
         <Sidebar />
-        <div className="ml-16">
+        <div className={isMobile ? "ml-[0vw]" : "ml-[4vw]"}>
           <Profile />
         </div>
       </>

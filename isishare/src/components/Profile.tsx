@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { BiLike, BiDislike } from "react-icons/bi";
 import { GoTrash } from "react-icons/go";
 import Image from "next/image";
 
@@ -484,35 +485,23 @@ export default function Andy(){
           <h2 className="text-xl font-semibold">{name}</h2>
           <p className="text-gray-600">Points : {points}</p>
           {idTargetUser != idActualUser && (
-                  <div className="flex justify-center w-full">
-                      <button
-                          key={0}
-                          onClick={() => changeNote(-1)}
-                          className={`mr-3 px-2 py-2 rounded text-white hover:bg-light-blue ease-in duration-300 ...`}
-                      >
-                          <Image
-                              src="/Logo/bad.svg"
-                              alt="Icone"
-                              width={60}
-                              height={60}
-                              className="icon"
-                          />
-                      </button>
-  
-                      <button
-                          key={1}
-                          onClick={() => changeNote(1)}
-                          className={`px-2 py-2 rounded text-white hover:bg-light-blue ease-in duration-300 ...`}
-                      >
-                          <Image
-                              src="/Logo/good.svg"
-                              alt="Icone"
-                              width={60}
-                              height={60}
-                              className="icon"
-                          />
-                      </button>
-                  </div>
+            <div className="flex justify-center w-full">
+                <button
+                    key={0}
+                    onClick={() => changeNote(-1)}
+                    className={`mr-3 px-2 py-2 rounded text-white ease-in duration-300 ...`}
+                >
+                    <BiDislike className="text-red w-10 h-10"/>
+                </button>
+
+                <button
+                    key={1}
+                    onClick={() => changeNote(1)}
+                    className={`px-2 py-2 rounded text-white ease-in duration-300 ...`}
+                >
+                    <BiLike className="text-dark-blue w-10 h-10"/>
+                </button>
+            </div>
               )}
               {admin == "1" && (
                   <div className="flex justify-center w-full">
