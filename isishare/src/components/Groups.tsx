@@ -4,8 +4,6 @@ import { LuFilter, LuKanbanSquare } from "react-icons/lu";
 import { TbListTree } from "react-icons/tb";
 import Image from "next/image";
 import { HiMiniUserGroup } from "react-icons/hi2";
-import { Console } from "console";
-import { generateKey } from "crypto";
 
 const Groups = () => {
     interface GroupInfo {
@@ -131,44 +129,6 @@ const Groups = () => {
     const setIdGroup = (groupsId: string) => {
         localStorage.setItem("idTargetGroup", groupsId);
         window.location.href = "/usersGroup";
-    };
-
-    const generateGroup = async () => {
-        // Crée le groupe si le nom du groupe est fourni
-        const createResponse = await fetch(
-            `${localStorage.getItem("api")}groups/insert/name,interest/"${groupName}","${selectedInterest}"`
-        );
-
-        if (!createResponse.ok) {
-            throw new Error("Network response was not ok during group creation");
-        }
-
-    }
-    const CreateGroup = async () => {
-        try {
-            if (groupName && selectedInterest) {
-                generateGroup()
-
-                const getGroupResponse = await fetch(`${localStorage.getItem("api")}groups`);
-
-                // Extraire les groupes en tant que JSON
-                const groups = await getGroupResponse.json();
-
-                // Filtrer les groupes pour trouver celui qui a le nom spécifié
-                const group = groups.find((g: any) => g.name === groupName);
-
-                // Étape 3 : Associer l'utilisateur au groupe
-                const userId = localStorage.getItem("idActualUser");
-                const userGroup = await fetch(
-                `${localStorage.getItem("api")}user_group/insert/user_id,group_id/"${userId}","${group.id}"`)
-                setPopupCreateGroup(false);
-            } else {
-                alert("Le nom et l'intérêt du groupe sont requis. Veuillez les renseigner.");
-            }
-
-        } catch (error) {
-            console.error("Error creating group or adding user to group:", error);
-        }
     };
 
     const groupsGroup1 = filteredGroups.filter((groups, index) => index % 3 === 0);
@@ -419,26 +379,42 @@ const Groups = () => {
                                                 className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300"
                                                 onClick={() => setIdGroup(group.id)}
                                             >
-                                                <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
-                                                    {group.name}
-                                                </td>
-                                                <td className="px-4 py-4 text-sm font-medium whitespace-nowrap flex">
-                                                    {getMemberCount(group.id)}
-                                                </td>
-                                                <td className="px-4 py-4 text-sm whitespace-nowrap">
-                                                    <div key={group.id} className="flex justify-center">
-                                                        <a href="#" role="link">
-                                                            <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-tree" />
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </th>
+                                    <th className="bg-dark-blue"></th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-light-gray bg-white text-black ">
+                                {filteredGroups.map((group, index) => (
+                                    <tr
+                                        key={index}
+                                        className="hover:bg-light-blue-transparent hover:text-white cursor-pointer transition duration-300"
+                                        onClick={() => setIdGroup(group.id)}
+                                    >
+                                        <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                                            {group.name}
+                                        </td>
+                                        <td className="px-4 py-4 text-sm font-medium whitespace-nowrap flex">
+                                            {getMemberCount(group.id)}
+                                        </td>
+                                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                        <div key={group.id} className="flex justify-center">
+                                                <a href="#" role="link">
+                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-tree"/>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             ) : (
@@ -534,9 +510,9 @@ const Groups = () => {
                                                     </a>
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
-                                                    <a href="#" role="link">
-                                                        <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" />
-                                                    </a>
+                                                <a href="#" role="link">
+                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
+                                                </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -558,9 +534,9 @@ const Groups = () => {
                                                     </a>
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
-                                                    <a href="#" role="link">
-                                                        <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" />
-                                                    </a>
+                                                <a href="#" role="link">
+                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
+                                                </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -582,9 +558,9 @@ const Groups = () => {
                                                     </a>
                                                 </div>
                                                 <div key={group.id} className="flex-1 min-h-7">
-                                                    <a href="#" role="link">
-                                                        <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban" />
-                                                    </a>
+                                                <a href="#" role="link">
+                                                    <img src={getInterestIcon(group.interest)} alt="Icone de l'intérêt" className="small-icon-kanban"/>
+                                                </a>
                                                 </div>
                                             </div>
                                         </div>

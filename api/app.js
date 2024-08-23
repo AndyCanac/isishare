@@ -1,7 +1,11 @@
 // app.js
 const express = require("express");
+const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
+app.use(bodyParser.json({limit: '160mb'}));
+app.use(bodyParser.urlencoded({limit: '160mb', extended: true}));
+app.use(express.json());
 const port = 3001;
 const mainRoutes = require("./routes/main");
 const usersRoutes = require("./routes/users");
@@ -24,6 +28,7 @@ const routes = [
   { path: "/api/users/id/:id", route: usersRoutes },
   { path: "/api/users/update/:id/:colomns/:values", route: usersRoutes },
   { path: "/api/users/change/:id/:colomns/:values", route: usersRoutes },
+  { path: "/api/users/insert/:colomns/:values", route: usersRoutes },
   { path: "/api/users/delete/:id", route: usersRoutes },
 
   { path: "/api/user_group", route: user_groupeRoutes },

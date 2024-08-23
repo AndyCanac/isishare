@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Users from "./Recommendation";
+const hash = require('object-hash');
 
 export default function Login() {
   interface UserInfo {
@@ -36,9 +37,12 @@ export default function Login() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
+    const hashedPassword = hash(password);
+
     let userFind = false;
     for (let i = 0; i < infoLogin.length; i++) {
-      if (infoLogin[i].email == email && infoLogin[i].password == password) {
+      if (infoLogin[i].email == email && infoLogin[i].password == hashedPassword) {
         document.location.href = "/home";
         setIdUser(infoLogin[i].id);
         localStorage.setItem("idActualUser", infoLogin[i].id.toString());
