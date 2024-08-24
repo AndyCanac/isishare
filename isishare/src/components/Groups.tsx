@@ -145,7 +145,7 @@ const Groups = () => {
     const CreateGroup = async () => {
         try {
             if (groupName && selectedInterest) {
-                generateGroup()
+                await generateGroup()
 
                 const getGroupResponse = await fetch(`${localStorage.getItem("api")}groups`);
 
@@ -157,8 +157,7 @@ const Groups = () => {
 
                 // Étape 3 : Associer l'utilisateur au groupe
                 const userId = localStorage.getItem("idActualUser");
-                const userGroup = await fetch(
-                    `${localStorage.getItem("api")}user_group/insert/user_id,group_id/"${userId}","${group.id}"`)
+                const userGroup = await fetch(`${localStorage.getItem("api")}user_group/insert/user_id,group_id/"${userId}","${group.id}"`)
                 alert("Le groupe a bien été créé !");
                 closePopupCreateGroup();
                 window.location.reload()
