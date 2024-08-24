@@ -161,6 +161,7 @@ const Groups = () => {
                     `${localStorage.getItem("api")}user_group/insert/user_id,group_id/"${userId}","${group.id}"`)
                 alert("Le groupe a bien été créé !");
                 closePopupCreateGroup();
+                window.location.reload()
             } else {
                 alert("Le nom et l'intérêt du groupe sont requis. Veuillez les renseigner.");
             }
