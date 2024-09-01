@@ -37,7 +37,7 @@ export default function About() {
               <a>
                 <Image
                   className="w-full rounded-lg sm:rounded-none sm:rounded-l-lg"
-                  src="/uploads/florian.jpg"
+                  src="/florian.jpg"
                   width={250}
                   height={250}
                   alt="Jese Avatar"
@@ -78,7 +78,7 @@ export default function About() {
               <a>
                 <Image
                   className="w-full rounded-lg sm:rounded-none sm:rounded-l-lg"
-                  src="/uploads/adrien.jpg"
+                  src="/adrien.jpg"
                   width={250}
                   height={250}
                   alt="Jese Avatar"
@@ -120,7 +120,7 @@ export default function About() {
               <a>
               <Image
                   className="w-full rounded-lg sm:rounded-none sm:rounded-l-lg"
-                  src="/uploads/andy.jpg"
+                  src="/andy.jpg"
                   width={250}
                   height={250}
                   alt="Jese Avatar"

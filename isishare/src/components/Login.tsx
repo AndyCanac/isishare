@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Users from "./Recommendation";
-const hash = require('object-hash');
+const hash = require("object-hash");
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   interface UserInfo {
@@ -42,7 +43,10 @@ export default function Login() {
 
     let userFind = false;
     for (let i = 0; i < infoLogin.length; i++) {
-      if (infoLogin[i].email == email && infoLogin[i].password == hashedPassword) {
+      if (
+        infoLogin[i].email == email &&
+        infoLogin[i].password == hashedPassword
+      ) {
         document.location.href = "/home";
         setIdUser(infoLogin[i].id);
         localStorage.setItem("idActualUser", infoLogin[i].id.toString());
@@ -51,14 +55,16 @@ export default function Login() {
       }
     }
 
-    if(!userFind)alert("Email ou mot de passe incorrect");
+    if (!userFind) {
+      toast.error("Email ou mot de passe incorrect");
+    }
   };
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-lg">
         <a href="/">
-        <Image
+          <Image
             className="w-full max-w-lg lg:mx-auto"
             src="/isishare.png"
             width={300}
@@ -155,6 +161,7 @@ export default function Login() {
           </p>
         </form>
         <h2 className="color-red"></h2>
+        <ToastContainer />
       </div>
     </div>
   );

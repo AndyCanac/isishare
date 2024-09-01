@@ -7,6 +7,8 @@ import {
 } from "react-icons/md";
 import { GoTrash } from "react-icons/go";
 import { IoMailOutline } from "react-icons/io5";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Accounts = () => {
   interface UserInfo {
@@ -149,14 +151,14 @@ const Accounts = () => {
       console.log(data.message);
       console.log("Response status:", response.status);
       if (response.ok) {
-        alert("Email sent successfully");
+        toast.success("Email sent successfully");
       } else {
         console.log("Erreur ici");
-        alert("Failed to send email: " + data.message);
+        toast.error("Failed to send email: " + data.message);
       }
     } catch (error) {
       console.error("Error sending email:", error);
-      alert("Failed to send email");
+      toast.error("Failed to send email");
     }
   };
 
@@ -169,7 +171,7 @@ const Accounts = () => {
         return response.json();
       })
       .then(() => {
-        alert("L'utilisateur à bien été supprimé !");
+        toast.success("L'utilisateur à bien été supprimé !");
         window.location.reload();
       })
       .catch((error) => {
@@ -180,6 +182,7 @@ const Accounts = () => {
   if (window.innerWidth > 500) {
     return (
       <section className="container px-4 mx-auto ml-14 w-auto">
+        <ToastContainer />
         <div>
           <br />
           <div className="flex justify-between items-center">
